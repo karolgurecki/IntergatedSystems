@@ -41,14 +41,14 @@
 #define INIT_STACK_SIZE  400
 
 static tU8 gameProcessStack[PROC1_STACK_SIZE];
-static tU8 proc2Stack[PROC2_STACK_SIZE];
+static tU8 ledsStack[PROC2_STACK_SIZE];
 static tU8 tkSnakeStack[INIT_STACK_SIZE];
 static tU8 pid1;
 static tU8 pid2;
 static tU16 globalKeys;
 
 static void initializeGameProcess(void* arg);
-static void proc2(void* arg);
+static void initializeLEDs(void* arg);
 static void initializeTKSnake(void* arg);
 
 /*****************************************************************************
@@ -101,6 +101,10 @@ static void drawMenu(void) {
 	lcdPuts("Play Snake");
 }
 
+static void printHelloMsg(void) {
+	printf("\n\nTKSnake is pleased to welcome You Mr. Professor\n\n");
+}
+
 /*****************************************************************************
  *
  * Description:
@@ -113,25 +117,16 @@ static void drawMenu(void) {
 static void initializeGameProcess(void* arg) {
 	static tU8 i = 0;
 
-	printf(
-			"\n\n\n\n\n*******************************************************\n");
-	printf("*                                                     *\n");
-	printf("* Demo program for 'Experiment Expansion Board'       *\n");
-	printf("* running on LPC2103 Education Board.                 *\n");
-	printf("* - Snake game                                        *\n");
-	printf("*                                                     *\n");
-	printf("* (C) Embedded Artists 2008                           *\n");
-	printf("*                                                     *\n");
-	printf("*******************************************************\n");
-
 	IODIR |= 0x00006000;  //P0.13/14
 	IOSET = 0x00006000;
 
+	printHelloMsg();
 	lcdInit();
 	initKeyProc();
 	drawMenu();
 	lcdContrast(contrast);
-	while (1) {
+
+	while (TRUE) {
 		tU8 anyKey;
 
 		anyKey = checkKey();
@@ -189,17 +184,8 @@ static void initializeGameProcess(void* arg) {
 	}
 }
 
-/*****************************************************************************
- *
- * Description:
- *    A process entry function 
- *
- * Params:
- *    [in] arg - This parameter is not used in this application. 
- *
- ****************************************************************************/
-static void proc2(void* arg) {
-	while (1) {
+static void initializeLEDs(void* arg) {
+	while (TRUE) {
 		globalKeys = lightLedPatternOne();
 	}
 }
@@ -209,7 +195,7 @@ static void proc2(void* arg) {
  * Call order:
  * 1. initialize out stream (printf)
  * 2. initialize i2c interface
- * 3.
+ * 3. Bootstraps two process [main app, led pattern]
  */
 static void initializeTKSnake(void* arg) {
 	tU8 error;
@@ -221,7 +207,7 @@ static void initializeTKSnake(void* arg) {
 			&pid1, 3, NULL, &error);
 	osStartProcess(pid1, &error);
 
-	osCreateProcess(proc2, proc2Stack, PROC2_STACK_SIZE, &pid2, 3, NULL,
+	osCreateProcess(initializeLEDs, ledsStack, PROC2_STACK_SIZE, &pid2, 3, NULL,
 			&error);
 	osStartProcess(pid2, &error);
 
