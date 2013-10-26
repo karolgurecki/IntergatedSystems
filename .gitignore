@@ -8,3 +8,4 @@
 *.map
 startup/.depend
 startup/**.o
+*.elf
