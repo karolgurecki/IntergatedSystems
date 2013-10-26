@@ -7,7 +7,7 @@
 ##########################################################
 
 # Name of target (executable program or library) 
-NAME      = lcd_game_demo
+NAME      = kf_snake
 
 # Link program to RAM or ROM (possible values for LD_RAMROM is RAM or ROM,
 # if not specified = ROM)

@@ -6,5 +6,5 @@
 .project
 *.lst
 *.map
-
+startup/.depend
 startup/**.o
