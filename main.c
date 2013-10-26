@@ -41,14 +41,14 @@
 
 static tU8 proc1Stack[PROC1_STACK_SIZE];
 static tU8 proc2Stack[PROC2_STACK_SIZE];
-static tU8 initStack[INIT_STACK_SIZE];
+static tU8 tkSnakeStack[INIT_STACK_SIZE];
 static tU8 pid1;
 static tU8 pid2;
 static tU16 globalKeys;
 
 static void proc1(void* arg);
 static void proc2(void* arg);
-static void initProc(void* arg);
+static void initializeTKSnake(void* arg);
 
 /*****************************************************************************
  * Global variables
@@ -56,18 +56,20 @@ static void initProc(void* arg);
 volatile tU32 ms;
 static tU8 contrast = 46;
 
-/*****************************************************************************
- *
- * Description:
- *    The first function to execute 
- *
- ****************************************************************************/
+/**
+ * Entry procedure.
+ * Call order:
+ * 1. initialize OS -> osInit();
+ * 2. create the process by passing callback method which actually creates our app as the first argument
+ * 3. start the process
+ * 4. start OS
+ */
 int main(void) {
-	tU8 error;
-	tU8 pid;
+	tU8 error = 0;
+	tU8 pid = 0;
 
 	osInit();
-	osCreateProcess(initProc, initStack, INIT_STACK_SIZE, &pid, 1, NULL,
+	osCreateProcess(initializeTKSnake, tkSnakeStack, INIT_STACK_SIZE, &pid, 1, NULL,
 			&error);
 	osStartProcess(pid, &error);
 
@@ -250,23 +252,23 @@ static void proc2(void* arg) {
 	}
 }
 
-/*****************************************************************************
- *
- * Description:
- *    The entry function for the initialization process. 
- *
- * Params:
- *    [in] arg - This parameter is not used in this application. 
- *
- ****************************************************************************/
-static void initProc(void* arg) {
+/**
+ * Initializes TKSnake
+ * Call order:
+ * 1. initialize out stream (printf)
+ * 2. initialize i2c interface
+ * 3.
+ */
+static void initializeTKSnake(void* arg) {
 	tU8 error;
 
-	eaInit();   //initialize printf
-	i2cInit();  //initialize I2C
+	eaInit();
+	i2cInit();
+
 	osCreateProcess(proc1, proc1Stack, PROC1_STACK_SIZE, &pid1, 3, NULL,
 			&error);
 	osStartProcess(pid1, &error);
+
 	osCreateProcess(proc2, proc2Stack, PROC2_STACK_SIZE, &pid2, 3, NULL,
 			&error);
 	osStartProcess(pid2, &error);
