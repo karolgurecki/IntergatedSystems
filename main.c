@@ -14,19 +14,19 @@
 #include <ea_init.h>
 #include <lpc2xxx.h>
 #include <consol.h>
-#include "i2c.h"
-#include "adc.h"
-#include "lcd.h"
+#include "i2c/i2c.h"
+#include "adc/adc.h"
+#include "lcd/lcd.h"
 #include "pca9532.h"
 
 #include "snake.h"
 #include "key.h"
 
-#include "fire_0_100x40c.h"
-#include "fire_1_100x40c.h"
-#include "fire_2_100x40c.h"
-#include "fire_3_100x40c.h"
-#include "fire_4_100x40c.h"
+#include "graphics/fire_0_100x40c.h"
+#include "graphics/fire_1_100x40c.h"
+#include "graphics/fire_2_100x40c.h"
+#include "graphics/fire_3_100x40c.h"
+#include "graphics/fire_4_100x40c.h"
 
 /******************************************************************************
  * Defines

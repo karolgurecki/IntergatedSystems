@@ -17,7 +17,7 @@
 #include "../pre_emptive_os/api/general.h"
 #include "../pre_emptive_os/api/osapi.h"
 #include "lcd.h"
-#include "ascii.h"
+#include "../ascii.h"
 #include "lcd_hw.h"
 
 

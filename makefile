@@ -53,11 +53,11 @@ CODE    = THUMB
 # List C source files here.
 CSRCS   = main.c          \
           eeprom.c        \
-          i2c.c           \
-          adc.c           \
+          i2c/i2c.c       \
+          adc/adc.c       \
           pca9532.c       \
-          lcd.c           \
-          lcd_hw.c        \
+          lcd/lcd.c       \
+          lcd/lcd_hw.c    \
           snake.c         \
           key.c           \
           select.c

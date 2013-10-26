@@ -19,7 +19,7 @@
 #include <printf_P.h>
 #include <ea_init.h>
 #include <stdlib.h>
-#include "lcd.h"
+#include "lcd/lcd.h"
 #include "key.h"
 #include "select.h"
 

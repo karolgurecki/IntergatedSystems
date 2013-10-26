@@ -8,8 +8,8 @@
  *
  *****************************************************************************/
 
-#include "pre_emptive_os/api/osapi.h"
-#include "pre_emptive_os/api/general.h"
+#include "../pre_emptive_os/api/osapi.h"
+#include "../pre_emptive_os/api/general.h"
 #include <printf_P.h>
 #include <lpc2xxx.h>
 #include <config.h>
