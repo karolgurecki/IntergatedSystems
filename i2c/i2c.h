@@ -16,8 +16,6 @@
 #define I2C_CODE_EMPTY -3
 #define I2C_CODE_BUSY  -4
 
-
-
 #define I2C_SLAVEADR_RCV  0xA1
 #define I2C_SLAVEADR_SEND 0xA0
 
@@ -50,7 +48,6 @@
 
 #define I2C_DATA_DATA                0xff   /* Bit 7-0: DATA (Data) */
 
-
 /* I2C Slave Address Register */
 
 #define I2C_ADDR_ADDR                0xfe   /* Bit 7-1: ADDR (Slave mode address) */
@@ -65,7 +62,6 @@
 /*  I2C SCL Duty Cycle Low Register */
 
 #define I2SCLL_COUNT               0xffff /* Bit 15-0: COUNT (Count for SCL low time period) */
-
 
 /*  I2C Control Clear Register */
 
@@ -85,19 +81,14 @@
 #define I2C_CONCLR_AAC_NO_EFFECT     0x00   /* No effect */
 #define I2C_CONCLR_AAC_CLEAR         0x01   /* Clear acknowledge */
 
-
-
-tU8  i2cCheckStatus(void);
+tU8 i2cCheckStatus(void);
 void i2cInit(void);
-tS8  i2cStart(void);
-tS8  i2cRepeatStart(void);
-tS8  i2cStop(void);
-tS8  i2cPutChar(tU8 data);
-tS8  i2cGetChar(tU8  mode, tU8* pData);
-tS8  i2cWrite(tU8  addr, tU8* pData, tU16 len);
-tS8  i2cRead(tU8  addr, tU8* pBuf, tU16 len);
-
-
-
+tS8 i2cStart(void);
+tS8 i2cRepeatStart(void);
+tS8 i2cStop(void);
+tS8 i2cPutChar(tU8 data);
+tS8 i2cGetChar(tU8 mode, tU8* pData);
+tS8 i2cWrite(tU8 addr, tU8* pData, tU16 len);
+tS8 i2cRead(tU8 addr, tU8* pBuf, tU16 len);
 
 #endif

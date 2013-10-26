@@ -69,11 +69,10 @@
 #define READY_QUEUE 0
 #define EVENT_QUEUE 1
 
-typedef struct _tPrioQueue_
-{
-  tOSPCB *pPrioList[NUM_PRIO];
-  tOSPCB * pPCBs;
-}tPrioQueue;
+typedef struct _tPrioQueue_ {
+	tOSPCB *pPrioList[NUM_PRIO];
+	tOSPCB * pPCBs;
+} tPrioQueue;
 
 /******************************************************************************
  * Public variables
@@ -82,7 +81,6 @@ typedef struct _tPrioQueue_
 /******************************************************************************
  * Public functions
  *****************************************************************************/
-
 
 /*****************************************************************************
  *
@@ -98,9 +96,7 @@ typedef struct _tPrioQueue_
  *                      allocated to the operating system. 
  *
  ****************************************************************************/
-void initPrioQueue(tPrioQueue* pPrioQueue,
-                   tOSPCB*     pPCBs);
-
+void initPrioQueue(tPrioQueue* pPrioQueue, tOSPCB* pPCBs);
 
 /*****************************************************************************
  *
@@ -115,10 +111,7 @@ void initPrioQueue(tPrioQueue* pPrioQueue,
  *                      queue. 
  *
  ****************************************************************************/
-void addToPrioQueue(tPrioQueue* pPrioQueue,
-                    tOSPCB*     pPCB,
-                    tU8         queueType);
-
+void addToPrioQueue(tPrioQueue* pPrioQueue, tOSPCB* pPCB, tU8 queueType);
 
 /*****************************************************************************
  *
@@ -133,10 +126,7 @@ void addToPrioQueue(tPrioQueue* pPrioQueue,
  *                      queue. 
  *
  ****************************************************************************/
-void rmvFromPrioQueue(tPrioQueue* pPrioQueue,
-                      tOSPCB*     pPCB,
-                      tU8         queueType);
-
+void rmvFromPrioQueue(tPrioQueue* pPrioQueue, tOSPCB* pPCB, tU8 queueType);
 
 /*****************************************************************************
  *
@@ -154,9 +144,7 @@ void rmvFromPrioQueue(tPrioQueue* pPrioQueue,
  *    priority. 
  *
  ****************************************************************************/
-tOSPCB* getHighPrioQueue(tPrioQueue* pPrioQueue,
-                         tU8         queueType);
-
+tOSPCB* getHighPrioQueue(tPrioQueue* pPrioQueue, tU8 queueType);
 
 /*****************************************************************************
  *

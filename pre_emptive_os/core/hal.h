@@ -66,7 +66,6 @@
  * Defines, macros, and typedefs
  *****************************************************************************/
 
-
 #define tSR tU32    /* define the type for status words */
 
 #define m_os_dis_int()                                    {localSR = halDisableInterrupts_oshal(); asm volatile (" nop");}

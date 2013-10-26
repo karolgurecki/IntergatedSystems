@@ -19,17 +19,15 @@
 #include <general.h>
 #include <lpc2xxx.h>
 
-
 /******************************************************************************
  * Typedefs and defines
  *****************************************************************************/
-
 
 /*****************************************************************************
  * Global variables
  ****************************************************************************/
 tBool pca9532Init(void);
-void  setPca9532Pin(tU8 pinNum, tU8 value);
-tU16  getPca9532Pin(void);
+void setPca9532Pin(tU8 pinNum, tU8 value);
+tU16 getPca9532Pin(void);
 
 #endif

@@ -65,17 +65,15 @@
  * Defines, macros, and typedefs
  *****************************************************************************/
 
-typedef struct _tCntSem_
-{
-  tOSEvent ev;
-  tU16 cnt;
+typedef struct _tCntSem_ {
+	tOSEvent ev;
+	tU16 cnt;
 
-}tCntSem;
+} tCntSem;
 #ifndef _OSAPI__h
 /******************************************************************************
  * Public functions
  *****************************************************************************/
-
 
 /*****************************************************************************
  *
@@ -88,9 +86,7 @@ typedef struct _tCntSem_
  *    [in] initial - The initial counter value. 
  *
  ****************************************************************************/
-void osSemInit(tCntSem* pSem,
-               tU16     initial);
-
+void osSemInit(tCntSem* pSem, tU16 initial);
 
 /*****************************************************************************
  *
@@ -116,10 +112,7 @@ void osSemInit(tCntSem* pSem,
  *                    not allowed. 
  *
  ****************************************************************************/
-tBool osSemTake(tCntSem* pSem,
-                tU32     timeout,
-                tU8*     pError);
-
+tBool osSemTake(tCntSem* pSem, tU32 timeout, tU8* pError);
 
 /*****************************************************************************
  *
@@ -138,9 +131,7 @@ tBool osSemTake(tCntSem* pSem,
  *                    not allowed. 
  *
  ****************************************************************************/
-void osSemGive(tCntSem* pSem,
-               tU8*     pError);
-
+void osSemGive(tCntSem* pSem, tU8* pError);
 
 /*****************************************************************************
  *
@@ -162,8 +153,7 @@ void osSemGive(tCntSem* pSem,
  *                    not allowed. 
  *
  ****************************************************************************/
-tU8 osSemTryTake(tCntSem* pSem,
-                 tU8*     pError);
+tU8 osSemTryTake(tCntSem* pSem, tU8* pError);
 
 #endif
 #endif
