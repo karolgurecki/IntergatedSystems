@@ -1,7 +1,10 @@
 *.hex
 *.o
+**/*.o
 .cproject
 .depend
 .project
 *.lst
 *.map
+
+startup/**.o

@@ -1,4 +1,4 @@
-ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 1
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccRJJfnb.s 			page 1
 
 
    1              		.code	16
@@ -51,113 +51,103 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 1
   26:pca9532.c     ****  * Typedefs and defines
   27:pca9532.c     ****  *****************************************************************************/
   28:pca9532.c     **** 
-  29:pca9532.c     **** 
-  30:pca9532.c     **** /*****************************************************************************
-  31:pca9532.c     ****  * Global variables
-  32:pca9532.c     ****  ****************************************************************************/
-  33:pca9532.c     **** 
-  34:pca9532.c     **** /*****************************************************************************
-  35:pca9532.c     ****  * Local variables
-ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 2
+  29:pca9532.c     **** /*****************************************************************************
+  30:pca9532.c     ****  * Global variables
+  31:pca9532.c     ****  ****************************************************************************/
+  32:pca9532.c     **** 
+  33:pca9532.c     **** /*****************************************************************************
+  34:pca9532.c     ****  * Local variables
+  35:pca9532.c     ****  ****************************************************************************/
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccRJJfnb.s 			page 2
 
 
-  36:pca9532.c     ****  ****************************************************************************/
-  37:pca9532.c     **** 
-  38:pca9532.c     **** /*****************************************************************************
-  39:pca9532.c     ****  * Local prototypes
-  40:pca9532.c     ****  ****************************************************************************/
-  41:pca9532.c     **** 
-  42:pca9532.c     **** 
-  43:pca9532.c     **** /*****************************************************************************
-  44:pca9532.c     ****  *
-  45:pca9532.c     ****  * Description:
-  46:pca9532.c     ****  *    Initialize the io-pins and find out if HW is ver 1.0 or ver 1.1
-  47:pca9532.c     ****  *
-  48:pca9532.c     ****  ****************************************************************************/
-  49:pca9532.c     **** tBool
-  50:pca9532.c     **** pca9532Init(void)
-  51:pca9532.c     **** {
-  52:pca9532.c     ****   tU8 initCommand[] = {0x12, 0x97, 0x80, 0x00, 0x40, 0x00, 0x00, 0x00, 0x00};
-  53:pca9532.c     ****   //                                                         04 = LCD_RST# low
-  54:pca9532.c     ****   //                                                         10 = BT_RST# low
-  55:pca9532.c     **** 
-  56:pca9532.c     ****   //initialize PCA9532
-  57:pca9532.c     ****   if (I2C_CODE_OK == pca9532(initCommand, sizeof(initCommand), NULL, 0))
-  58:pca9532.c     ****     return TRUE;
-  59:pca9532.c     ****   else
-  60:pca9532.c     ****     return FALSE;
-  61:pca9532.c     **** }
-  62:pca9532.c     **** 
-  63:pca9532.c     **** 
-  64:pca9532.c     **** /*****************************************************************************
-  65:pca9532.c     ****  *
-  66:pca9532.c     ****  * Description:
-  67:pca9532.c     ****  *
-  68:pca9532.c     ****  ****************************************************************************/
-  69:pca9532.c     **** void
-  70:pca9532.c     **** setPca9532Pin(tU8 pinNum, tU8 value)
-  71:pca9532.c     **** {
-  72:pca9532.c     ****   tU8 command[] = {0x00, 0x00};
-  73:pca9532.c     ****   tU8 regValue;
-  74:pca9532.c     ****   tU8 mask;
-  75:pca9532.c     ****   
-  76:pca9532.c     ****   if (pinNum < 4)
-  77:pca9532.c     ****     command[0] = 0x06;
-  78:pca9532.c     ****   else if (pinNum < 8)
-  79:pca9532.c     ****     command[0] = 0x07;
-  80:pca9532.c     ****   else if (pinNum < 12)
-  81:pca9532.c     ****     command[0] = 0x08;
-  82:pca9532.c     ****   else
-  83:pca9532.c     ****     command[0] = 0x09;
-  84:pca9532.c     ****     
-  85:pca9532.c     ****   pca9532(command, 1, &regValue, 1);
-  86:pca9532.c     ****   
-  87:pca9532.c     ****   mask = (3 << 2*(pinNum % 4));
-  88:pca9532.c     ****   
-  89:pca9532.c     ****   regValue &= ~mask;
-  90:pca9532.c     ****   
-  91:pca9532.c     ****   if (value == 0)
-  92:pca9532.c     ****     command[1] = 0x01;
-ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 3
+  36:pca9532.c     **** 
+  37:pca9532.c     **** /*****************************************************************************
+  38:pca9532.c     ****  * Local prototypes
+  39:pca9532.c     ****  ****************************************************************************/
+  40:pca9532.c     **** 
+  41:pca9532.c     **** /*****************************************************************************
+  42:pca9532.c     ****  *
+  43:pca9532.c     ****  * Description:
+  44:pca9532.c     ****  *    Initialize the io-pins and find out if HW is ver 1.0 or ver 1.1
+  45:pca9532.c     ****  *
+  46:pca9532.c     ****  ****************************************************************************/
+  47:pca9532.c     **** tBool pca9532Init(void) {
+  48:pca9532.c     **** 	tU8 initCommand[] = { 0x12, 0x97, 0x80, 0x00, 0x40, 0x00, 0x00, 0x00, 0x00 };
+  49:pca9532.c     **** 	//                                                         04 = LCD_RST# low
+  50:pca9532.c     **** 	//                                                         10 = BT_RST# low
+  51:pca9532.c     **** 
+  52:pca9532.c     **** 	//initialize PCA9532
+  53:pca9532.c     **** 	if (I2C_CODE_OK == pca9532(initCommand, sizeof(initCommand), NULL, 0))
+  54:pca9532.c     **** 		return TRUE;
+  55:pca9532.c     **** 	else
+  56:pca9532.c     **** 		return FALSE;
+  57:pca9532.c     **** }
+  58:pca9532.c     **** 
+  59:pca9532.c     **** /*****************************************************************************
+  60:pca9532.c     ****  *
+  61:pca9532.c     ****  * Description:
+  62:pca9532.c     ****  *
+  63:pca9532.c     ****  ****************************************************************************/
+  64:pca9532.c     **** void setPca9532Pin(tU8 pinNum, tU8 value) {
+  65:pca9532.c     **** 	tU8 command[] = { 0x00, 0x00 };
+  66:pca9532.c     **** 	tU8 regValue;
+  67:pca9532.c     **** 	tU8 mask;
+  68:pca9532.c     **** 
+  69:pca9532.c     **** 	if (pinNum < 4)
+  70:pca9532.c     **** 		command[0] = 0x06;
+  71:pca9532.c     **** 	else if (pinNum < 8)
+  72:pca9532.c     **** 		command[0] = 0x07;
+  73:pca9532.c     **** 	else if (pinNum < 12)
+  74:pca9532.c     **** 		command[0] = 0x08;
+  75:pca9532.c     **** 	else
+  76:pca9532.c     **** 		command[0] = 0x09;
+  77:pca9532.c     **** 
+  78:pca9532.c     **** 	pca9532(command, 1, &regValue, 1);
+  79:pca9532.c     **** 
+  80:pca9532.c     **** 	mask = (3 << 2 * (pinNum % 4));
+  81:pca9532.c     **** 
+  82:pca9532.c     **** 	regValue &= ~mask;
+  83:pca9532.c     **** 
+  84:pca9532.c     **** 	if (value == 0)
+  85:pca9532.c     **** 		command[1] = 0x01;
+  86:pca9532.c     **** 	else
+  87:pca9532.c     **** 		command[1] = 0x00;
+  88:pca9532.c     **** 
+  89:pca9532.c     **** 	command[1] <<= 2 * (pinNum % 4);
+  90:pca9532.c     **** 
+  91:pca9532.c     **** 	command[1] |= regValue;
+  92:pca9532.c     **** 
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccRJJfnb.s 			page 3
 
 
-  93:pca9532.c     ****   else
-  94:pca9532.c     ****     command[1] = 0x00;
-  95:pca9532.c     ****     
-  96:pca9532.c     ****   command[1] <<= 2*(pinNum % 4);
-  97:pca9532.c     ****   
-  98:pca9532.c     ****   command[1] |= regValue;
-  99:pca9532.c     **** 
- 100:pca9532.c     ****   pca9532(command, sizeof(command), NULL, 0);
- 101:pca9532.c     **** }
- 102:pca9532.c     **** 
- 103:pca9532.c     **** 
- 104:pca9532.c     **** /*****************************************************************************
- 105:pca9532.c     ****  *
- 106:pca9532.c     ****  * Description:
- 107:pca9532.c     ****  *
- 108:pca9532.c     ****  ****************************************************************************/
- 109:pca9532.c     **** tU16
- 110:pca9532.c     **** getPca9532Pin(void)
- 111:pca9532.c     **** {
-  19              		.loc 1 111 0
+  93:pca9532.c     **** 	pca9532(command, sizeof(command), NULL, 0);
+  94:pca9532.c     **** }
+  95:pca9532.c     **** 
+  96:pca9532.c     **** /*****************************************************************************
+  97:pca9532.c     ****  *
+  98:pca9532.c     ****  * Description:
+  99:pca9532.c     ****  *
+ 100:pca9532.c     ****  ****************************************************************************/
+ 101:pca9532.c     **** tU16 getPca9532Pin(void) {
+  19              		.loc 1 101 0
   20 0000 10B5     		push	{r4, lr}
   21              	.LCFI0:
   22 0002 81B0     		sub	sp, sp, #4
   23              	.LCFI1:
- 112:pca9532.c     ****   tU8 command[] = {0x19};
-  24              		.loc 1 112 0
+ 102:pca9532.c     **** 	tU8 command[] = { 0x19 };
+  24              		.loc 1 102 0
   25 0004 6846     		mov	r0, sp
   26 0006 0330     		add	r0, r0, #3
   27 0008 1923     		mov	r3, #25
- 113:pca9532.c     ****   tU8 regValue[3];
- 114:pca9532.c     ****   
- 115:pca9532.c     ****   pca9532(command, 1, regValue, 3);
-  28              		.loc 1 115 0
+ 103:pca9532.c     **** 	tU8 regValue[3];
+ 104:pca9532.c     **** 
+ 105:pca9532.c     **** 	pca9532(command, 1, regValue, 3);
+  28              		.loc 1 105 0
   29 000a 6A46     		mov	r2, sp
-  30              		.loc 1 112 0
+  30              		.loc 1 102 0
   31 000c 0370     		strb	r3, [r0]
-  32              		.loc 1 115 0
+  32              		.loc 1 105 0
   33 000e 0121     		mov	r1, #1
   34 0010 0323     		mov	r3, #3
   35 0012 FFF7FEFF 		bl	pca9532
@@ -166,10 +156,10 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 1
   38 001a 6078     		ldrb	r0, [r4, #1]
   39 001c 1B02     		lsl	r3, r3, #8
   40 001e 1843     		orr	r0, r0, r3
- 116:pca9532.c     ****   
- 117:pca9532.c     ****   return (tU16)regValue[1] | ((tU16)regValue[2] << 8);
- 118:pca9532.c     **** }
-  41              		.loc 1 118 0
+ 106:pca9532.c     **** 
+ 107:pca9532.c     **** 	return (tU16) regValue[1] | ((tU16) regValue[2] << 8);
+ 108:pca9532.c     **** }
+  41              		.loc 1 108 0
   42 0020 01B0     		add	sp, sp, #4
   43              		@ sp needed for prologue
   44 0022 10BC     		pop	{r4}
@@ -178,69 +168,66 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 1
   47              	.LFE4:
   48              		.size	getPca9532Pin, .-getPca9532Pin
   49              		.align	2
-ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 4
-
-
   50              		.global	setPca9532Pin
   51              		.code 16
   52              		.thumb_func
   53              		.type	setPca9532Pin, %function
   54              	setPca9532Pin:
   55              	.LFB3:
-  56              		.loc 1 71 0
+  56              		.loc 1 64 0
   57 0028 F0B5     		push	{r4, r5, r6, r7, lr}
   58              	.LCFI2:
   59              	.LVL0:
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccRJJfnb.s 			page 4
+
+
   60 002a 81B0     		sub	sp, sp, #4
   61              	.LCFI3:
-  62              		.loc 1 72 0
+  62              		.loc 1 65 0
   63 002c 6C46     		mov	r4, sp
-  64              		.loc 1 71 0
+  64              		.loc 1 64 0
   65 002e 0006     		lsl	r0, r0, #24
   66              	.LVL1:
   67 0030 0906     		lsl	r1, r1, #24
   68              	.LVL2:
-  69              		.loc 1 72 0
+  69              		.loc 1 65 0
   70 0032 0134     		add	r4, r4, #1
-  71              		.loc 1 71 0
+  71              		.loc 1 64 0
   72 0034 050E     		lsr	r5, r0, #24
   73              	.LVL3:
   74 0036 0F0E     		lsr	r7, r1, #24
   75              	.LVL4:
-  76              		.loc 1 72 0
+  76              		.loc 1 65 0
   77 0038 201C     		mov	r0, r4
   78 003a 1D49     		ldr	r1, .L17
   79 003c 0222     		mov	r2, #2
   80 003e FFF7FEFF 		bl	memcpy
-  81              		.loc 1 76 0
+  81              		.loc 1 69 0
   82 0042 032D     		cmp	r5, #3
   83 0044 01D8     		bhi	.L4
-  84              		.loc 1 77 0
+  84              		.loc 1 70 0
   85 0046 0623     		mov	r3, #6
   86 0048 08E0     		b	.L15
   87              	.L4:
-  88              		.loc 1 78 0
+  88              		.loc 1 71 0
   89 004a 072D     		cmp	r5, #7
   90 004c 01D8     		bhi	.L7
-  91              		.loc 1 79 0
+  91              		.loc 1 72 0
   92 004e 0723     		mov	r3, #7
   93 0050 04E0     		b	.L15
   94              	.L7:
-  95              		.loc 1 80 0
+  95              		.loc 1 73 0
   96 0052 0B2D     		cmp	r5, #11
   97 0054 01D8     		bhi	.L9
-  98              		.loc 1 81 0
+  98              		.loc 1 74 0
   99 0056 0823     		mov	r3, #8
  100 0058 00E0     		b	.L15
  101              	.L9:
- 102              		.loc 1 83 0
+ 102              		.loc 1 76 0
  103 005a 0923     		mov	r3, #9
  104              	.L15:
  105 005c 2370     		strb	r3, [r4]
- 106              		.loc 1 85 0
-ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 5
-
-
+ 106              		.loc 1 78 0
  107 005e 6E46     		mov	r6, sp
  108 0060 6C46     		mov	r4, sp
  109 0062 0334     		add	r4, r4, #3
@@ -250,44 +237,47 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 1
  113 006a 0123     		mov	r3, #1
  114 006c 301C     		mov	r0, r6
  115 006e FFF7FEFF 		bl	pca9532
- 116              		.loc 1 87 0
+ 116              		.loc 1 80 0
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccRJJfnb.s 			page 5
+
+
  117 0072 0323     		mov	r3, #3
  118 0074 2A1C     		mov	r2, r5
  119 0076 1A40     		and	r2, r2, r3
  120 0078 5100     		lsl	r1, r2, #1
  121              	.LVL5:
- 122              		.loc 1 89 0
+ 122              		.loc 1 82 0
  123 007a 2278     		ldrb	r2, [r4]
  124 007c 8B40     		lsl	r3, r3, r1
  125 007e 9A43     		bic	r2, r2, r3
- 126              		.loc 1 91 0
+ 126              		.loc 1 84 0
  127 0080 002F     		cmp	r7, #0
  128 0082 01D1     		bne	.L11
- 129              		.loc 1 92 0
+ 129              		.loc 1 85 0
  130 0084 0123     		mov	r3, #1
  131 0086 00E0     		b	.L16
  132              	.L11:
- 133              		.loc 1 94 0
+ 133              		.loc 1 87 0
  134 0088 0023     		mov	r3, #0
  135              	.L16:
  136 008a 7370     		strb	r3, [r6, #1]
- 137              		.loc 1 98 0
+ 137              		.loc 1 91 0
  138 008c 6846     		mov	r0, sp
  139 008e 0130     		add	r0, r0, #1
  140 0090 4378     		ldrb	r3, [r0, #1]
  141 0092 8B40     		lsl	r3, r3, r1
  142 0094 1343     		orr	r3, r3, r2
  143 0096 4370     		strb	r3, [r0, #1]
- 144              		.loc 1 89 0
+ 144              		.loc 1 82 0
  145 0098 6B46     		mov	r3, sp
  146 009a 0333     		add	r3, r3, #3
  147 009c 1A70     		strb	r2, [r3]
- 148              		.loc 1 100 0
+ 148              		.loc 1 93 0
  149 009e 0221     		mov	r1, #2
  150 00a0 0022     		mov	r2, #0
  151 00a2 0023     		mov	r3, #0
  152 00a4 FFF7FEFF 		bl	pca9532
- 153              		.loc 1 101 0
+ 153              		.loc 1 94 0
  154 00a8 01B0     		add	sp, sp, #4
  155              		@ sp needed for prologue
  156              	.LVL6:
@@ -298,9 +288,6 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 1
  161              	.L18:
  162              		.align	2
  163              	.L17:
-ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 6
-
-
  164 00b0 00000000 		.word	C.1.1456
  165              	.LFE3:
  166              		.size	setPca9532Pin, .-setPca9532Pin
@@ -311,19 +298,22 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 1
  171              		.type	pca9532Init, %function
  172              	pca9532Init:
  173              	.LFB2:
- 174              		.loc 1 51 0
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccRJJfnb.s 			page 6
+
+
+ 174              		.loc 1 47 0
  175 00b4 10B5     		push	{r4, lr}
  176              	.LCFI4:
  177 00b6 83B0     		sub	sp, sp, #12
  178              	.LCFI5:
- 179              		.loc 1 52 0
+ 179              		.loc 1 48 0
  180 00b8 6C46     		mov	r4, sp
  181 00ba 0334     		add	r4, r4, #3
  182 00bc 0A49     		ldr	r1, .L22
  183 00be 0922     		mov	r2, #9
  184 00c0 201C     		mov	r0, r4
  185 00c2 FFF7FEFF 		bl	memcpy
- 186              		.loc 1 57 0
+ 186              		.loc 1 53 0
  187 00c6 0023     		mov	r3, #0
  188 00c8 201C     		mov	r0, r4
  189 00ca 0921     		mov	r1, #9
@@ -336,7 +326,7 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 1
  196 00da 00D1     		bne	.L20
  197 00dc 0123     		mov	r3, #1
  198              	.L20:
- 199              		.loc 1 61 0
+ 199              		.loc 1 57 0
  200 00de 181C     		mov	r0, r3
  201 00e0 03B0     		add	sp, sp, #12
  202              		@ sp needed for prologue
@@ -358,9 +348,6 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 1
  218              		.size	C.0.1446, 9
  219              	C.0.1446:
  220 0002 12       		.byte	18
-ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 7
-
-
  221 0003 97       		.byte	-105
  222 0004 80       		.byte	-128
  223 0005 00       		.byte	0
@@ -371,6 +358,9 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 1
  228 000a 00       		.byte	0
  229              		.section	.debug_frame,"",%progbits
  230              	.Lframe0:
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccRJJfnb.s 			page 7
+
+
  231 0000 0C000000 		.4byte	.LECIE0-.LSCIE0
  232              	.LSCIE0:
  233 0004 FFFFFFFF 		.4byte	0xffffffff
@@ -418,9 +408,6 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 1
  275 0040 05       		.uleb128 0x5
  276 0041 85       		.byte	0x85
  277 0042 04       		.uleb128 0x4
-ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 8
-
-
  278 0043 86       		.byte	0x86
  279 0044 03       		.uleb128 0x3
  280 0045 87       		.byte	0x87
@@ -431,6 +418,9 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 1
  285              		.4byte	.LCFI3-.LCFI2
  286 004a 0E       		.byte	0xe
  287 004b 18       		.uleb128 0x18
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccRJJfnb.s 			page 8
+
+
  288              		.align	2
  289              	.LEFDE2:
  290              	.LSFDE4:
@@ -478,9 +468,6 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 1
  332              	.LLST1:
  333 002b 28000000 		.4byte	.LFB3-.Ltext0
  334 002f 2A000000 		.4byte	.LCFI2-.Ltext0
-ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 9
-
-
  335 0033 0100     		.2byte	0x1
  336 0035 5D       		.byte	0x5d
  337 0036 2A000000 		.4byte	.LCFI2-.Ltext0
@@ -491,6 +478,9 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 1
  342 0042 2C000000 		.4byte	.LCFI3-.Ltext0
  343 0046 B4000000 		.4byte	.LFE3-.Ltext0
  344 004a 0200     		.2byte	0x2
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccRJJfnb.s 			page 9
+
+
  345 004c 7D       		.byte	0x7d
  346 004d 18       		.sleb128 24
  347 004e 00000000 		.4byte	0x0
@@ -538,9 +528,6 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 1
  389 0000 75010000 		.4byte	0x175
  390 0004 0200     		.2byte	0x2
  391 0006 00000000 		.4byte	.Ldebug_abbrev0
-ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 10
-
-
  392 000a 04       		.byte	0x4
  393 000b 01       		.uleb128 0x1
  394 000c 00000000 		.4byte	.Ldebug_line0
@@ -551,9 +538,12 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 1
  399 001d 1B000000 		.4byte	.LASF18
  400 0021 53000000 		.4byte	.LASF19
  401 0025 02       		.uleb128 0x2
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccRJJfnb.s 			page 10
+
+
  402 0026 74553800 		.ascii	"tU8\000"
  403 002a 02       		.byte	0x2
- 404 002b 47       		.byte	0x47
+ 404 002b 46       		.byte	0x46
  405 002c 30000000 		.4byte	0x30
  406 0030 03       		.uleb128 0x3
  407 0031 33000000 		.4byte	.LASF1
@@ -562,7 +552,7 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 1
  410 0037 04       		.uleb128 0x4
  411 0038 DD000000 		.4byte	.LASF0
  412 003c 02       		.byte	0x2
- 413 003d 48       		.byte	0x48
+ 413 003d 47       		.byte	0x47
  414 003e 42000000 		.4byte	0x42
  415 0042 03       		.uleb128 0x3
  416 0043 A5000000 		.4byte	.LASF2
@@ -587,7 +577,7 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 1
  435 0065 04       		.uleb128 0x4
  436 0066 1A010000 		.4byte	.LASF6
  437 006a 02       		.byte	0x2
- 438 006b 4D       		.byte	0x4d
+ 438 006b 4C       		.byte	0x4c
  439 006c 30000000 		.4byte	0x30
  440 0070 03       		.uleb128 0x3
  441 0071 41000000 		.4byte	.LASF7
@@ -598,10 +588,7 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 1
  446 007c 01       		.byte	0x1
  447 007d 25000000 		.4byte	.LASF10
  448 0081 01       		.byte	0x1
-ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 11
-
-
- 449 0082 6F       		.byte	0x6f
+ 449 0082 65       		.byte	0x65
  450 0083 01       		.byte	0x1
  451 0084 37000000 		.4byte	0x37
  452 0088 00000000 		.4byte	.LFB4
@@ -610,7 +597,10 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 1
  455 0094 07       		.uleb128 0x7
  456 0095 FD000000 		.4byte	.LASF8
  457 0099 01       		.byte	0x1
- 458 009a 70       		.byte	0x70
+ 458 009a 66       		.byte	0x66
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccRJJfnb.s 			page 11
+
+
  459 009b B1000000 		.4byte	0xb1
  460 009f 02       		.byte	0x2
  461 00a0 91       		.byte	0x91
@@ -618,7 +608,7 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 1
  463 00a2 07       		.uleb128 0x7
  464 00a3 11010000 		.4byte	.LASF9
  465 00a7 01       		.byte	0x1
- 466 00a8 71       		.byte	0x71
+ 466 00a8 67       		.byte	0x67
  467 00a9 C1000000 		.4byte	0xc1
  468 00ad 02       		.byte	0x2
  469 00ae 91       		.byte	0x91
@@ -643,7 +633,7 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 1
  488 00d6 01       		.byte	0x1
  489 00d7 00000000 		.4byte	.LASF11
  490 00db 01       		.byte	0x1
- 491 00dc 47       		.byte	0x47
+ 491 00dc 40       		.byte	0x40
  492 00dd 01       		.byte	0x1
  493 00de 28000000 		.4byte	.LFB3
  494 00e2 B4000000 		.4byte	.LFE3
@@ -651,30 +641,30 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 1
  496 00ea 0B       		.uleb128 0xb
  497 00eb 0E000000 		.4byte	.LASF12
  498 00ef 01       		.byte	0x1
- 499 00f0 46       		.byte	0x46
+ 499 00f0 40       		.byte	0x40
  500 00f1 25000000 		.4byte	0x25
  501 00f5 56000000 		.4byte	.LLST2
  502 00f9 0B       		.uleb128 0xb
  503 00fa 15000000 		.4byte	.LASF13
  504 00fe 01       		.byte	0x1
- 505 00ff 46       		.byte	0x46
-ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 12
-
-
+ 505 00ff 40       		.byte	0x40
  506 0100 25000000 		.4byte	0x25
  507 0104 74000000 		.4byte	.LLST3
  508 0108 07       		.uleb128 0x7
  509 0109 FD000000 		.4byte	.LASF8
  510 010d 01       		.byte	0x1
- 511 010e 48       		.byte	0x48
+ 511 010e 41       		.byte	0x41
  512 010f 30010000 		.4byte	0x130
  513 0113 02       		.byte	0x2
  514 0114 91       		.byte	0x91
  515 0115 69       		.sleb128 -23
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccRJJfnb.s 			page 12
+
+
  516 0116 07       		.uleb128 0x7
  517 0117 11010000 		.4byte	.LASF9
  518 011b 01       		.byte	0x1
- 519 011c 49       		.byte	0x49
+ 519 011c 42       		.byte	0x42
  520 011d 25000000 		.4byte	0x25
  521 0121 02       		.byte	0x2
  522 0122 74       		.byte	0x74
@@ -682,7 +672,7 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 1
  524 0124 0C       		.uleb128 0xc
  525 0125 E2000000 		.4byte	.LASF14
  526 0129 01       		.byte	0x1
- 527 012a 4A       		.byte	0x4a
+ 527 012a 43       		.byte	0x43
  528 012b 25000000 		.4byte	0x25
  529 012f 00       		.byte	0x0
  530 0130 08       		.uleb128 0x8
@@ -697,7 +687,7 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 1
  539 0145 01       		.byte	0x1
  540 0146 F1000000 		.4byte	.LASF15
  541 014a 01       		.byte	0x1
- 542 014b 33       		.byte	0x33
+ 542 014b 2F       		.byte	0x2f
  543 014c 01       		.byte	0x1
  544 014d 65000000 		.4byte	0x65
  545 0151 B4000000 		.4byte	.LFB2
@@ -706,7 +696,7 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 1
  548 015d 07       		.uleb128 0x7
  549 015e C5000000 		.4byte	.LASF16
  550 0162 01       		.byte	0x1
- 551 0163 34       		.byte	0x34
+ 551 0163 30       		.byte	0x30
  552 0164 6C010000 		.4byte	0x16c
  553 0168 02       		.byte	0x2
  554 0169 91       		.byte	0x91
@@ -718,9 +708,6 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 1
  560 0172 70000000 		.4byte	0x70
  561 0176 08       		.byte	0x8
  562 0177 00       		.byte	0x0
-ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 13
-
-
  563 0178 00       		.byte	0x0
  564              		.section	.debug_abbrev
  565 0000 01       		.uleb128 0x1
@@ -731,6 +718,9 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 1
  570 0005 12       		.uleb128 0x12
  571 0006 01       		.uleb128 0x1
  572 0007 11       		.uleb128 0x11
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccRJJfnb.s 			page 13
+
+
  573 0008 01       		.uleb128 0x1
  574 0009 25       		.uleb128 0x25
  575 000a 0E       		.uleb128 0xe
@@ -778,9 +768,6 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 1
  617 0034 49       		.uleb128 0x49
  618 0035 13       		.uleb128 0x13
  619 0036 00       		.byte	0x0
-ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 14
-
-
  620 0037 00       		.byte	0x0
  621 0038 05       		.uleb128 0x5
  622 0039 24       		.uleb128 0x24
@@ -791,6 +778,9 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 1
  627 003e 0B       		.uleb128 0xb
  628 003f 3E       		.uleb128 0x3e
  629 0040 0B       		.uleb128 0xb
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccRJJfnb.s 			page 14
+
+
  630 0041 00       		.byte	0x0
  631 0042 00       		.byte	0x0
  632 0043 06       		.uleb128 0x6
@@ -838,9 +828,6 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 1
  674 006d 01       		.byte	0x1
  675 006e 01       		.uleb128 0x1
  676 006f 13       		.uleb128 0x13
-ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 15
-
-
  677 0070 49       		.uleb128 0x49
  678 0071 13       		.uleb128 0x13
  679 0072 00       		.byte	0x0
@@ -851,6 +838,9 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 1
  684 0077 49       		.uleb128 0x49
  685 0078 13       		.uleb128 0x13
  686 0079 2F       		.uleb128 0x2f
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccRJJfnb.s 			page 15
+
+
  687 007a 0B       		.uleb128 0xb
  688 007b 00       		.byte	0x0
  689 007c 00       		.byte	0x0
@@ -898,9 +888,6 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 1
  731 00a6 03       		.uleb128 0x3
  732 00a7 0E       		.uleb128 0xe
  733 00a8 3A       		.uleb128 0x3a
-ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 16
-
-
  734 00a9 0B       		.uleb128 0xb
  735 00aa 3B       		.uleb128 0x3b
  736 00ab 0B       		.uleb128 0xb
@@ -911,6 +898,9 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 1
  741 00b0 0D       		.uleb128 0xd
  742 00b1 01       		.uleb128 0x1
  743 00b2 01       		.byte	0x1
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccRJJfnb.s 			page 16
+
+
  744 00b3 49       		.uleb128 0x49
  745 00b4 13       		.uleb128 0x13
  746 00b5 00       		.byte	0x0
@@ -958,9 +948,6 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 1
  777 000e 70696E4E 		.ascii	"pinNum\000"
  777      756D00
  778              	.LASF13:
-ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 17
-
-
  779 0015 76616C75 		.ascii	"value\000"
  779      6500
  780              	.LASF18:
@@ -971,6 +958,9 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 1
  783 0025 67657450 		.ascii	"getPca9532Pin\000"
  783      63613935 
  783      33325069 
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccRJJfnb.s 			page 17
+
+
  783      6E00
  784              	.LASF1:
  785 0033 756E7369 		.ascii	"unsigned char\000"
@@ -1018,9 +1008,6 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 1
  800      00
  801              	.LASF14:
  802 00e2 6D61736B 		.ascii	"mask\000"
-ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 18
-
-
  802      00
  803              	.LASF5:
  804 00e7 73686F72 		.ascii	"short int\000"
@@ -1031,6 +1018,9 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 1
  806      35333249 
  806      6E697400 
  807              	.LASF8:
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccRJJfnb.s 			page 18
+
+
  808 00fd 636F6D6D 		.ascii	"command\000"
  808      616E6400 
  809              	.LASF4:
@@ -1045,20 +1035,20 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 1
  814 011a 74426F6F 		.ascii	"tBool\000"
  814      6C00
  815              		.ident	"GCC: (GNU) 4.1.1"
-ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s 			page 19
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccRJJfnb.s 			page 19
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 pca9532.c
-/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s:1      .text:00000000 $t
-/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s:16     .text:00000000 getPca9532Pin
-/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s:54     .text:00000028 setPca9532Pin
-/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s:164    .text:000000b0 $d
-/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s:215    .rodata:00000000 C.1.1456
-/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s:172    .text:000000b4 pca9532Init
-/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s:169    .text:000000b4 $t
-/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s:209    .text:000000e8 $d
-/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccU98xap.s:219    .rodata:00000002 C.0.1446
+/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccRJJfnb.s:1      .text:00000000 $t
+/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccRJJfnb.s:16     .text:00000000 getPca9532Pin
+/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccRJJfnb.s:54     .text:00000028 setPca9532Pin
+/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccRJJfnb.s:164    .text:000000b0 $d
+/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccRJJfnb.s:215    .rodata:00000000 C.1.1456
+/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccRJJfnb.s:172    .text:000000b4 pca9532Init
+/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccRJJfnb.s:169    .text:000000b4 $t
+/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccRJJfnb.s:209    .text:000000e8 $d
+/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccRJJfnb.s:219    .rodata:00000002 C.0.1446
 
 UNDEFINED SYMBOLS
 pca9532

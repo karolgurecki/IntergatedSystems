@@ -18,6 +18,7 @@
 #include "adc/adc.h"
 #include "lcd/lcd.h"
 #include "pca9532.h"
+#include "led/led_utils.h"
 
 #include "snake.h"
 #include "key.h"
@@ -39,14 +40,14 @@
 #define PROC2_STACK_SIZE 750
 #define INIT_STACK_SIZE  400
 
-static tU8 proc1Stack[PROC1_STACK_SIZE];
+static tU8 gameProcessStack[PROC1_STACK_SIZE];
 static tU8 proc2Stack[PROC2_STACK_SIZE];
 static tU8 tkSnakeStack[INIT_STACK_SIZE];
 static tU8 pid1;
 static tU8 pid2;
 static tU16 globalKeys;
 
-static void proc1(void* arg);
+static void initializeGameProcess(void* arg);
 static void proc2(void* arg);
 static void initializeTKSnake(void* arg);
 
@@ -69,8 +70,8 @@ int main(void) {
 	tU8 pid = 0;
 
 	osInit();
-	osCreateProcess(initializeTKSnake, tkSnakeStack, INIT_STACK_SIZE, &pid, 1, NULL,
-			&error);
+	osCreateProcess(initializeTKSnake, tkSnakeStack, INIT_STACK_SIZE, &pid, 1,
+			NULL, &error);
 	osStartProcess(pid, &error);
 
 	osStart();
@@ -109,7 +110,7 @@ static void drawMenu(void) {
  *    [in] arg - This parameter is not used in this application. 
  *
  ****************************************************************************/
-static void proc1(void* arg) {
+static void initializeGameProcess(void* arg) {
 	static tU8 i = 0;
 
 	printf(
@@ -198,57 +199,8 @@ static void proc1(void* arg) {
  *
  ****************************************************************************/
 static void proc2(void* arg) {
-	tU8 pca9532Present = FALSE;
-
-	//check if connection with PCA9532
-	pca9532Present = pca9532Init();
-
-	for (;;) {
-		if (TRUE == pca9532Present) {
-#define LED_DELAY 10
-			setPca9532Pin(0, 0);
-			setPca9532Pin(15, 0);
-			osSleep(LED_DELAY);
-			setPca9532Pin(1, 0);
-			setPca9532Pin(14, 0);
-			osSleep(LED_DELAY);
-			setPca9532Pin(2, 0);
-			setPca9532Pin(13, 0);
-			osSleep(LED_DELAY);
-			setPca9532Pin(3, 0);
-			setPca9532Pin(12, 0);
-			osSleep(LED_DELAY);
-			setPca9532Pin(4, 0);
-			setPca9532Pin(11, 0);
-			osSleep(LED_DELAY);
-			setPca9532Pin(5, 0);
-			setPca9532Pin(10, 0);
-			osSleep(LED_DELAY);
-			setPca9532Pin(6, 0);
-			setPca9532Pin(9, 0);
-			osSleep(LED_DELAY);
-			setPca9532Pin(7, 0);
-			setPca9532Pin(8, 0);
-			osSleep(LED_DELAY);
-			setPca9532Pin(0, 1);
-			setPca9532Pin(1, 1);
-			setPca9532Pin(2, 1);
-			setPca9532Pin(3, 1);
-			setPca9532Pin(4, 1);
-			setPca9532Pin(5, 1);
-			setPca9532Pin(6, 1);
-			setPca9532Pin(7, 1);
-			setPca9532Pin(8, 1);
-			setPca9532Pin(9, 1);
-			setPca9532Pin(10, 1);
-			setPca9532Pin(11, 1);
-			setPca9532Pin(12, 1);
-			setPca9532Pin(13, 1);
-			setPca9532Pin(14, 1);
-			setPca9532Pin(15, 1);
-			osSleep(2);
-			globalKeys = ~getPca9532Pin();
-		}
+	while (1) {
+		globalKeys = lightLedPatternOne();
 	}
 }
 
@@ -265,8 +217,8 @@ static void initializeTKSnake(void* arg) {
 	eaInit();
 	i2cInit();
 
-	osCreateProcess(proc1, proc1Stack, PROC1_STACK_SIZE, &pid1, 3, NULL,
-			&error);
+	osCreateProcess(initializeGameProcess, gameProcessStack, PROC1_STACK_SIZE,
+			&pid1, 3, NULL, &error);
 	osStartProcess(pid1, &error);
 
 	osCreateProcess(proc2, proc2Stack, PROC2_STACK_SIZE, &pid2, 3, NULL,

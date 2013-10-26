@@ -1,4 +1,4 @@
-ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccKrs2ad.s 			page 1
 
 
    1              		.code	16
@@ -9,7 +9,7 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
    6              	.Ldebug_info0:
    7              		.section	.debug_line,"",%progbits
    8              	.Ldebug_line0:
-   9 0000 A2000000 		.text
+   9 0000 A0000000 		.text
    9      02005F00 
    9      00000201 
    9      FB0E0D00 
@@ -47,45 +47,40 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
   23:select.c      **** #include "key.h"
   24:select.c      **** #include "select.h"
   25:select.c      **** 
-  26:select.c      **** 
-  27:select.c      **** /*****************************************************************************
-  28:select.c      ****  * Local variables
-  29:select.c      ****  ****************************************************************************/
-  30:select.c      **** static tMenu menu;
-  31:select.c      **** static tU8 cursor;
-  32:select.c      **** 
-  33:select.c      **** 
-  34:select.c      **** /*****************************************************************************
-  35:select.c      ****  *
-  36:select.c      ****  * Description:
-ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 2
+  26:select.c      **** /*****************************************************************************
+  27:select.c      ****  * Local variables
+  28:select.c      ****  ****************************************************************************/
+  29:select.c      **** static tMenu menu;
+  30:select.c      **** static tU8 cursor;
+  31:select.c      **** 
+  32:select.c      **** /*****************************************************************************
+  33:select.c      ****  *
+  34:select.c      ****  * Description:
+  35:select.c      ****  *    Draw cursor in main menu
+  36:select.c      ****  *
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccKrs2ad.s 			page 2
 
 
-  37:select.c      ****  *    Draw cursor in main menu
-  38:select.c      ****  *
-  39:select.c      ****  * Params:
-  40:select.c      ****  *    [in] cursor - Cursor positions
-  41:select.c      ****  *
-  42:select.c      ****  ****************************************************************************/
-  43:select.c      **** static void
-  44:select.c      **** drawMenuCursor(void)
-  45:select.c      **** {
-  18              		.loc 1 45 0
+  37:select.c      ****  * Params:
+  38:select.c      ****  *    [in] cursor - Cursor positions
+  39:select.c      ****  *
+  40:select.c      ****  ****************************************************************************/
+  41:select.c      **** static void drawMenuCursor(void) {
+  18              		.loc 1 41 0
   19 0000 F0B5     		push	{r4, r5, r6, r7, lr}
   20              	.LCFI0:
-  21              		.loc 1 45 0
+  21              		.loc 1 41 0
   22 0002 184F     		ldr	r7, .L10
   23 0004 0025     		mov	r5, #0
   24              	.LVL0:
   25 0006 0026     		mov	r6, #0
   26 0008 25E0     		b	.L2
   27              	.L3:
-  46:select.c      ****   tU32 row;
-  47:select.c      **** 
-  48:select.c      ****   for(row=0; row<menu.noOfChoices; row++)
-  49:select.c      ****   {
-  50:select.c      ****     lcdGotoxy(menu.xPos+4,menu.yPos+17+(14*row));
-  28              		.loc 1 50 0
+  42:select.c      **** 	tU32 row;
+  43:select.c      **** 
+  44:select.c      **** 	for (row = 0; row < menu.noOfChoices; row++) {
+  45:select.c      **** 		lcdGotoxy(menu.xPos + 4, menu.yPos + 17 + (14 * row));
+  28              		.loc 1 45 0
   29 000a 6178     		ldrb	r1, [r4, #1]
   30 000c 2078     		ldrb	r0, [r4]
   31 000e 1131     		add	r1, r1, #17
@@ -96,16 +91,16 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
   36 0018 000E     		lsr	r0, r0, #24
   37 001a 090E     		lsr	r1, r1, #24
   38 001c FFF7FEFF 		bl	lcdGotoxy
-  51:select.c      ****     if(row == cursor)
-  39              		.loc 1 51 0
+  46:select.c      **** 		if (row == cursor)
+  39              		.loc 1 46 0
   40 0020 114B     		ldr	r3, .L10+4
   41 0022 1B78     		ldrb	r3, [r3]
   42 0024 221C     		mov	r2, r4
   43 0026 2832     		add	r2, r2, #40
   44 0028 9D42     		cmp	r5, r3
   45 002a 06D1     		bne	.L4
-  52:select.c      ****       lcdColor(menu.bgColor+1,menu.selectedColor);
-  46              		.loc 1 52 0
+  47:select.c      **** 			lcdColor(menu.bgColor + 1, menu.selectedColor);
+  46              		.loc 1 47 0
   47 002c 1078     		ldrb	r0, [r2]
   48 002e 0130     		add	r0, r0, #1
   49 0030 0006     		lsl	r0, r0, #24
@@ -114,24 +109,24 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
   52 0036 2C33     		add	r3, r3, #44
   53 0038 02E0     		b	.L9
   54              	.L4:
-  53:select.c      ****     else
-  54:select.c      ****       lcdColor(menu.bgColor,menu.choicesColor);
-  55              		.loc 1 54 0
+  48:select.c      **** 		else
+  49:select.c      **** 			lcdColor(menu.bgColor, menu.choicesColor);
+  55              		.loc 1 49 0
   56 003a 231C     		mov	r3, r4
-ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 3
-
-
   57 003c 1078     		ldrb	r0, [r2]
   58 003e 2B33     		add	r3, r3, #43
   59              	.L9:
   60 0040 1978     		ldrb	r1, [r3]
   61 0042 FFF7FEFF 		bl	lcdColor
-  55:select.c      ****     
-  56:select.c      ****     lcdPuts(menu.pChoice[row]);
-  62              		.loc 1 56 0
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccKrs2ad.s 			page 3
+
+
+  50:select.c      **** 
+  51:select.c      **** 		lcdPuts(menu.pChoice[row]);
+  62              		.loc 1 51 0
   63 0046 01CF     		ldmia	r7!, {r0}
   64 0048 FFF7FEFF 		bl	lcdPuts
-  65              		.loc 1 48 0
+  65              		.loc 1 44 0
   66 004c 331C     		mov	r3, r6
   67 004e 0E33     		add	r3, r3, #14
   68 0050 1B06     		lsl	r3, r3, #24
@@ -142,9 +137,9 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
   73 0058 2379     		ldrb	r3, [r4, #4]
   74 005a 9D42     		cmp	r5, r3
   75 005c D5D3     		bcc	.L3
-  57:select.c      ****   }
-  58:select.c      **** }
-  76              		.loc 1 58 0
+  52:select.c      **** 	}
+  53:select.c      **** }
+  76              		.loc 1 53 0
   77              		@ sp needed for prologue
   78              	.LVL1:
   79 005e F0BC     		pop	{r4, r5, r6, r7}
@@ -165,38 +160,36 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
   94              		.type	drawMenu, %function
   95              	drawMenu:
   96              	.LFB3:
-  59:select.c      **** 
-  60:select.c      **** /*****************************************************************************
-  61:select.c      ****  *
-  62:select.c      ****  * Description:
-  63:select.c      ****  *    Implements a menu
-  64:select.c      ****  *    
-  65:select.c      ****  ****************************************************************************/
-  66:select.c      **** tU8
-  67:select.c      **** drawMenu(tMenu newMenu)
-  68:select.c      **** {
-  97              		.loc 1 68 0
+  54:select.c      **** 
+  55:select.c      **** /*****************************************************************************
+  56:select.c      ****  *
+  57:select.c      ****  * Description:
+  58:select.c      ****  *    Implements a menu
+  59:select.c      ****  *    
+  60:select.c      ****  ****************************************************************************/
+  61:select.c      **** tU8 drawMenu(tMenu newMenu) {
+  97              		.loc 1 61 0
   98 0070 84B0     		sub	sp, sp, #16
   99              	.LCFI1:
-ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 4
-
-
  100 0072 70B5     		push	{r4, r5, r6, lr}
  101              	.LCFI2:
-  69:select.c      ****   tU8 anyKey;
-  70:select.c      ****   
-  71:select.c      ****   menu = newMenu;
- 102              		.loc 1 71 0
+  62:select.c      **** 	tU8 anyKey;
+  63:select.c      **** 
+  64:select.c      **** 	menu = newMenu;
+ 102              		.loc 1 64 0
  103 0074 384D     		ldr	r5, .L37
- 104              		.loc 1 68 0
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccKrs2ad.s 			page 4
+
+
+ 104              		.loc 1 61 0
  105 0076 81B0     		sub	sp, sp, #4
  106              	.LCFI3:
- 107              		.loc 1 68 0
+ 107              		.loc 1 61 0
  108 0078 0792     		str	r2, [sp, #28]
  109 007a 0893     		str	r3, [sp, #32]
  110 007c 0590     		str	r0, [sp, #20]
  111 007e 0691     		str	r1, [sp, #24]
- 112              		.loc 1 71 0
+ 112              		.loc 1 64 0
  113 0080 2A1C     		mov	r2, r5
  114 0082 05AB     		add	r3, sp, #20
  115 0084 13CB     		ldmia	r3!, {r0, r1, r4}
@@ -207,10 +200,10 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
  120 008e 13C2     		stmia	r2!, {r0, r1, r4}
  121 0090 13CB     		ldmia	r3!, {r0, r1, r4}
  122 0092 13C2     		stmia	r2!, {r0, r1, r4}
-  72:select.c      ****   
-  73:select.c      ****   //draw boarder
-  74:select.c      ****   lcdRect(menu.xPos, menu.yPos, menu.xLen, menu.yLen, menu.borderColor);
- 123              		.loc 1 74 0
+  65:select.c      **** 
+  66:select.c      **** 	//draw boarder
+  67:select.c      **** 	lcdRect(menu.xPos, menu.yPos, menu.xLen, menu.yLen, menu.borderColor);
+ 123              		.loc 1 67 0
  124 0094 2E1C     		mov	r6, r5
  125 0096 2936     		add	r6, r6, #41
  126 0098 3478     		ldrb	r4, [r6]
@@ -220,8 +213,8 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
  130 00a0 EB78     		ldrb	r3, [r5, #3]
  131 00a2 0094     		str	r4, [sp]
  132 00a4 FFF7FEFF 		bl	lcdRect
-  75:select.c      ****   lcdRect(menu.xPos+1, menu.yPos+16, menu.xLen-2, menu.yLen-17, menu.bgColor);
- 133              		.loc 1 75 0
+  68:select.c      **** 	lcdRect(menu.xPos + 1, menu.yPos + 16, menu.xLen - 2, menu.yLen - 17,
+ 133              		.loc 1 68 0
  134 00a8 2878     		ldrb	r0, [r5]
  135 00aa 6978     		ldrb	r1, [r5, #1]
  136 00ac AA78     		ldrb	r2, [r5, #2]
@@ -238,109 +231,105 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
  147 00c2 1206     		lsl	r2, r2, #24
  148 00c4 1B06     		lsl	r3, r3, #24
  149 00c6 120E     		lsr	r2, r2, #24
-ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 5
-
-
  150 00c8 1B0E     		lsr	r3, r3, #24
  151 00ca 000E     		lsr	r0, r0, #24
  152 00cc 090E     		lsr	r1, r1, #24
  153 00ce 0094     		str	r4, [sp]
  154 00d0 FFF7FEFF 		bl	lcdRect
-  76:select.c      ****   
-  77:select.c      ****   //write header text
-  78:select.c      ****   lcdGotoxy(menu.headerTextXpos,menu.yPos+1);
- 155              		.loc 1 78 0
+  69:select.c      **** 			menu.bgColor);
+  70:select.c      **** 
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccKrs2ad.s 			page 5
+
+
+  71:select.c      **** 	//write header text
+  72:select.c      **** 	lcdGotoxy(menu.headerTextXpos, menu.yPos + 1);
+ 155              		.loc 1 72 0
  156 00d4 6978     		ldrb	r1, [r5, #1]
  157 00d6 0131     		add	r1, r1, #1
  158 00d8 0906     		lsl	r1, r1, #24
  159 00da 287B     		ldrb	r0, [r5, #12]
  160 00dc 090E     		lsr	r1, r1, #24
  161 00de FFF7FEFF 		bl	lcdGotoxy
-  79:select.c      ****   lcdColor(menu.borderColor,menu.headerColor);
- 162              		.loc 1 79 0
+  73:select.c      **** 	lcdColor(menu.borderColor, menu.headerColor);
+ 162              		.loc 1 73 0
  163 00e2 2B1C     		mov	r3, r5
  164 00e4 2A33     		add	r3, r3, #42
  165 00e6 1978     		ldrb	r1, [r3]
  166 00e8 3078     		ldrb	r0, [r6]
  167 00ea FFF7FEFF 		bl	lcdColor
-  80:select.c      ****   lcdPuts(menu.pHeaderText);
- 168              		.loc 1 80 0
+  74:select.c      **** 	lcdPuts(menu.pHeaderText);
+ 168              		.loc 1 74 0
  169 00ee A868     		ldr	r0, [r5, #8]
  170 00f0 FFF7FEFF 		bl	lcdPuts
-  81:select.c      ****   
-  82:select.c      ****   //write choices
-  83:select.c      ****   cursor = menu.initialChoice;
- 171              		.loc 1 83 0
+  75:select.c      **** 
+  76:select.c      **** 	//write choices
+  77:select.c      **** 	cursor = menu.initialChoice;
+ 171              		.loc 1 77 0
  172 00f4 194A     		ldr	r2, .L37+4
  173 00f6 6B79     		ldrb	r3, [r5, #5]
  174 00f8 1370     		strb	r3, [r2]
-  84:select.c      ****   drawMenuCursor();
- 175              		.loc 1 84 0
+  78:select.c      **** 	drawMenuCursor();
+ 175              		.loc 1 78 0
  176 00fa FFF781FF 		bl	drawMenuCursor
-  85:select.c      ****   
-  86:select.c      ****   //dummy call just to reset previous key strokes
-  87:select.c      ****   checkKey();
- 177              		.loc 1 87 0
+  79:select.c      **** 
+  80:select.c      **** 	//dummy call just to reset previous key strokes
+  81:select.c      **** 	checkKey();
+ 177              		.loc 1 81 0
  178 00fe FFF7FEFF 		bl	checkKey
  179              	.LVL2:
  180              	.L36:
-  88:select.c      **** 
-  89:select.c      ****   while(1)
-  90:select.c      ****   {
-  91:select.c      ****     anyKey = checkKey();
- 181              		.loc 1 91 0
+  82:select.c      **** 
+  83:select.c      **** 	while (1) {
+  84:select.c      **** 		anyKey = checkKey();
+ 181              		.loc 1 84 0
  182 0102 FFF7FEFF 		bl	checkKey
  183              	.LVL3:
  184              	.LVL4:
-  92:select.c      ****     
-  93:select.c      ****     if (anyKey != KEY_NOTHING)
- 185              		.loc 1 93 0
+  85:select.c      **** 
+  86:select.c      **** 		if (anyKey != KEY_NOTHING) {
+ 185              		.loc 1 86 0
  186 0106 0028     		cmp	r0, #0
  187 0108 1BD0     		beq	.L14
-  94:select.c      ****     {
-ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 6
-
-
-  95:select.c      ****       //select specific function
-  96:select.c      ****       if (anyKey == KEY_CENTER)
- 188              		.loc 1 96 0
+  87:select.c      **** 			//select specific function
+  88:select.c      **** 			if (anyKey == KEY_CENTER) {
+ 188              		.loc 1 88 0
  189 010a 1028     		cmp	r0, #16
  190 010c 1DD0     		beq	.L28
-  97:select.c      ****       {
-  98:select.c      ****         return cursor;
-  99:select.c      ****       }
- 100:select.c      ****       
- 101:select.c      ****       else if (anyKey == KEY_UP)
- 191              		.loc 1 101 0
+  89:select.c      **** 				return cursor;
+  90:select.c      **** 			}
+  91:select.c      **** 
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccKrs2ad.s 			page 6
+
+
+  92:select.c      **** 			else if (anyKey == KEY_UP) {
+ 191              		.loc 1 92 0
  192 010e 0128     		cmp	r0, #1
  193 0110 07D1     		bne	.L18
- 102:select.c      ****       {
- 103:select.c      ****         if (cursor > 0)
- 194              		.loc 1 103 0
+  93:select.c      **** 				if (cursor > 0)
+ 194              		.loc 1 93 0
  195 0112 124A     		ldr	r2, .L37+4
  196 0114 1378     		ldrb	r3, [r2]
  197 0116 002B     		cmp	r3, #0
  198 0118 01D1     		bne	.L35
- 104:select.c      ****           cursor--;
- 105:select.c      ****         else
- 106:select.c      ****           cursor = menu.noOfChoices - 1;
- 199              		.loc 1 106 0
+  94:select.c      **** 					cursor--;
+  95:select.c      **** 				else
+  96:select.c      **** 					cursor = menu.noOfChoices - 1;
+ 199              		.loc 1 96 0
  200 011a 0F4B     		ldr	r3, .L37
  201 011c 1B79     		ldrb	r3, [r3, #4]
  202              	.L35:
  203 011e 013B     		sub	r3, r3, #1
  204 0120 0BE0     		b	.L34
  205              	.L18:
- 107:select.c      ****         drawMenuCursor();
- 108:select.c      ****       }
- 109:select.c      ****       
- 110:select.c      ****       else if (anyKey == KEY_DOWN)
- 206              		.loc 1 110 0
+  97:select.c      **** 				drawMenuCursor();
+  98:select.c      **** 			}
+  99:select.c      **** 
+ 100:select.c      **** 			else if (anyKey == KEY_DOWN) {
+ 206              		.loc 1 100 0
  207 0122 0428     		cmp	r0, #4
  208 0124 EDD1     		bne	.L36
- 111:select.c      ****       {
- 112:select.c      ****         if (cursor < menu.noOfChoices - 1)
- 209              		.loc 1 112 0
+ 101:select.c      **** 				if (cursor < menu.noOfChoices - 1)
+ 209              		.loc 1 101 0
  210 0126 0C4B     		ldr	r3, .L37
  211 0128 0C4A     		ldr	r2, .L37+4
  212 012a 1B79     		ldrb	r3, [r3, #4]
@@ -348,45 +337,44 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
  214 012e 013B     		sub	r3, r3, #1
  215 0130 9942     		cmp	r1, r3
  216 0132 01DA     		bge	.L24
- 113:select.c      ****           cursor++;
- 217              		.loc 1 113 0
+ 102:select.c      **** 					cursor++;
+ 217              		.loc 1 102 0
  218 0134 4B1C     		add	r3, r1, #1
  219 0136 00E0     		b	.L34
  220              	.L24:
- 114:select.c      ****         else
- 115:select.c      ****           cursor = 0;
- 221              		.loc 1 115 0
+ 103:select.c      **** 				else
+ 104:select.c      **** 					cursor = 0;
+ 221              		.loc 1 104 0
  222 0138 0023     		mov	r3, #0
  223              	.L34:
-ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 7
-
-
  224 013a 1370     		strb	r3, [r2]
- 116:select.c      ****         drawMenuCursor();
- 225              		.loc 1 116 0
+ 105:select.c      **** 				drawMenuCursor();
+ 225              		.loc 1 105 0
  226 013c FFF760FF 		bl	drawMenuCursor
  227              	.LVL5:
  228 0140 DFE7     		b	.L36
  229              	.LVL6:
  230              	.L14:
- 117:select.c      ****       }
- 118:select.c      ****     }
- 119:select.c      ****     else
- 120:select.c      ****       osSleep(1);
- 231              		.loc 1 120 0
+ 106:select.c      **** 			}
+ 107:select.c      **** 		} else
+ 108:select.c      **** 			osSleep(1);
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccKrs2ad.s 			page 7
+
+
+ 231              		.loc 1 108 0
  232 0142 0120     		mov	r0, #1
  233              	.LVL7:
  234 0144 FFF7FEFF 		bl	osSleep
  235 0148 DBE7     		b	.L36
  236              	.LVL8:
  237              	.L28:
- 238              		.loc 1 96 0
+ 238              		.loc 1 88 0
  239 014a 044B     		ldr	r3, .L37+4
  240 014c 1878     		ldrb	r0, [r3]
  241              	.LVL9:
- 121:select.c      ****   }
- 122:select.c      **** }
- 242              		.loc 1 122 0
+ 109:select.c      **** 	}
+ 110:select.c      **** }
+ 242              		.loc 1 110 0
  243 014e 01B0     		add	sp, sp, #4
  244              		@ sp needed for prologue
  245 0150 70BC     		pop	{r4, r5, r6}
@@ -418,9 +406,6 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
  267 0008 01       		.byte	0x1
  268 0009 00       		.ascii	"\000"
  269 000a 01       		.uleb128 0x1
-ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 8
-
-
  270 000b 7C       		.sleb128 -4
  271 000c 0E       		.byte	0xe
  272 000d 0C       		.byte	0xc
@@ -433,6 +418,9 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
  279              	.LASFDE0:
  280 0014 00000000 		.4byte	.Lframe0
  281 0018 00000000 		.4byte	.LFB2
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccKrs2ad.s 			page 8
+
+
  282 001c 70000000 		.4byte	.LFE2-.LFB2
  283 0020 42       		.byte	0x4
  284              		.4byte	.LCFI0-.LFB2
@@ -478,9 +466,6 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
  324 0050 24       		.uleb128 0x24
  325 0051 000000   		.align	2
  326              	.LEFDE2:
-ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 9
-
-
  327              		.file 2 "./startup/../pre_emptive_os/api/../api/general.h"
  328              		.file 3 "select.h"
  329              		.text
@@ -493,6 +478,9 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
  336 0008 0100     		.2byte	0x1
  337 000a 5D       		.byte	0x5d
  338 000b 02000000 		.4byte	.LCFI0-.Ltext0
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccKrs2ad.s 			page 9
+
+
  339 000f 70000000 		.4byte	.LFE2-.Ltext0
  340 0013 0200     		.2byte	0x2
  341 0015 7D       		.byte	0x7d
@@ -538,9 +526,6 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
  381 007c 0100     		.2byte	0x1
  382 007e 50       		.byte	0x50
  383 007f 42010000 		.4byte	.LVL6-.Ltext0
-ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 10
-
-
  384 0083 44010000 		.4byte	.LVL7-.Ltext0
  385 0087 0100     		.2byte	0x1
  386 0089 50       		.byte	0x50
@@ -553,6 +538,9 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
  393              		.section	.debug_info
  394 0000 FF010000 		.4byte	0x1ff
  395 0004 0200     		.2byte	0x2
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccKrs2ad.s 			page 10
+
+
  396 0006 00000000 		.4byte	.Ldebug_abbrev0
  397 000a 04       		.byte	0x4
  398 000b 01       		.uleb128 0x1
@@ -566,7 +554,7 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
  406 0025 02       		.uleb128 0x2
  407 0026 74553800 		.ascii	"tU8\000"
  408 002a 02       		.byte	0x2
- 409 002b 47       		.byte	0x47
+ 409 002b 46       		.byte	0x46
  410 002c 30000000 		.4byte	0x30
  411 0030 03       		.uleb128 0x3
  412 0031 03010000 		.4byte	.LASF0
@@ -579,7 +567,7 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
  419 003e 04       		.uleb128 0x4
  420 003f C9000000 		.4byte	.LASF2
  421 0043 02       		.byte	0x2
- 422 0044 49       		.byte	0x49
+ 422 0044 48       		.byte	0x48
  423 0045 49000000 		.4byte	0x49
  424 0049 03       		.uleb128 0x3
  425 004a 88000000 		.4byte	.LASF3
@@ -598,9 +586,6 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
  438 0063 04       		.byte	0x4
  439 0064 05       		.byte	0x5
  440 0065 06       		.uleb128 0x6
-ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 11
-
-
  441 0066 04       		.byte	0x4
  442 0067 25000000 		.4byte	0x25
  443 006b 03       		.uleb128 0x3
@@ -613,6 +598,9 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
  450 0078 07       		.byte	0x7
  451 0079 03       		.uleb128 0x3
  452 007a 53000000 		.4byte	.LASF7
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccKrs2ad.s 			page 11
+
+
  453 007e 04       		.byte	0x4
  454 007f 05       		.byte	0x5
  455 0080 03       		.uleb128 0x3
@@ -631,11 +619,11 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
  468 0096 62010000 		.4byte	0x162
  469 009a 30       		.byte	0x30
  470 009b 03       		.byte	0x3
- 471 009c 1A       		.byte	0x1a
+ 471 009c 18       		.byte	0x18
  472 009d 08       		.uleb128 0x8
  473 009e A9010000 		.4byte	.LASF11
  474 00a2 03       		.byte	0x3
- 475 00a3 1B       		.byte	0x1b
+ 475 00a3 19       		.byte	0x19
  476 00a4 25000000 		.4byte	0x25
  477 00a8 02       		.byte	0x2
  478 00a9 23       		.byte	0x23
@@ -643,7 +631,7 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
  480 00ab 08       		.uleb128 0x8
  481 00ac 8A010000 		.4byte	.LASF12
  482 00b0 03       		.byte	0x3
- 483 00b1 1C       		.byte	0x1c
+ 483 00b1 1A       		.byte	0x1a
  484 00b2 25000000 		.4byte	0x25
  485 00b6 02       		.byte	0x2
  486 00b7 23       		.byte	0x23
@@ -651,18 +639,15 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
  488 00b9 08       		.uleb128 0x8
  489 00ba 79010000 		.4byte	.LASF13
  490 00be 03       		.byte	0x3
- 491 00bf 1D       		.byte	0x1d
+ 491 00bf 1B       		.byte	0x1b
  492 00c0 25000000 		.4byte	0x25
  493 00c4 02       		.byte	0x2
  494 00c5 23       		.byte	0x23
  495 00c6 02       		.uleb128 0x2
  496 00c7 08       		.uleb128 0x8
  497 00c8 5C000000 		.4byte	.LASF14
-ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 12
-
-
  498 00cc 03       		.byte	0x3
- 499 00cd 1E       		.byte	0x1e
+ 499 00cd 1C       		.byte	0x1c
  500 00ce 25000000 		.4byte	0x25
  501 00d2 02       		.byte	0x2
  502 00d3 23       		.byte	0x23
@@ -670,15 +655,18 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
  504 00d5 08       		.uleb128 0x8
  505 00d6 61000000 		.4byte	.LASF15
  506 00da 03       		.byte	0x3
- 507 00db 1F       		.byte	0x1f
+ 507 00db 1D       		.byte	0x1d
  508 00dc 25000000 		.4byte	0x25
  509 00e0 02       		.byte	0x2
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccKrs2ad.s 			page 12
+
+
  510 00e1 23       		.byte	0x23
  511 00e2 04       		.uleb128 0x4
  512 00e3 08       		.uleb128 0x8
  513 00e4 7A000000 		.4byte	.LASF16
  514 00e8 03       		.byte	0x3
- 515 00e9 20       		.byte	0x20
+ 515 00e9 1E       		.byte	0x1e
  516 00ea 25000000 		.4byte	0x25
  517 00ee 02       		.byte	0x2
  518 00ef 23       		.byte	0x23
@@ -686,7 +674,7 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
  520 00f1 08       		.uleb128 0x8
  521 00f2 AE010000 		.4byte	.LASF17
  522 00f6 03       		.byte	0x3
- 523 00f7 21       		.byte	0x21
+ 523 00f7 1F       		.byte	0x1f
  524 00f8 65000000 		.4byte	0x65
  525 00fc 02       		.byte	0x2
  526 00fd 23       		.byte	0x23
@@ -694,7 +682,7 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
  528 00ff 08       		.uleb128 0x8
  529 0100 95000000 		.4byte	.LASF18
  530 0104 03       		.byte	0x3
- 531 0105 22       		.byte	0x22
+ 531 0105 20       		.byte	0x20
  532 0106 25000000 		.4byte	0x25
  533 010a 02       		.byte	0x2
  534 010b 23       		.byte	0x23
@@ -702,7 +690,7 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
  536 010d 08       		.uleb128 0x8
  537 010e D7000000 		.4byte	.LASF19
  538 0112 03       		.byte	0x3
- 539 0113 23       		.byte	0x23
+ 539 0113 21       		.byte	0x21
  540 0114 62010000 		.4byte	0x162
  541 0118 02       		.byte	0x2
  542 0119 23       		.byte	0x23
@@ -710,7 +698,7 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
  544 011b 08       		.uleb128 0x8
  545 011c DF000000 		.4byte	.LASF20
  546 0120 03       		.byte	0x3
- 547 0121 24       		.byte	0x24
+ 547 0121 22       		.byte	0x22
  548 0122 25000000 		.4byte	0x25
  549 0126 02       		.byte	0x2
  550 0127 23       		.byte	0x23
@@ -718,10 +706,7 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
  552 0129 08       		.uleb128 0x8
  553 012a 39000000 		.4byte	.LASF21
  554 012e 03       		.byte	0x3
-ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 13
-
-
- 555 012f 25       		.byte	0x25
+ 555 012f 23       		.byte	0x23
  556 0130 25000000 		.4byte	0x25
  557 0134 02       		.byte	0x2
  558 0135 23       		.byte	0x23
@@ -729,15 +714,18 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
  560 0137 08       		.uleb128 0x8
  561 0138 8F010000 		.4byte	.LASF22
  562 013c 03       		.byte	0x3
- 563 013d 26       		.byte	0x26
+ 563 013d 24       		.byte	0x24
  564 013e 25000000 		.4byte	0x25
  565 0142 02       		.byte	0x2
  566 0143 23       		.byte	0x23
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccKrs2ad.s 			page 13
+
+
  567 0144 2A       		.uleb128 0x2a
  568 0145 08       		.uleb128 0x8
  569 0146 6D000000 		.4byte	.LASF23
  570 014a 03       		.byte	0x3
- 571 014b 27       		.byte	0x27
+ 571 014b 25       		.byte	0x25
  572 014c 25000000 		.4byte	0x25
  573 0150 02       		.byte	0x2
  574 0151 23       		.byte	0x23
@@ -745,7 +733,7 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
  576 0153 08       		.uleb128 0x8
  577 0154 2B000000 		.4byte	.LASF24
  578 0158 03       		.byte	0x3
- 579 0159 28       		.byte	0x28
+ 579 0159 26       		.byte	0x26
  580 015a 25000000 		.4byte	0x25
  581 015e 02       		.byte	0x2
  582 015f 23       		.byte	0x23
@@ -761,13 +749,13 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
  592 0172 04       		.uleb128 0x4
  593 0173 EE000000 		.4byte	.LASF25
  594 0177 03       		.byte	0x3
- 595 0178 29       		.byte	0x29
+ 595 0178 27       		.byte	0x27
  596 0179 95000000 		.4byte	0x95
  597 017d 0B       		.uleb128 0xb
  598 017e A5010000 		.4byte	0x1a5
  599 0182 F4000000 		.4byte	.LASF32
  600 0186 01       		.byte	0x1
- 601 0187 2D       		.byte	0x2d
+ 601 0187 29       		.byte	0x29
  602 0188 01       		.byte	0x1
  603 0189 00000000 		.4byte	.LFB2
  604 018d 70000000 		.4byte	.LFE2
@@ -775,28 +763,28 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
  606 0195 0C       		.uleb128 0xc
  607 0196 726F7700 		.ascii	"row\000"
  608 019a 01       		.byte	0x1
- 609 019b 2E       		.byte	0x2e
+ 609 019b 2A       		.byte	0x2a
  610 019c 3E000000 		.4byte	0x3e
  611 01a0 1F000000 		.4byte	.LLST1
-ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 14
-
-
  612 01a4 00       		.byte	0x0
  613 01a5 0D       		.uleb128 0xd
  614 01a6 E0010000 		.4byte	0x1e0
  615 01aa 01       		.byte	0x1
  616 01ab 9B010000 		.4byte	.LASF33
  617 01af 01       		.byte	0x1
- 618 01b0 44       		.byte	0x44
+ 618 01b0 3D       		.byte	0x3d
  619 01b1 01       		.byte	0x1
  620 01b2 25000000 		.4byte	0x25
  621 01b6 70000000 		.4byte	.LFB3
  622 01ba 60010000 		.4byte	.LFE3
  623 01be 32000000 		.4byte	.LLST2
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccKrs2ad.s 			page 14
+
+
  624 01c2 0E       		.uleb128 0xe
  625 01c3 0C000000 		.4byte	.LASF34
  626 01c7 01       		.byte	0x1
- 627 01c8 43       		.byte	0x43
+ 627 01c8 3D       		.byte	0x3d
  628 01c9 72010000 		.4byte	0x172
  629 01cd 02       		.byte	0x2
  630 01ce 91       		.byte	0x91
@@ -804,14 +792,14 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
  632 01d0 0F       		.uleb128 0xf
  633 01d1 83010000 		.4byte	.LASF26
  634 01d5 01       		.byte	0x1
- 635 01d6 45       		.byte	0x45
+ 635 01d6 3E       		.byte	0x3e
  636 01d7 25000000 		.4byte	0x25
  637 01db 69000000 		.4byte	.LLST3
  638 01df 00       		.byte	0x0
  639 01e0 10       		.uleb128 0x10
  640 01e1 A4010000 		.4byte	.LASF27
  641 01e5 01       		.byte	0x1
- 642 01e6 1E       		.byte	0x1e
+ 642 01e6 1D       		.byte	0x1d
  643 01e7 72010000 		.4byte	0x172
  644 01eb 05       		.byte	0x5
  645 01ec 03       		.byte	0x3
@@ -819,7 +807,7 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
  647 01f1 10       		.uleb128 0x10
  648 01f2 E7000000 		.4byte	.LASF28
  649 01f6 01       		.byte	0x1
- 650 01f7 1F       		.byte	0x1f
+ 650 01f7 1E       		.byte	0x1e
  651 01f8 25000000 		.4byte	0x25
  652 01fc 05       		.byte	0x5
  653 01fd 03       		.byte	0x3
@@ -838,9 +826,6 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
  666 0009 25       		.uleb128 0x25
  667 000a 0E       		.uleb128 0xe
  668 000b 13       		.uleb128 0x13
-ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 15
-
-
  669 000c 0B       		.uleb128 0xb
  670 000d 03       		.uleb128 0x3
  671 000e 0E       		.uleb128 0xe
@@ -853,6 +838,9 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
  678 0015 00       		.byte	0x0
  679 0016 03       		.uleb128 0x3
  680 0017 08       		.uleb128 0x8
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccKrs2ad.s 			page 15
+
+
  681 0018 3A       		.uleb128 0x3a
  682 0019 0B       		.uleb128 0xb
  683 001a 3B       		.uleb128 0x3b
@@ -898,9 +886,6 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
  723 0042 00       		.byte	0x0
  724 0043 06       		.uleb128 0x6
  725 0044 0F       		.uleb128 0xf
-ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 16
-
-
  726 0045 00       		.byte	0x0
  727 0046 0B       		.uleb128 0xb
  728 0047 0B       		.uleb128 0xb
@@ -913,6 +898,9 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
  735 004e 01       		.byte	0x1
  736 004f 01       		.uleb128 0x1
  737 0050 13       		.uleb128 0x13
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccKrs2ad.s 			page 16
+
+
  738 0051 0B       		.uleb128 0xb
  739 0052 0B       		.uleb128 0xb
  740 0053 3A       		.uleb128 0x3a
@@ -958,9 +946,6 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
  780 007b 2E       		.uleb128 0x2e
  781 007c 01       		.byte	0x1
  782 007d 01       		.uleb128 0x1
-ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 17
-
-
  783 007e 13       		.uleb128 0x13
  784 007f 03       		.uleb128 0x3
  785 0080 0E       		.uleb128 0xe
@@ -973,6 +958,9 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
  792 0087 11       		.uleb128 0x11
  793 0088 01       		.uleb128 0x1
  794 0089 12       		.uleb128 0x12
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccKrs2ad.s 			page 17
+
+
  795 008a 01       		.uleb128 0x1
  796 008b 40       		.uleb128 0x40
  797 008c 06       		.uleb128 0x6
@@ -1018,9 +1006,6 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
  837 00b4 06       		.uleb128 0x6
  838 00b5 00       		.byte	0x0
  839 00b6 00       		.byte	0x0
-ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 18
-
-
  840 00b7 0E       		.uleb128 0xe
  841 00b8 05       		.uleb128 0x5
  842 00b9 00       		.byte	0x0
@@ -1033,6 +1018,9 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
  849 00c0 49       		.uleb128 0x49
  850 00c1 13       		.uleb128 0x13
  851 00c2 02       		.uleb128 0x2
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccKrs2ad.s 			page 18
+
+
  852 00c3 0A       		.uleb128 0xa
  853 00c4 00       		.byte	0x0
  854 00c5 00       		.byte	0x0
@@ -1078,9 +1066,6 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
  892      00
  893 001b 00000000 		.4byte	0x0
  894              		.section	.debug_aranges,"",%progbits
-ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 19
-
-
  895 0000 1C000000 		.4byte	0x1c
  896 0004 0200     		.2byte	0x2
  897 0006 00000000 		.4byte	.Ldebug_info0
@@ -1093,6 +1078,9 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
  904 0018 00000000 		.4byte	0x0
  905 001c 00000000 		.4byte	0x0
  906              		.section	.debug_str,"MS",%progbits,1
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccKrs2ad.s 			page 19
+
+
  907              	.LASF4:
  908 0000 7369676E 		.ascii	"signed char\000"
  908      65642063 
@@ -1138,9 +1126,6 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
  926      00
  927              	.LASF16:
  928 007a 696E6974 		.ascii	"initialChoice\000"
-ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 20
-
-
  928      69616C43 
  928      686F6963 
  928      6500
@@ -1153,6 +1138,9 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
  932 0095 68656164 		.ascii	"headerTextXpos\000"
  932      65725465 
  932      78745870 
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccKrs2ad.s 			page 20
+
+
  932      6F7300
  933              	.LASF6:
  934 00a4 6C6F6E67 		.ascii	"long unsigned int\000"
@@ -1198,9 +1186,6 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
  953              	.LASF31:
  954 0111 2F637967 		.ascii	"/cygdrive/c/Documents and Settings/mkwapisz/My Docu"
  954      64726976 
-ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 21
-
-
  954      652F632F 
  954      446F6375 
  954      6D656E74 
@@ -1213,6 +1198,9 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
  957 0163 474E5520 		.ascii	"GNU C 4.1.1\000"
  957      4320342E 
  957      312E3100 
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccKrs2ad.s 			page 21
+
+
  958              	.LASF5:
  959 016f 73686F72 		.ascii	"short int\000"
  959      7420696E 
@@ -1248,19 +1236,19 @@ ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 1
  977      64657254 
  977      65787400 
  978              		.ident	"GCC: (GNU) 4.1.1"
-ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s 			page 22
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccKrs2ad.s 			page 22
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 select.c
-/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s:1      .text:00000000 $t
-/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s:15     .text:00000000 drawMenuCursor
-/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s:85     .text:00000064 $d
-/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s:258    .bss:00000000 menu
-/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s:260    .bss:00000030 cursor
-/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s:95     .text:00000070 drawMenu
-/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s:92     .text:00000070 $t
-/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccpfR2Le.s:252    .text:00000158 $d
+/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccKrs2ad.s:1      .text:00000000 $t
+/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccKrs2ad.s:15     .text:00000000 drawMenuCursor
+/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccKrs2ad.s:85     .text:00000064 $d
+/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccKrs2ad.s:258    .bss:00000000 menu
+/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccKrs2ad.s:260    .bss:00000030 cursor
+/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccKrs2ad.s:95     .text:00000070 drawMenu
+/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccKrs2ad.s:92     .text:00000070 $t
+/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccKrs2ad.s:252    .text:00000158 $d
 
 UNDEFINED SYMBOLS
 lcdGotoxy

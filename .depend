@@ -3,10 +3,10 @@ main.o: main.c pre_emptive_os/api/osapi.h \
   startup/printf_P.h startup/config.h startup/consol.h startup/ea_init.h \
   startup/lpc2xxx.h startup/consol.h i2c/i2c.h adc/adc.h \
   adc/../pre_emptive_os/api/general.h lcd/lcd.h pca9532.h \
-  startup/general.h snake.h key.h startup/../pre_emptive_os/api/general.h \
-  graphics/fire_0_100x40c.h graphics/fire_1_100x40c.h \
-  graphics/fire_2_100x40c.h graphics/fire_3_100x40c.h \
-  graphics/fire_4_100x40c.h
+  startup/general.h led/led_utils.h led/../startup/general.h snake.h \
+  key.h startup/../pre_emptive_os/api/general.h graphics/fire_0_100x40c.h \
+  graphics/fire_1_100x40c.h graphics/fire_2_100x40c.h \
+  graphics/fire_3_100x40c.h graphics/fire_4_100x40c.h
 eeprom.o: eeprom.c startup/general.h i2c/i2c.h
 i2c.o: i2c/i2c.c startup/general.h i2c/i2c.h startup/lpc2xxx.h
 adc.o: adc/adc.c adc/../pre_emptive_os/api/osapi.h \
