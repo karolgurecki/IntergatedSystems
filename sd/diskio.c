@@ -5,7 +5,7 @@
 #include "diskio.h"
 #include "spi.h"
 #include "sd.h"
-#include "../../startup/printf_P.h"
+#include "../startup/printf_P.h"
 
 /**
  * Init drive speed at the low drive first. Run some testing:

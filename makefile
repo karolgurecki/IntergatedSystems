@@ -58,6 +58,10 @@ CSRCS   = main.c          \
           pca9532.c       \
           lcd/lcd.c       \
           lcd/lcd_hw.c    \
+          sd/diskio.c     \
+          sd/pff.c        \
+          sd/spi.c        \
+          sd/sd.c         \
           snake.c         \
           key.c           \
           select.c

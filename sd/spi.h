@@ -2,7 +2,7 @@
 #define _SPI_H
 
 #include "integer.h"
-#include "../../startup/lpc2xxx.h"
+#include "../startup/lpc2xxx.h"
 
 // SP0SPCR  Bit-Definitions
 #define CPHA    3

@@ -1,7 +1,7 @@
 #include "sd.h"
 #include "spi.h"
 
-#include "../../startup/printf_P.h"
+#include "../startup/printf_P.h"
 
 CHAR sdInit(void) {
 

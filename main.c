@@ -83,6 +83,11 @@ int main(void) {
  *
  ****************************************************************************/
 static void drawMenu(void) {
+
+	// init variables
+	tU16 i = 0;
+	// init variables
+
 	lcdColor(0, 0);
 	lcdClrscr();
 
@@ -93,7 +98,7 @@ static void drawMenu(void) {
 	lcdColor(0x6d, 0);
 	lcdPuts("MENU");
 
-	for (int i = 1; i <= 2; i++) {
+	for (i = 1; i <= 2; i++) {
 		lcdGotoxy(22, 20 + (14 * i));
 		lcdColor(0x00, 0xE0);
 		switch (i) {
@@ -203,7 +208,6 @@ static void initializeTKSnake(void* arg) {
 
 	eaInit();
 	i2cInit();
-	initSD();
 
 	osCreateProcess(initializeGameProcess, gameProcessStack, PROC1_STACK_SIZE,
 			&pid1, 3, NULL, &error);
