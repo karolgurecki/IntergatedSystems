@@ -19,6 +19,7 @@
 #include "lcd/lcd.h"
 #include "pca9532.h"
 #include "led/led_utils.h"
+#include "sd/sd.h"
 
 #include "snake.h"
 #include "key.h"
@@ -29,9 +30,6 @@
 #include "graphics/fire_3_100x40c.h"
 #include "graphics/fire_4_100x40c.h"
 
-/******************************************************************************
- * Defines
- *****************************************************************************/
 #define SPI_SLAVE_CS 0x00002000  //pin P0.13
 #define ENC_RESET    0x00001000  //pin P0.12
 #define FAILSAFE_VALUE 5000
@@ -95,14 +93,18 @@ static void drawMenu(void) {
 	lcdColor(0x6d, 0);
 	lcdPuts("MENU");
 
-	lcdGotoxy(22, 20 + (14 * 1));
-	lcdColor(0x00, 0xe0);
-//  lcdColor(0x00,0xfd);
-	lcdPuts("Play Snake");
-}
-
-static void printHelloMsg(void) {
-	printf("\n\nTKSnake is pleased to welcome You Mr. Professor\n\n");
+	for (int i = 1; i <= 2; i++) {
+		lcdGotoxy(22, 20 + (14 * i));
+		lcdColor(0x00, 0xE0);
+		switch (i) {
+		case 1:
+			lcdPuts("Play");
+			break;
+		case 2:
+			lcdPuts("High Score");
+			break;
+		}
+	}
 }
 
 /*****************************************************************************
@@ -120,7 +122,6 @@ static void initializeGameProcess(void* arg) {
 	IODIR |= 0x00006000;  //P0.13/14
 	IOSET = 0x00006000;
 
-	printHelloMsg();
 	lcdInit();
 	initKeyProc();
 	drawMenu();
@@ -202,6 +203,7 @@ static void initializeTKSnake(void* arg) {
 
 	eaInit();
 	i2cInit();
+	initSD();
 
 	osCreateProcess(initializeGameProcess, gameProcessStack, PROC1_STACK_SIZE,
 			&pid1, 3, NULL, &error);

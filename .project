@@ -78,16 +78,16 @@
 	</natures>
 	<filteredResources>
 		<filter>
-			<id>1382773724210</id>
+			<id>1382895285215</id>
 			<name></name>
-			<type>6</type>
+			<type>30</type>
 			<matcher>
 				<id>org.eclipse.ui.ide.multiFilter</id>
 				<arguments>1.0-name-matches-false-false-*.o</arguments>
 			</matcher>
 		</filter>
 		<filter>
-			<id>1382773724210</id>
+			<id>1382895285228</id>
 			<name></name>
 			<type>6</type>
 			<matcher>
