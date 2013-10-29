@@ -17,7 +17,7 @@
 #include "../pre_emptive_os/api/osapi.h"
 #include "../pre_emptive_os/api/general.h"
 #include <printf_P.h>
-#include "key.h"
+#include "joystick.h"
 #include <lpc2xxx.h>
 
 /******************************************************************************
@@ -71,12 +71,6 @@ static volatile tU8 activeKey2 = KEY_NOTHING;
 static tU8 keyProcStack[KEYPROC_STACK_SIZE];
 static tU8 keyProcPid;
 
-/*****************************************************************************
- *
- * Description:
- *    Get current state of joystick switch
- *
- ****************************************************************************/
 tU8 getKeys(void) {
 	tU8 readKeys = KEY_NOTHING;
 
@@ -94,35 +88,17 @@ tU8 getKeys(void) {
 	return readKeys;
 }
 
-/*****************************************************************************
- *
- * Description:
- *    Function to check if any key press has been detected
- *
- ****************************************************************************/
-tU8 checkKey(void) {
+tU8 getPressedKey(void) {
 	tU8 retVal = activeKey;
 	activeKey = KEY_NOTHING;
 	return retVal;
 }
 
-/*****************************************************************************
- *
- * Description:
- *    Function to check current (instantaneous) key state
- *
- ****************************************************************************/
-tU8 checkKey2(void) {
+tU8 getNowPressedKey(void) {
 	return activeKey2;
 }
 
-/*****************************************************************************
- *
- * Description:
- *    Sample key states
- *
- ****************************************************************************/
-void sampleKey(void) {
+void readKeyInLoop(void) {
 	tBool nothing = TRUE;
 	tU8 readKeys;
 
@@ -243,15 +219,6 @@ void sampleKey(void) {
 		activeKey2 = KEY_NOTHING;
 }
 
-/*****************************************************************************
- *
- * Description:
- *    A process entry function 
- *
- * Params:
- *    [in] arg - This parameter is not used in this application. 
- *
- ****************************************************************************/
 static void procKey(void* arg) {
 	//make all key signals as inputs
 	IODIR &= ~(KEYPIN_CENTER | KEYPIN_UP | KEYPIN_DOWN | KEYPIN_LEFT
@@ -259,20 +226,13 @@ static void procKey(void* arg) {
 
 	//sample keys each 50 ms, i.e., 20 times per second
 	while (1) {
-		sampleKey();
+		readKeyInLoop();
 		osSleep(5);
 	}
 }
 
-/*****************************************************************************
- *
- * Description:
- *    Creates and starts the key sampling process. 
- *
- ****************************************************************************/
 void initKeyProc(void) {
 	tU8 error;
-
 	osCreateProcess(procKey, keyProcStack, KEYPROC_STACK_SIZE, &keyProcPid, 3,
 			NULL, &error);
 	osStartProcess(keyProcPid, &error);

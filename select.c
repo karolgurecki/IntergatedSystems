@@ -20,7 +20,7 @@
 #include <ea_init.h>
 #include <stdlib.h>
 #include "lcd/lcd.h"
-#include "key.h"
+#include "joystick/joystick.h"
 #include "select.h"
 
 /*****************************************************************************
@@ -78,10 +78,10 @@ tU8 drawMenu(tMenu newMenu) {
 	drawMenuCursor();
 
 	//dummy call just to reset previous key strokes
-	checkKey();
+	getPressedKey();
 
 	while (1) {
-		anyKey = checkKey();
+		anyKey = getPressedKey();
 
 		if (anyKey != KEY_NOTHING) {
 			//select specific function

@@ -18,11 +18,10 @@
 #include "adc/adc.h"
 #include "lcd/lcd.h"
 #include "pca9532.h"
-#include "led/led_utils.h"
 #include "sd/sd.h"
 
 #include "snake.h"
-#include "key.h"
+#include "joystick/joystick.h"
 
 #include "graphics/fire_0_100x40c.h"
 #include "graphics/fire_1_100x40c.h"
@@ -39,19 +38,12 @@
 #define INIT_STACK_SIZE  400
 
 static tU8 gameProcessStack[PROC1_STACK_SIZE];
-static tU8 ledsStack[PROC2_STACK_SIZE];
 static tU8 tkSnakeStack[INIT_STACK_SIZE];
 static tU8 pid1;
-static tU8 pid2;
-static tU16 globalKeys;
 
 static void initializeGameProcess(void* arg);
-static void initializeLEDs(void* arg);
 static void initializeTKSnake(void* arg);
 
-/*****************************************************************************
- * Global variables
- ****************************************************************************/
 volatile tU32 ms;
 static tU8 contrast = 46;
 
@@ -64,28 +56,24 @@ static tU8 contrast = 46;
  * 4. start OS
  */
 int main(void) {
-	tU8 error = 0;
-	tU8 pid = 0;
+	tU8 error;
+	tU8 pid;
 
 	osInit();
-	osCreateProcess(initializeTKSnake, tkSnakeStack, INIT_STACK_SIZE, &pid, 1,
-			NULL, &error);
-	osStartProcess(pid, &error);
-
+	{
+		osCreateProcess(initializeTKSnake, tkSnakeStack, INIT_STACK_SIZE, &pid,
+				1, NULL, &error);
+		osStartProcess(pid, &error);
+	}
 	osStart();
+
 	return 0;
 }
 
-/*****************************************************************************
- *
- * Description:
- *    Draw main menu
- *
- ****************************************************************************/
 static void drawMenu(void) {
 
 	// init variables
-	tU16 i = 0;
+	tU16 i;
 	// init variables
 
 	lcdColor(0, 0);
@@ -96,9 +84,10 @@ static void drawMenu(void) {
 
 	lcdGotoxy(48, 1);
 	lcdColor(0x6d, 0);
+
 	lcdPuts("MENU");
 
-	for (i = 1; i <= 2; i++) {
+	for (i = 1; i <= 3; i++) {
 		lcdGotoxy(22, 20 + (14 * i));
 		lcdColor(0x00, 0xE0);
 		switch (i) {
@@ -108,34 +97,25 @@ static void drawMenu(void) {
 		case 2:
 			lcdPuts("High Score");
 			break;
+		case 3:
+			lcdPuts("Florek CHUJ");
+			break;
 		}
 	}
 }
 
-/*****************************************************************************
- *
- * Description:
- *    A process entry function 
- *
- * Params:
- *    [in] arg - This parameter is not used in this application. 
- *
- ****************************************************************************/
 static void initializeGameProcess(void* arg) {
 	static tU8 i = 0;
 
-	IODIR |= 0x00006000;  //P0.13/14
-	IOSET = 0x00006000;
-
-	lcdInit();
-	initKeyProc();
-	drawMenu();
-	lcdContrast(contrast);
+	initKeyProc();			// key procedures
+	lcdInit();				// lcd initializtions
+	lcdContrast(contrast); 	// contrast settings
+	drawMenu();				// draw initial menu
 
 	while (TRUE) {
 		tU8 anyKey;
 
-		anyKey = checkKey();
+		anyKey = getPressedKey();
 		if (anyKey != KEY_NOTHING) {
 			//select specific function
 			if (anyKey == KEY_CENTER) {
@@ -180,19 +160,13 @@ static void initializeGameProcess(void* arg) {
 		case 4:
 			lcdIcon(15, 88, 100, 40, _fire_4_100x40c[2], _fire_4_100x40c[3],
 					&_fire_4_100x40c[4]);
-			i = 0;
 			break;
+			i++;
 		default:
 			i = 0;
 			break;
 		}
 		osSleep(20);
-	}
-}
-
-static void initializeLEDs(void* arg) {
-	while (TRUE) {
-		globalKeys = lightLedPatternOne();
 	}
 }
 
@@ -213,25 +187,9 @@ static void initializeTKSnake(void* arg) {
 			&pid1, 3, NULL, &error);
 	osStartProcess(pid1, &error);
 
-	osCreateProcess(initializeLEDs, ledsStack, PROC2_STACK_SIZE, &pid2, 3, NULL,
-			&error);
-	osStartProcess(pid2, &error);
-
 	osDeleteProcess();
 }
 
-/*****************************************************************************
- *
- * Description:
- *    The timer tick entry function that is called once every timer tick
- *    interrupt in the RTOS. Observe that any processing in this
- *    function must be kept as short as possible since this function
- *    execute in interrupt context.
- *
- * Params:
- *    [in] elapsedTime - The number of elapsed milliseconds since last call.
- *
- ****************************************************************************/
 void appTick(tU32 elapsedTime) {
 	ms += elapsedTime;
 }

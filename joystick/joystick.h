@@ -28,8 +28,8 @@
 #define KEY_LEFT    0x08
 #define KEY_CENTER  0x10
 
-tU8 checkKey(void);
-tU8 checkKey2(void);
+tU8 getPressedKey(void);
+tU8 getNowPressedKey(void);
 
 void initKeyProc(void);
 

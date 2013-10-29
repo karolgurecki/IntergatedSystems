@@ -51,19 +51,19 @@ EFLAGS  = -mthumb-interwork
 CODE    = THUMB
 
 # List C source files here.
-CSRCS   = main.c          \
-          eeprom.c        \
-          i2c/i2c.c       \
-          adc/adc.c       \
-          pca9532.c       \
-          lcd/lcd.c       \
-          lcd/lcd_hw.c    \
-          sd/diskio.c     \
-          sd/pff.c        \
-          sd/spi.c        \
-          sd/sd.c         \
-          snake.c         \
-          key.c           \
+CSRCS   = main.c          				\
+          eeprom.c        				\
+          i2c/i2c.c       				\
+          adc/adc.c       				\
+          pca9532.c       				\
+          lcd/lcd.c       				\
+          lcd/lcd_hw.c    				\
+          sd/diskio.c     				\
+          sd/pff.c        				\
+          sd/spi.c        				\
+          sd/sd.c         				\
+          snake.c         				\
+          joystick/joystick.c           \
           select.c
 
 # List assembler source files here
