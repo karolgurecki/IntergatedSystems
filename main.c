@@ -40,6 +40,7 @@
 static tU8 gameProcessStack[PROC1_STACK_SIZE];
 static tU8 tkSnakeStack[INIT_STACK_SIZE];
 static tU8 pid1;
+static tU8 cursor;
 
 static void initializeGameProcess(void* arg);
 static void initializeTKSnake(void* arg);
@@ -70,12 +71,29 @@ int main(void) {
 	return 0;
 }
 
-static void drawMenu(void) {
+static void drawCursor(void) {
+	tU32 row;
 
-	// init variables
-	tU16 i;
-	// init variables
+	for (row = 0; row < 2; row++) {
+		lcdGotoxy(22, 20 + (14 * row));
+		if (row == cursor)
+			lcdColor(1, 0xe0);
+		else
+			lcdColor(0, 0xfd);
 
+		if (row == 0)
+			lcdPuts("Play");
+		else
+			lcdPuts("Hihg Score");
+	}
+}
+
+static void initializeGameProcess(void* arg) {
+	static tU8 i = 0;
+
+	initKeyProc(); // key procedures
+	lcdInit(); // lcd initializtions
+	lcdContrast(contrast); // contrast settings
 	lcdColor(0, 0);
 	lcdClrscr();
 
@@ -84,34 +102,7 @@ static void drawMenu(void) {
 
 	lcdGotoxy(48, 1);
 	lcdColor(0x6d, 0);
-
 	lcdPuts("MENU");
-
-	for (i = 1; i <= 3; i++) {
-		lcdGotoxy(22, 20 + (14 * i));
-		lcdColor(0x00, 0xE0);
-		switch (i) {
-		case 1:
-			lcdPuts("Play");
-			break;
-		case 2:
-			lcdPuts("High Score");
-			break;
-		case 3:
-			lcdPuts("Florek CHUJ");
-			break;
-		}
-	}
-}
-
-static void initializeGameProcess(void* arg) {
-	static tU8 i = 0;
-
-	initKeyProc();			// key procedures
-	lcdInit();				// lcd initializtions
-	lcdContrast(contrast); 	// contrast settings
-	drawMenu();				// draw initial menu
-
 	while (TRUE) {
 		tU8 anyKey;
 
@@ -121,21 +112,35 @@ static void initializeGameProcess(void* arg) {
 			if (anyKey == KEY_CENTER) {
 				playSnake();
 				drawMenu();
-			}
+			} else if (anyKey != KEY_NOTHING) {
+				if (anyKey == KEY_UP) {
+					if (cursor > 0)
+						cursor--;
+					else
+						cursor = 0;
+					drawCursor();
+				}
 
-			//adjust contrast
-			else if (anyKey == KEY_RIGHT) {
-				contrast++;
-				if (contrast > 127)
-					contrast = 127;
-				lcdContrast(contrast);
-			} else if (anyKey == KEY_LEFT) {
-				if (contrast > 0)
-					contrast--;
-				lcdContrast(contrast);
+				else if (anyKey == KEY_DOWN) {
+					if (cursor < 1)
+						cursor++;
+					else
+						cursor = 1;
+					drawCursor();
+				}
+				//adjust contrast
+				else if (anyKey == KEY_RIGHT) {
+					contrast++;
+					if (contrast > 127)
+						contrast = 127;
+					lcdContrast(contrast);
+				} else if (anyKey == KEY_LEFT) {
+					if (contrast > 0)
+						contrast--;
+					lcdContrast(contrast);
+				}
 			}
 		}
-
 		switch (i) {
 		case 0:
 			lcdIcon(15, 88, 100, 40, _fire_0_100x40c[2], _fire_0_100x40c[3],
