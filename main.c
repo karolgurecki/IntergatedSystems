@@ -23,6 +23,7 @@
 #include "snake.h"
 #include "joystick/joystick.h"
 #include "timer/timer.h"
+#include "motor/motor.h"
 
 #include "graphics/fire_0_100x40c.h"
 #include "graphics/fire_1_100x40c.h"
@@ -54,27 +55,32 @@ DIR directory;
 FILINFO fileInfo;
 FATFS fatFileSystem;
 
-void initSD(void){
+void initSD(void) {
 	printf("\n\t=>SD mounting...\n");
+
+	lcdGotoxy(1, 1);
+	lcdColor(0x6d, 0);
+	lcdPuts("SD mounting...");
+	osSleep(50);
 	sdStatus = pf_mount(&fatFileSystem);
 
-	lcdGotoxy(0,0);
-
-	if (sdStatus){
+	lcdGotoxy(0, 30);
+	lcdPuts("SD mounting...");
+	lcdGotoxy(0,60);
+	if (sdStatus) {
 		printf("Failed to mount SD");
-		if( FR_DISK_ERR == sdStatus || FR_NOT_READY == sdStatus ){
+		if (FR_DISK_ERR == sdStatus || FR_NOT_READY == sdStatus) {
 			lcdPuts("SD not ready...");
-		}else if( FR_NO_FILESYSTEM == sdStatus ){
+		} else if (FR_NO_FILESYSTEM == sdStatus) {
 			lcdPuts("File system error...");
 		}
-	}else{
-		if(sdStatus == FR_OK){
+	} else {
+		if (sdStatus == FR_OK) {
 			lcdPuts("SD ready... :)");
 		}
 	}
 
-	waitFor(10);
-
+	//osSleep(500);
 }
 
 // SD status variables
@@ -115,7 +121,7 @@ static void drawCursor(void) {
 		if (row == 0)
 			lcdPuts("Play");
 		else
-			lcdPuts("Hihg Score");
+			lcdPuts("High Score");
 	}
 }
 
@@ -139,7 +145,7 @@ static void initializeGameProcess(void* arg) {
 
 	while (TRUE) {
 		tU8 anyKey;
-
+		//motor();
 		anyKey = getPressedKey();
 		if (anyKey != KEY_NOTHING) {
 			//select specific function
@@ -221,12 +227,13 @@ static void initializeGameProcess(void* arg) {
 static void initializeTKSnake(void* arg) {
 	tU8 error;
 
-	eaInit();				// initialze printf
+	eaInit(); // initialze printf
 	//srand(666);				// randomizer
-	i2cInit();				// initialize i2c
-	initKeyProc(); 			// key procedures
-	lcdInit(); 				// lcd initializtions
-	lcdContrast(contrast); 	// contrast settings
+	i2cInit(); // initialize i2c
+	initKeyProc(); // key procedures
+	lcdInit(); // lcd initializtions
+	lcdContrast(contrast); // contrast settings
+	initSD();
 	lcdClrscr();
 
 	osCreateProcess(initializeGameProcess, gameProcessStack, PROC1_STACK_SIZE,

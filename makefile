@@ -7,7 +7,7 @@
 ##########################################################
 
 # Name of target (executable program or library) 
-NAME      = kf_snake
+NAME      = kt_snake
 
 # Link program to RAM or ROM (possible values for LD_RAMROM is RAM or ROM,
 # if not specified = ROM)
@@ -65,6 +65,7 @@ CSRCS   = main.c          				\
           snake.c         				\
           joystick/joystick.c           \
           timer/timer.c					\
+          motor/motor.c                 \
           select.c
 
 # List assembler source files here

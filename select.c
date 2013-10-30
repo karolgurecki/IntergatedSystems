@@ -22,6 +22,7 @@
 #include "lcd/lcd.h"
 #include "joystick/joystick.h"
 #include "select.h"
+#include "motor/motor.h"
 
 /*****************************************************************************
  * Local variables
@@ -76,7 +77,7 @@ tU8 drawMenu(tMenu newMenu) {
 	//write choices
 	cursor = menu.initialChoice;
 	drawMenuCursor();
-
+	doMotor();
 	//dummy call just to reset previous key strokes
 	getPressedKey();
 

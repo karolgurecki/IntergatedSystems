@@ -8,11 +8,6 @@
 #ifndef MOTOR_H_
 #define MOTOR_H_
 
-#include "../pre_emptive_os/api/osapi.h"
-#include "../pre_emptive_os/api/general.h"
-#include <printf_P.h>
-#include <lpc2xxx.h>
-
-void motor();
+void doMotor(void);
 
 #endif /* MOTOR_H_ */
