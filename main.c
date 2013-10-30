@@ -88,12 +88,7 @@ static void drawCursor(void) {
 	}
 }
 
-static void initializeGameProcess(void* arg) {
-	static tU8 i = 0;
-
-	initKeyProc(); // key procedures
-	lcdInit(); // lcd initializtions
-	lcdContrast(contrast); // contrast settings
+static void drawMenu() {
 	lcdColor(0, 0);
 	lcdClrscr();
 
@@ -103,6 +98,16 @@ static void initializeGameProcess(void* arg) {
 	lcdGotoxy(48, 1);
 	lcdColor(0x6d, 0);
 	lcdPuts("MENU");
+	drawCursor();
+}
+
+static void initializeGameProcess(void* arg) {
+	static tU8 i = 0;
+
+	initKeyProc(); // key procedures
+	lcdInit(); // lcd initializtions
+	lcdContrast(contrast); // contrast settings
+	drawMenu();
 	while (TRUE) {
 		tU8 anyKey;
 
@@ -110,7 +115,8 @@ static void initializeGameProcess(void* arg) {
 		if (anyKey != KEY_NOTHING) {
 			//select specific function
 			if (anyKey == KEY_CENTER) {
-				playSnake();
+				if(cursor==0) playSnake();
+				//else drawHihgScore();
 				drawMenu();
 			} else if (anyKey != KEY_NOTHING) {
 				if (anyKey == KEY_UP) {
