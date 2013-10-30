@@ -19,9 +19,10 @@
 #include "lcd/lcd.h"
 #include "pca9532.h"
 #include "sd/sd.h"
-
+#include "sd/pff.h"
 #include "snake.h"
 #include "joystick/joystick.h"
+#include "timer/timer.h"
 
 #include "graphics/fire_0_100x40c.h"
 #include "graphics/fire_1_100x40c.h"
@@ -41,18 +42,48 @@ static tU8 gameProcessStack[PROC1_STACK_SIZE];
 static tU8 tkSnakeStack[INIT_STACK_SIZE];
 static tU8 pid1;
 static tU8 cursor;
+static tU8 contrast = 46;
 
 static void initializeGameProcess(void* arg);
 static void initializeTKSnake(void* arg);
 
 volatile tU32 ms;
-static tU8 contrast = 46;
+// SD status variables
+DWORD sdStatus;
+DIR directory;
+FILINFO fileInfo;
+FATFS fatFileSystem;
+
+void initSD(void){
+	printf("\n\t=>SD mounting...\n");
+	sdStatus = pf_mount(&fatFileSystem);
+
+	lcdGotoxy(0,0);
+
+	if (sdStatus){
+		printf("Failed to mount SD");
+		if( FR_DISK_ERR == sdStatus || FR_NOT_READY == sdStatus ){
+			lcdPuts("SD not ready...");
+		}else if( FR_NO_FILESYSTEM == sdStatus ){
+			lcdPuts("File system error...");
+		}
+	}else{
+		if(sdStatus == FR_OK){
+			lcdPuts("SD ready... :)");
+		}
+	}
+
+	waitFor(10);
+
+}
+
+// SD status variables
 
 /**
  * Entry procedure.
  * Call order:
  * 1. initialize OS -> osInit();
- * 2. create the process by passing callback method which actually creates our app as the first argument
+ * 2. cceate the process by passing callback method which actually creates our app as the first argument
  * 3. start the process
  * 4. start OS
  */
@@ -104,10 +135,8 @@ static void drawMenu() {
 static void initializeGameProcess(void* arg) {
 	static tU8 i = 0;
 
-	initKeyProc(); // key procedures
-	lcdInit(); // lcd initializtions
-	lcdContrast(contrast); // contrast settings
 	drawMenu();
+
 	while (TRUE) {
 		tU8 anyKey;
 
@@ -115,7 +144,8 @@ static void initializeGameProcess(void* arg) {
 		if (anyKey != KEY_NOTHING) {
 			//select specific function
 			if (anyKey == KEY_CENTER) {
-				if(cursor==0) playSnake();
+				if (cursor == 0)
+					playSnake();
 				//else drawHihgScore();
 				drawMenu();
 			} else if (anyKey != KEY_NOTHING) {
@@ -191,14 +221,20 @@ static void initializeGameProcess(void* arg) {
 static void initializeTKSnake(void* arg) {
 	tU8 error;
 
-	eaInit();
-	i2cInit();
+	eaInit();				// initialze printf
+	//srand(666);				// randomizer
+	i2cInit();				// initialize i2c
+	initKeyProc(); 			// key procedures
+	lcdInit(); 				// lcd initializtions
+	lcdContrast(contrast); 	// contrast settings
+	lcdClrscr();
 
 	osCreateProcess(initializeGameProcess, gameProcessStack, PROC1_STACK_SIZE,
 			&pid1, 3, NULL, &error);
 	osStartProcess(pid1, &error);
 
 	osDeleteProcess();
+
 }
 
 void appTick(tU32 elapsedTime) {

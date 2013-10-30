@@ -31,7 +31,7 @@ inline tU16 lightLedPatternOne() {
 
 	setPca9532Pin(0, 0);
 	setPca9532Pin(15, 0);
-	osSleep (led_delay);
+	osSleep(led_delay);
 	setPca9532Pin(1, 0);
 	setPca9532Pin(14, 0);
 	osSleep(led_delay);
@@ -72,6 +72,14 @@ inline tU16 lightLedPatternOne() {
 	osSleep(2);
 
 	return ~getPca9532Pin();
+}
+
+static void turnLedOnAtPosition(tU8 led) {
+	setPca9532Pin(led, 1);
+}
+
+static void turnLedOffAtPosition(tU8 led) {
+	setPca9532Pin(led, 0);
 }
 
 #endif /* LED_UTILS_H_ */

@@ -64,6 +64,7 @@ CSRCS   = main.c          				\
           sd/sd.c         				\
           snake.c         				\
           joystick/joystick.c           \
+          timer/timer.c					\
           select.c
 
 # List assembler source files here
