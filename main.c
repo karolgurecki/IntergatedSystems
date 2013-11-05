@@ -56,10 +56,8 @@ static void initializeTKSnake(void* arg);
 
 volatile tU32 ms;
 // SD status variables
-DWORD sdStatus;
-DIR directory;
-FILINFO fileInfo;
-FATFS fatFileSystem;
+
+
 
 /**
  * Entry procedure.

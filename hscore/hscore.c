@@ -8,6 +8,10 @@
 #include "hscore.h"
 
 static tU8 buffer[512 * 1]; // sector
+static FATFS fatFileSystem;
+static DWORD sdStatus;
+static DIR directory;
+static FILINFO fileInfo;
 
 static void initSD(void) {
 	printf("=>SD mounting...\n");

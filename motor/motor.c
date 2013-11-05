@@ -32,6 +32,6 @@ void procMotor(void) {
 		//output new step
 		IOCLR0 = stepmotorSteps[0];
 		IOSET0 = stepmotorSteps[stepmotorIndex];
-		//osSleep(10);
+		osSleep(5);
 	}
 }
