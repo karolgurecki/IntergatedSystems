@@ -10,7 +10,7 @@
 tU8 buffer[512 * 1]; // sector
 
 static tBool initHScore(void) {
-	printf("Initializing HSCore module");
+	printf("Initializing HSCore module\n");
 	FRESULT fc;
 	tU16 bytesRead = 0;
 	tBool result = TRUE;
