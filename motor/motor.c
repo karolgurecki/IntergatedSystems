@@ -25,13 +25,13 @@ void procMotor(void) {
 	IODIR0 |= 0x00201000;
 	IOCLR0 = stepmotorSteps[0];
 
-	for (i = 0; i < 4 * 6; i++) {
+	for (i = 0; i < 23; i++) {
 		//update to new step (forward)
 		stepmotorIndex = (stepmotorIndex + 1) & 0x03;
 
 		//output new step
 		IOCLR0 = stepmotorSteps[0];
 		IOSET0 = stepmotorSteps[stepmotorIndex];
-		osSleep(5);
+		osSleep(2);
 	}
 }
