@@ -8,6 +8,9 @@
 #ifndef MOTOR_H_
 #define MOTOR_H_
 
-void doMotor(void);
+volatile tBool spin;
+
+static void procMotor(void*);
+void initMotor(void);
 
 #endif /* MOTOR_H_ */

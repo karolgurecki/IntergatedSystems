@@ -22,6 +22,7 @@
 #include "lcd/lcd.h"
 #include "joystick/joystick.h"
 #include "select.h"
+#include "motor/motor.h"
 
 /******************************************************************************
  * Typedefs and defines
@@ -168,6 +169,7 @@ void playSnake(void) {
 			high_score = score;
 		}
 		showScore();
+		spin=TRUE;
 		osSleep(400);
 		tMenu menu;
 		menu.xPos = 10;

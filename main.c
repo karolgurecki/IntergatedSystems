@@ -234,6 +234,7 @@ static void initializeTKSnake(void* arg) {
 	initSD();
 	initHScore();
 	lcdClrscr();
+	//initMotor();
 
 	osCreateProcess(initializeGameProcess, gameProcessStack, PROC1_STACK_SIZE,
 			&pid1, 3, NULL, &error);
