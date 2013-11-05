@@ -11,6 +11,7 @@
 #include "motor.h"
 
 void doMotor(void) {
+	printf("Motor power\n");
 	static tU32 stepmotorSteps[4] = { 0x00201000, 0x00200000, 0x00000000,
 			0x00001000 }; //P0.21 and P0.12 are used to contol the stepper motor
 	static tU8 stepmotorIndex = 0;
@@ -27,5 +28,4 @@ void doMotor(void) {
 		IOCLR0 = stepmotorSteps[0];
 		IOSET0 = stepmotorSteps[stepmotorIndex];
 	}
-
 }

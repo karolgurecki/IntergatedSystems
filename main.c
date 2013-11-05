@@ -62,30 +62,20 @@ FILINFO fileInfo;
 FATFS fatFileSystem;
 
 void initSD(void) {
-	printf("\n\t=>SD mounting...\n");
-
-	{
-		lcdGotoxy(1, 1);
-		lcdColor(0x6d, 0);
-		lcdPuts("SD mounting...");
-		osSleep(50);
-	}
+	printf("=>SD mounting...\n");
 
 	sdStatus = pf_mount(&fatFileSystem);
 
-	lcdGotoxy(0, 30);
-	lcdPuts("SD mounting...");
-	lcdGotoxy(0, 60);
 	if (sdStatus) {
 		printf("Failed to mount SD");
 		if (FR_DISK_ERR == sdStatus || FR_NOT_READY == sdStatus) {
-			lcdPuts("SD not ready...");
+			printf("SD not ready...\n");
 		} else if (FR_NO_FILESYSTEM == sdStatus) {
-			lcdPuts("File system error...");
+			printf("File system error...\n");
 		}
 	} else {
 		if (sdStatus == FR_OK) {
-			lcdPuts("SD ready... :)");
+			printf("SD ready... :)\n");
 		}
 	}
 
@@ -154,7 +144,6 @@ static void initializeGameProcess(void* arg) {
 
 	while (TRUE) {
 		tU8 anyKey;
-		//motor();
 		anyKey = getPressedKey();
 		if (anyKey != KEY_NOTHING) {
 			//select specific function
@@ -252,6 +241,7 @@ static void initializeTKSnake(void* arg) {
 	osDeleteProcess();
 
 }
+
 
 void appTick(tU32 elapsedTime) {
 	ms += elapsedTime;
