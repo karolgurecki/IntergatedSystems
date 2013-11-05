@@ -8,4 +8,5 @@
 *.map
 startup/.depend
 startup/**.o
+startup/**.lst
 *.elf

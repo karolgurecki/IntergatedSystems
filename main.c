@@ -8,12 +8,19 @@
  *
  *****************************************************************************/
 
-#include "pre_emptive_os/api/osapi.h"
-#include "pre_emptive_os/api/general.h"
 #include <printf_P.h>
 #include <ea_init.h>
 #include <lpc2xxx.h>
 #include <consol.h>
+#include <string.h>
+
+#include "startup/general.h"
+#include "startup/printf_P.h"
+#include "startup/ea_init.h"
+#include "startup/lpc2xxx.h" //definicje
+#include "startup/consol.h"
+#include "startup/config.h"
+
 #include "i2c/i2c.h"
 #include "adc/adc.h"
 #include "lcd/lcd.h"
