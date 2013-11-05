@@ -18,6 +18,8 @@ typedef struct {
 	char *player;
 } HSCORE;
 
+static void initSD(void);
+static void printStatus(FRESULT, const char *);
 static tBool initHScore(void);
 static HSCORE getLastHScore(void);
 static HSCORE getTop(void);

@@ -61,29 +61,6 @@ DIR directory;
 FILINFO fileInfo;
 FATFS fatFileSystem;
 
-void initSD(void) {
-	printf("=>SD mounting...\n");
-
-	sdStatus = pf_mount(&fatFileSystem);
-
-	if (sdStatus) {
-		printf("Failed to mount SD");
-		if (FR_DISK_ERR == sdStatus || FR_NOT_READY == sdStatus) {
-			printf("SD not ready...\n");
-		} else if (FR_NO_FILESYSTEM == sdStatus) {
-			printf("File system error...\n");
-		}
-	} else {
-		if (sdStatus == FR_OK) {
-			printf("SD ready... :)\n");
-		}
-	}
-
-	//osSleep(500);
-}
-
-// SD status variables
-
 /**
  * Entry procedure.
  * Call order:
@@ -230,7 +207,6 @@ static void initializeTKSnake(void* arg) {
 	initKeyProc();
 	lcdInit();
 	lcdContrast(contrast);
-	initSD();
 	initHScore();
 	lcdClrscr();
 
