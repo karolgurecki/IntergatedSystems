@@ -205,7 +205,7 @@ static void initializeTKSnake(void* arg) {
 	initKeyProc();
 	lcdInit();
 	lcdContrast(contrast);
-	initHScore();
+	getLastHScore();
 	lcdClrscr();
 
 	osCreateProcess(initializeGameProcess, gameProcessStack, PROC1_STACK_SIZE,

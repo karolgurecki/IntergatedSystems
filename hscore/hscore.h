@@ -18,9 +18,10 @@ typedef struct {
 	char *player;
 } HSCORE;
 
-static void initSD(void);
 static void printStatus(FRESULT, const char *);
-static tBool initHScore(void);
+static tBool initSD(void);
+static tBool mountRepo(void);
+static tBool umountRepo(void);
 static HSCORE getLastHScore(void);
 static HSCORE getTop(void);
 static tBool saveHScore(tU16 score, char * player);

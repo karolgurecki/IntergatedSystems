@@ -13,23 +13,6 @@ static DWORD sdStatus;
 static DIR directory;
 static FILINFO fileInfo;
 
-static void initSD(void) {
-	printf("=>SD mounting...\n");
-	sdStatus = pf_mount(&fatFileSystem);
-	if (sdStatus) {
-		printf("Failed to mount SD");
-		if (FR_DISK_ERR == sdStatus || FR_NOT_READY == sdStatus) {
-			printf("SD not ready...\n");
-		} else if (FR_NO_FILESYSTEM == sdStatus) {
-			printf("File system error...\n");
-		}
-	} else {
-		if (sdStatus == FR_OK) {
-			printf("SD ready... :)\n");
-		}
-	}
-}
-
 static void printStatus(FRESULT fc, const char *action) {
 	switch (fc) {
 	case FR_OK:
@@ -59,38 +42,79 @@ static void printStatus(FRESULT fc, const char *action) {
 	}
 }
 
-static tBool initHScore(void) {
-	initSD();
-	FRESULT fc;
-	tU16 bytesRead = 0;
-	tBool result = TRUE;
-
-	printf("Accessing SD card and locating repository\n");
-
-	fc = pf_open("hs.txt");
-	printStatus(fc, "openFile");
-
-	fc = pf_read(buffer, sizeof(buffer), &bytesRead);
-	printStatus(fc, "readFile");
-
-	result = fc == FR_OK && bytesRead > 0;
-
-	if (result != 1) {
-		printf("File not found  - creating\n");
-	}
-
-	if (result == TRUE) {
-		printf("Initialized HSCore module\n");
+static tBool initSD(void) {
+	printf("=>SD mounting...\n");
+	sdStatus = pf_mount(&fatFileSystem);
+	if (sdStatus) {
+		printf("Failed to mount SD");
+		if (FR_DISK_ERR == sdStatus || FR_NOT_READY == sdStatus) {
+			printf("SD not ready...\n");
+		} else if (FR_NO_FILESYSTEM == sdStatus) {
+			printf("File system error...\n");
+		}
 	} else {
-		printf("Failed to initialize HSCore module\n");
+		if (sdStatus == FR_OK) {
+			printf("SD ready... :)\n");
+		}
 	}
-	return result;
+	return sdStatus == FR_OK;
+}
+
+static tBool mountRepo(void) {
+	if (initSD() == TRUE) {
+		FRESULT fc;
+		tU16 bytesRead = 0;
+		tBool result = TRUE;
+
+		printf("Accessing SD card and locating repository\n");
+
+		fc = pf_open("hs.txt");
+		printStatus(fc, "openFile");
+
+		fc = pf_read(buffer, sizeof(buffer), &bytesRead);
+		printStatus(fc, "readFile");
+
+		result = fc == FR_OK && bytesRead > 0;
+
+		if (result != 1) {
+			printf("File not found  - creating\n");
+		}
+
+		if (result == TRUE) {
+			printf("Initialized HSCore module\n");
+		} else {
+			printf("Failed to initialize HSCore module\n");
+		}
+		return result;
+	}
+	return FR_NOT_READY;
+}
+
+static tBool umountRepo(void) {
+	FRESULT fc = pf_mount(0);
+	printStatus(fc, "umount");
+	memset(&buffer[0], 0, sizeof(buffer));
+	return fc == FR_OK;
 }
 
 static HSCORE getLastHScore(void) {
 	HSCORE hs;
 	hs.player = NULL;
 	hs.score = 0;
+	if (mountRepo() == FR_OK) {
+		printf("Reading LAST-SCORE");
+		{
+			tS16 i = 0;
+			while (buffer[i] != '\0') {
+				printf("FROM BUFF[%d]=%s", i, buffer[i]);
+				i = i + 1;
+			}
+		}
+		printf("Read LAST-SCORE=%d", hs.score);
+	}
+	if (umountRepo() == FR_OK) {
+		printf("Device released...duhhhhh");
+	}
 	return hs;
 }
 
@@ -98,9 +122,22 @@ static HSCORE getTop(void) {
 	HSCORE hs;
 	hs.player = NULL;
 	hs.score = 0;
+	if (mountRepo() == FR_OK) {
+		printf("Reading TOP-SCORE");
+		printf("Read TOP-SCORE=%d", hs.score);
+	}
+	if (umountRepo() == FR_OK) {
+		printf("Device released...duhhhhh");
+	}
 	return hs;
 }
 
 static tBool saveHScore(tU16 score, char * player) {
+	if (mountRepo() == FR_OK) {
+
+	}
+	if (umountRepo() == FR_OK) {
+		printf("Device released...duhhhhh");
+	}
 	return TRUE;
 }
