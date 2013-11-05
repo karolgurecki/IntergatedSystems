@@ -10,7 +10,6 @@
 
 volatile tBool spin;
 
-static void procMotor(void*);
-void initMotor(void);
+void procMotor(void);
 
 #endif /* MOTOR_H_ */

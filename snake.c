@@ -169,7 +169,7 @@ void playSnake(void) {
 			high_score = score;
 		}
 		showScore();
-		spin=TRUE;
+		procMotor();
 		osSleep(400);
 		tMenu menu;
 		menu.xPos = 10;

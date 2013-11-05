@@ -29,7 +29,6 @@
 #include "snake.h"
 #include "joystick/joystick.h"
 #include "timer/timer.h"
-#include "motor/motor.h"
 #include "hscore/hscore.c"
 
 #include "graphics/fire_0_100x40c.h"
@@ -234,7 +233,6 @@ static void initializeTKSnake(void* arg) {
 	initSD();
 	initHScore();
 	lcdClrscr();
-	//initMotor();
 
 	osCreateProcess(initializeGameProcess, gameProcessStack, PROC1_STACK_SIZE,
 			&pid1, 3, NULL, &error);

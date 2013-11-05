@@ -15,34 +15,23 @@
 static tU8 motorProcStack[MOTORROC_STACK_SIZE];
 static tU8 motorProcPid;
 
-static void procMotor(void* arg) {
-	if (spin == TRUE) {
-		printf("Motor power\n");
-		static tU32 stepmotorSteps[4] = { 0x00201000, 0x00200000, 0x00000000,
-				0x00001000 }; //P0.21 and P0.12 are used to contol the stepper motor
-		static tU8 stepmotorIndex = 0;
-		tU8 i;
+void procMotor(void) {
+	printf("Motor power\n");
+	static tU32 stepmotorSteps[4] = { 0x00201000, 0x00200000, 0x00000000,
+			0x00001000 }; //P0.21 and P0.12 are used to contol the stepper motor
+	static tU8 stepmotorIndex = 0;
+	tU8 i;
 
-		IODIR0 |= 0x00201000;
+	IODIR0 |= 0x00201000;
+	IOCLR0 = stepmotorSteps[0];
+
+	for (i = 0; i < 4 * 6; i++) {
+		//update to new step (forward)
+		stepmotorIndex = (stepmotorIndex + 1) & 0x03;
+
+		//output new step
 		IOCLR0 = stepmotorSteps[0];
-
-		for (i = 0; i < 16; i++) {
-			//update to new step (forward)
-			stepmotorIndex = (stepmotorIndex + 1) & 0x03;
-
-			//output new step
-			IOCLR0 = stepmotorSteps[0];
-			IOSET0 = stepmotorSteps[stepmotorIndex];
-		}
-		spin = FALSE;
+		IOSET0 = stepmotorSteps[stepmotorIndex];
+		//osSleep(10);
 	}
-}
-
-void initMotor(void){
-	spin=FALSE;
-	tU8 error;
-		osCreateProcess(procMotor, motorProcStack, MOTORROC_STACK_SIZE, &motorProcPid, 10,
-				NULL, &error);
-		osStartProcess(motorProcPid, &error);
-
 }
