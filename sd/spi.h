@@ -29,11 +29,11 @@
 #define SELECT_CARD()   IOCLR0 = (1<<SPI_SS_PIN)
 #define UNSELECT_CARD()	IOSET0 = (1<<SPI_SS_PIN)
 
-//inicjuj SPI
+/**
+ * Initializing the SPI interface
+ */
 void initSpi(void);
-//ustaw pr�dko�� SPI
 void setSpiSpeed(BYTE speed);
-//wy�lij co� na SPI
 BYTE spiSend(BYTE toSend);
 
 #endif //_SPI_H

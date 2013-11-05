@@ -12,7 +12,6 @@
 #include <ea_init.h>
 #include <lpc2xxx.h>
 #include <consol.h>
-#include <string.h>
 
 #include "startup/general.h"
 #include "startup/printf_P.h"
@@ -65,15 +64,18 @@ FATFS fatFileSystem;
 void initSD(void) {
 	printf("\n\t=>SD mounting...\n");
 
-	lcdGotoxy(1, 1);
-	lcdColor(0x6d, 0);
-	lcdPuts("SD mounting...");
-	osSleep(50);
+	{
+		lcdGotoxy(1, 1);
+		lcdColor(0x6d, 0);
+		lcdPuts("SD mounting...");
+		osSleep(50);
+	}
+
 	sdStatus = pf_mount(&fatFileSystem);
 
 	lcdGotoxy(0, 30);
 	lcdPuts("SD mounting...");
-	lcdGotoxy(0,60);
+	lcdGotoxy(0, 60);
 	if (sdStatus) {
 		printf("Failed to mount SD");
 		if (FR_DISK_ERR == sdStatus || FR_NOT_READY == sdStatus) {
@@ -235,7 +237,7 @@ static void initializeTKSnake(void* arg) {
 	tU8 error;
 
 	eaInit(); // initialze printf
-	//srand(666);				// randomizer
+	srand(666);				// randomizer
 	i2cInit(); // initialize i2c
 	initKeyProc(); // key procedures
 	lcdInit(); // lcd initializtions
