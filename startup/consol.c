@@ -8,6 +8,7 @@
  *
  *****************************************************************************/
 
+
 /******************************************************************************
  * Includes
  *****************************************************************************/
@@ -52,18 +53,21 @@
  *    [in] base      - Base when printing number (2-16) 
  *
  ****************************************************************************/
-static void printNum(void (*outputFnk)(char ch), unsigned int number,
-		unsigned int base) {
+static void
+printNum(void (*outputFnk) (char ch),
+         unsigned int number,
+         unsigned int base)
+{
 	char *p;
-	char buf[33];
-	char hexChars[] = "0123456789abcdef";
-
+	char  buf[33];
+	char  hexChars[] = "0123456789abcdef";
+	
 	p = buf;
-
+	
 	do {
 		*p++ = hexChars[number % base];
 	} while (number /= base);
-
+	
 	do {
 		outputFnk(*--p);
 	} while (p > buf);
@@ -85,86 +89,94 @@ static void printNum(void (*outputFnk)(char ch), unsigned int number,
  *                     number of parameters 
  *
  ****************************************************************************/
-static void simplePrint(void (*outputFnk)(char ch), const char * fmt,
-		va_list ap) {
-	char *p;
-	char ch;
-	unsigned long ul;
-	unsigned char lflag;
+static void
+simplePrint(void         (*outputFnk) (char ch),
+            const char * fmt,
+            va_list      ap)
+{
+  char          *p;
+  char           ch;
+  unsigned long  ul;
+  unsigned char  lflag;
 
-	for (;;) {
-		while ((ch = *fmt++) != '%') {
-			if (ch == '\0')
-				return;
-			outputFnk(ch);
-		}
-		lflag = 0;
+  for (;;)
+  {
+    while ((ch = *fmt++) != '%')
+    {
+      if (ch == '\0')
+        	return;
+      outputFnk(ch);
+    }
+    lflag = 0;
 
-		reswitch:
+reswitch:
 
-		switch (ch = *fmt++) {
-		case '\0':
-			return;
+    switch (ch = *fmt++)
+    {
+    case '\0':
+      return;
 
-		case 'l':
-			lflag = 1;
-			goto reswitch;
+    case 'l':
+      lflag = 1;
+      goto reswitch;
 
-		case 'c':
-			ch = va_arg(ap, unsigned int);
-			outputFnk(ch & 0x7f);
-			break;
+    case 'c':
+	    ch = va_arg(ap, unsigned int);
+	    outputFnk(ch & 0x7f);
+	    break;
 
-		case 's':
-			p = va_arg(ap, char *);
-			while ((ch = *p++) != 0)
-				outputFnk(ch);
-			break;
+    case 's':
+      p = va_arg(ap, char *);
+      while ((ch = *p++) != 0)
+        outputFnk(ch);
+      break;
 
-		case 'd':
-			ul = lflag ? va_arg(ap, long) : va_arg(ap, unsigned int);
-			if ((long) ul < 0) {
-				outputFnk('-');
-				ul = -(long) ul;
-			}
-			printNum(outputFnk, ul, 10);
-			break;
+    case 'd':
+      ul = lflag ? va_arg(ap, long) : va_arg(ap, unsigned int);
+      if ((long)ul < 0)
+      {
+        outputFnk('-');
+        ul = -(long)ul;
+      }
+      printNum(outputFnk, ul, 10);
+      break;
 
-		case 'o':
-			ul = va_arg(ap, unsigned int);
-			printNum(outputFnk, ul, 8);
-			break;
+    case 'o':
+      ul = va_arg(ap, unsigned int);
+      printNum(outputFnk, ul, 8);
+      break;
 
-		case 'u':
-			ul = va_arg(ap, unsigned int);
-			printNum(outputFnk, ul, 10);
-			break;
+    case 'u':
+      ul = va_arg(ap, unsigned int);
+      printNum(outputFnk, ul, 10);
+      break;
 
-		case 'p':
-			outputFnk('0');
-			outputFnk('x');
-			lflag = 1;
-			// fall through
+    case 'p':
+      outputFnk('0');
+      outputFnk('x');
+      lflag = 1;
+      // fall through
 
-		case 'x':
-			ul = va_arg(ap, unsigned int);
-			printNum(outputFnk, ul, 16);
-			break;
+    case 'x':
+      ul = va_arg(ap, unsigned int);
+      printNum(outputFnk, ul, 16);
+      break;
 
-		default:
+    default:
 //      outputFnk('%');
-			if (lflag)
-				outputFnk('l');
-			outputFnk(ch);
-		}
-	}
-	va_end(ap);
+      if (lflag)
+        outputFnk('l');
+      outputFnk(ch);
+    }
+  }
+  va_end(ap);
 }
 #endif
 
 /******************************************************************************
  * Implementation of public functions
  *****************************************************************************/
+
 
 /*****************************************************************************
  *
@@ -173,29 +185,31 @@ static void simplePrint(void (*outputFnk)(char ch), const char * fmt,
  *    GPIO). 
  *
  ****************************************************************************/
-void consolInit(void) {
+void
+consolInit(void)
+{
 #if (CONSOL_UART == 0)
-	//enable uart #0 pins in GPIO (P0.0 = TxD0, P0.1 = RxD0)
-	PINSEL0 = (PINSEL0 & 0xfffffff0) | 0x00000005;
+  //enable uart #0 pins in GPIO (P0.0 = TxD0, P0.1 = RxD0)
+  PINSEL0 = (PINSEL0 & 0xfffffff0) | 0x00000005;
 #else
-	//enable uart #1 pins in GPIO (P0.8 = TxD1, P9.1 = RxD1)
-	PINSEL0 = (PINSEL0 & 0xfff0ffff) | 0x00050000;
+  //enable uart #1 pins in GPIO (P0.8 = TxD1, P9.1 = RxD1)
+  PINSEL0 = (PINSEL0 & 0xfff0ffff) | 0x00050000;
 #endif
 
-	//initialize bitrate (by first enable DL registers, DLAB-bit = 1)
-	UART_LCR = 0x80;
-	UART_DLL = (unsigned char) (UART_DLL_VALUE & 0x00ff);
-	UART_DLM = (unsigned char) (UART_DLL_VALUE >> 8);
-	UART_LCR = 0x00;
+  //initialize bitrate (by first enable DL registers, DLAB-bit = 1)
+  UART_LCR = 0x80;
+  UART_DLL = (unsigned char)(UART_DLL_VALUE & 0x00ff);
+  UART_DLM = (unsigned char)(UART_DLL_VALUE>>8);
+  UART_LCR = 0x00;
 
-	//initialize LCR: 8N1
-	UART_LCR = 0x03;
+  //initialize LCR: 8N1
+  UART_LCR = 0x03;
 
-	//reset FIFO
-	UART_FCR = 0x00;
+  //reset FIFO
+  UART_FCR = 0x00;
 
-	//clear interrupt bits
-	UART_IER = 0x00;
+  //clear interrupt bits
+  UART_IER = 0x00;
 }
 
 /*****************************************************************************
@@ -208,11 +222,13 @@ void consolInit(void) {
  *    [in] charToSend - The character to print (to the consol) 
  *
  ****************************************************************************/
-void consolSendChar(char charToSend) {
-	//Wait until THR is empty
-	while (!(UART_LSR & 0x20))
-		;
-	UART_THR = charToSend;
+void
+consolSendChar(char charToSend)
+{
+  //Wait until THR is empty
+  while(!(UART_LSR & 0x20))
+    ;
+  UART_THR = charToSend;
 }
 
 /*****************************************************************************
@@ -224,11 +240,13 @@ void consolSendChar(char charToSend) {
  *    [in] charToSend - The character to print (to the consol) 
  *
  ****************************************************************************/
-void consolSendCh(char charToSend) {
-	if (charToSend == '\n')
-		consolSendChar('\r');
+void
+consolSendCh(char charToSend)
+{
+  if(charToSend == '\n')
+    consolSendChar('\r');
 
-	consolSendChar(charToSend);
+  consolSendChar(charToSend);
 }
 
 /*****************************************************************************
@@ -240,9 +258,11 @@ void consolSendCh(char charToSend) {
  *    [in] pString - Pointer to string to be printed 
  *
  ****************************************************************************/
-void consolSendString(char *pString) {
-	while (*pString)
-		consolSendCh(*pString++);
+void
+consolSendString(char *pString)
+{
+  while(*pString)
+    consolSendCh(*pString++);
 }
 
 /*****************************************************************************
@@ -261,53 +281,62 @@ void consolSendString(char *pString) {
  *    [in] number   - Signed number to print 
  *
  ****************************************************************************/
-void consolSendNumber(unsigned char base, unsigned char noDigits,
-		unsigned char sign, char pad, int number) {
-	static char hexChars[16] = "0123456789ABCDEF";
-	char *pBuf;
-	char buf[32];
-	unsigned int numberAbs;
-	unsigned char count;
+void
+consolSendNumber(unsigned char base,
+                 unsigned char noDigits,
+                 unsigned char sign,
+                 char          pad,
+                 int           number)
+{
+  static char    hexChars[16] = "0123456789ABCDEF";
+  char          *pBuf;
+  char           buf[32];
+  unsigned int   numberAbs;
+  unsigned char  count;
 
-	// prepare negative number
-	if (sign && (number < 0))
-		numberAbs = -number;
-	else
-		numberAbs = number;
+  // prepare negative number
+  if(sign && (number < 0))
+    numberAbs = -number;
+  else
+    numberAbs = number;
 
-	// setup little string buffer
-	count = (noDigits - 1) - (sign ? 1 : 0);
-	pBuf = buf + sizeof(buf);
-	*--pBuf = '\0';
+  // setup little string buffer
+  count = (noDigits - 1) - (sign ? 1 : 0);
+  pBuf = buf + sizeof(buf);
+  *--pBuf = '\0';
 
-	// force calculation of first digit
-	// (to prevent zero from not printing at all!!!)
-	*--pBuf = hexChars[(numberAbs % base)];
-	numberAbs /= base;
+  // force calculation of first digit
+  // (to prevent zero from not printing at all!!!)
+  *--pBuf = hexChars[(numberAbs % base)];
+  numberAbs /= base;
 
-	// calculate remaining digits
-	while (count--) {
-		if (numberAbs != 0) {
-			//calculate next digit
-			*--pBuf = hexChars[(numberAbs % base)];
-			numberAbs /= base;
-		} else
-			// no more digits left, pad out to desired length
-			*--pBuf = pad;
-	}
+  // calculate remaining digits
+  while(count--)
+  {
+    if(numberAbs != 0)
+    {
+      //calculate next digit
+      *--pBuf = hexChars[(numberAbs % base)];
+      numberAbs /= base;
+    }
+    else
+      // no more digits left, pad out to desired length
+      *--pBuf = pad;
+  }
 
-	// apply signed notation if requested
-	if (sign) {
-		if (number < 0)
-			*--pBuf = '-';
-		else if (number > 0)
-			*--pBuf = '+';
-		else
-			*--pBuf = ' ';
-	}
+  // apply signed notation if requested
+  if(sign)
+  {
+    if(number < 0)
+      *--pBuf = '-';
+    else if(number > 0)
+       *--pBuf = '+';
+    else
+       *--pBuf = ' ';
+  }
 
-	// print the string right-justified
-	consolSendString(pBuf);
+  // print the string right-justified
+  consolSendString(pBuf);
 }
 
 #if (CONSOLE_API_PRINTF == 1)  //OWN_PRINTF
@@ -321,7 +350,10 @@ void consolSendNumber(unsigned char base, unsigned char noDigits,
  *    [in] ... - Variable number of parameters to match format string 
  *
  ****************************************************************************/
-void simplePrintf(const char * fmt, ...) {
+void
+simplePrintf(const char * fmt,
+             ...          )
+{
 	va_list ap;
 
 	va_start(ap, fmt);
@@ -330,7 +362,9 @@ void simplePrintf(const char * fmt, ...) {
 }
 #endif
 
+
 #if (CONSOLE_API_SCANF == 1)  //SIMPLE
+
 /*****************************************************************************
  *
  * Description:
@@ -340,10 +374,12 @@ void simplePrintf(const char * fmt, ...) {
  *    char - Received character
  *
  ****************************************************************************/
-char consolGetCh(void) {
-	while (!(UART_LSR & (0x01 << 0)))
-		;
-	return UART_RBR ;
+char
+consolGetCh(void)
+{
+  while(!(UART_LSR & (0x01<<0)))
+    ;
+  return UART_RBR;
 }
 
 /*****************************************************************************
@@ -359,12 +395,15 @@ char consolGetCh(void) {
  *           FALSE if no character has been received.
  *
  ****************************************************************************/
-char consolGetChar(char *pChar) {
-	if ((UART_LSR & 0x01) != 0x00) {
-		*pChar = UART_RBR;
-		return 1;
-	}
-	return 0;
+char
+consolGetChar(char *pChar)
+{
+  if((UART_LSR & 0x01) != 0x00)
+  {
+    *pChar = UART_RBR;
+    return 1;
+  }
+  return 0;
 }
 
 /*****************************************************************************
@@ -376,24 +415,31 @@ char consolGetChar(char *pChar) {
  *    [inout] pString - pointer to return the received string
  *
  ****************************************************************************/
-void consolGetString(char *pString) {
-	char *pString2;
-	char rxChar;
+void
+consolGetString(char *pString)
+{
+  char *pString2;
+  char rxChar;
 
-	pString2 = pString;
-	while ((rxChar = consolGetCh()) != '\r') {
-		if (rxChar == '\b') {
-			if ((int) pString2 < (int) pString) {
-				consolSendString("\b \b");
-				pString--;
-			}
-		} else {
-			*pString++ = rxChar;
-			consolSendCh(rxChar);
-		}
-	}
-	*pString = '\0';
-	consolSendCh('\n');
+  pString2 = pString;
+  while((rxChar = consolGetCh()) != '\r')
+  {
+    if (rxChar == '\b')
+    {
+      if ((int)pString2 < (int)pString)
+      {
+        consolSendString("\b \b");
+        pString--;
+      }
+    }
+    else
+    {
+      *pString++ = rxChar;
+      consolSendCh(rxChar);
+    }
+  }
+  *pString = '\0';
+  consolSendCh('\n');
 }
 
 /*****************************************************************************
@@ -406,51 +452,63 @@ void consolGetString(char *pString) {
  *    int - the received number
  *
  ****************************************************************************/
-int consolGetIntNum(void) {
-	char abStr[30];
-	char *pString = abStr;
-	int wBase = 10;
-	int wMinus = 0;
-	int wLastIndex;
-	int wResult = 0;
-	int wI;
+int
+consolGetIntNum(void)
+{
+  char  abStr[30];
+  char *pString = abStr;
+  int   wBase=10;
+  int   wMinus=0;
+  int   wLastIndex;
+  int   wResult=0;
+  int   wI;
+        
+  consolGetString(pString);
+        
+  if(pString[0] == '-')
+  {
+    wMinus = 1;
+    pString++;
+  }
 
-	consolGetString(pString);
+  if(pString[0] == '0' && (pString[1] == 'x' || pString[1] == 'X'))
+  {
+    wBase = 16;
+    pString += 2;
+  }
 
-	if (pString[0] == '-') {
-		wMinus = 1;
-		pString++;
-	}
+  wLastIndex = strlen(pString) - 1;
+  if(pString[wLastIndex] == 'h' || pString[wLastIndex] == 'H')
+  {
+    wBase = 16;
+    pString[wLastIndex] = 0;
+    wLastIndex--;
+  }
 
-	if (pString[0] == '0' && (pString[1] == 'x' || pString[1] == 'X')) {
-		wBase = 16;
-		pString += 2;
-	}
-
-	wLastIndex = strlen(pString) - 1;
-	if (pString[wLastIndex] == 'h' || pString[wLastIndex] == 'H') {
-		wBase = 16;
-		pString[wLastIndex] = 0;
-		wLastIndex--;
-	}
-
-	if (wBase == 10) {
-		wResult = atoi(pString);
-		wResult = wMinus ? (-1 * wResult) : wResult;
-	} else {
-		for (wI = 0; wI <= wLastIndex; wI++) {
-			if (__isalpha(pString[wI])) {
-				if (__isupper(pString[wI]))
-					wResult = (wResult << 4) + pString[wI] - 'A' + 10;
-				else
-					wResult = (wResult << 4) + pString[wI] - 'a' + 10;
-			} else {
-				wResult = (wResult << 4) + pString[wI] - '0';
-			}
-		}
-		wResult = wMinus ? (-1 * wResult) : wResult;
-	}
-	return wResult;
+  if(wBase == 10)
+  {
+    wResult = atoi(pString);
+    wResult = wMinus ? (-1*wResult):wResult;
+  }
+  else
+  {
+    for(wI=0; wI<=wLastIndex; wI++)
+    {
+      if(__isalpha(pString[wI]))
+      {
+        if(__isupper(pString[wI]))
+          wResult = (wResult<<4) + pString[wI] - 'A' + 10;
+        else
+          wResult = (wResult<<4) + pString[wI] - 'a' + 10;
+      }
+      else
+      {
+        wResult = (wResult<<4) + pString[wI] - '0';
+      }
+    }
+    wResult = wMinus ? (-1*wResult):wResult;
+  }
+  return wResult;
 }
 
 /*****************************************************************************
@@ -465,35 +523,38 @@ int consolGetIntNum(void) {
  *                   %i - integer
  *
  ****************************************************************************/
-void consolScanf(char *pFmt, ...) {
-	va_list pArg;
-	char character;
-	int *pInt;
-	char *pChar;
-
-	va_start(pArg, pFmt);
-	while ((character = *pFmt++) != '\0') {
-		if (character != '%')
-			continue;
-		switch (*pFmt) {
-		case 's':
-		case 'S':
-			pChar = va_arg (pArg, char *);
-			consolGetString(pChar);
-			break;
-		case 'i':
-		case 'I':
-			pInt = va_arg (pArg, int *);
-			*pInt = consolGetIntNum();
-			break;
-		case 'c':
-		case 'C':
-			pChar = va_arg (pArg, char *);
-			*pChar = consolGetCh();
-			break;
-		}
-	}
-	va_end(pArg);
+void
+consolScanf(char *pFmt, ...)
+{
+  va_list pArg;
+  char    character;
+  int    *pInt;
+  char   *pChar;
+        
+  va_start(pArg, pFmt);
+  while((character = *pFmt++) != '\0')
+  {
+    if(character != '%')continue;
+    switch(*pFmt)
+    {
+    case 's':
+    case 'S':
+      pChar = va_arg (pArg, char *);
+      consolGetString(pChar);
+      break;
+    case 'i':
+    case 'I':
+      pInt  = va_arg (pArg, int *);
+      *pInt = consolGetIntNum();
+      break;
+    case 'c':
+    case 'C':
+      pChar  = va_arg (pArg, char *);
+      *pChar = consolGetCh();
+      break;
+    }
+  }
+  va_end(pArg);
 }
 
 #endif

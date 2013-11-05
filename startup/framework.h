@@ -8,6 +8,7 @@
  *
  *****************************************************************************/
 
+
 #ifndef _framework_h_
 #define _framework_h_
 
@@ -33,12 +34,14 @@
 #endif
 
 #define CCLK (FOSC * PLL_MUL)          //CPU core clock frequency
+
 //check if CCLK is within valid range
 #if ((CCLK < 10000000) || (CCLK > 60000000))
 #error CCLK is out of range (valid range is: 10MHz-60MHz)
 #endif
 
 #define FCCO (FOSC * PLL_MUL * 2 * PLL_DIV)      //CC Osc. Freq.
+
 //check if FCCO is within valid range
 #if ((FCCO < 156000000) || (FCCO > 320000000))
 #error FCCO is out of range (valid range is: 156MHz-320MHz)
@@ -55,12 +58,13 @@
 #error PBSD must be 1, 2, or 4
 #endif
 #define PCLK (CCLK / PBSD)           //Peripheral bus clock frequency
+
 /******************************************************************************
  * Defines
  *****************************************************************************/
 
 /* Addresses of the instruction that is executed after an exception
- (when vectors are in RAM) */
+   (when vectors are in RAM) */
 #define pInst_RESET    (*(unsigned int *)(SRAM_SADDR + 0x00))
 #define pInst_UNDEF    (*(unsigned int *)(SRAM_SADDR + 0x04))
 #define pInst_SWI      (*(unsigned int *)(SRAM_SADDR + 0x08))
@@ -70,7 +74,7 @@
 #define pInst_FIQ      (*(unsigned int *)(SRAM_SADDR + 0x1c))
 
 /* Pointers to the jump addresses that are used after an exception
- (valid both for vectors in FLASH and RAM) */
+   (valid both for vectors in FLASH and RAM) */
 #define pISR_RESET     (*(unsigned int *)(SRAM_SADDR + 0x20))
 #define pISR_UNDEF     (*(unsigned int *)(SRAM_SADDR + 0x24))
 #define pISR_SWI       (*(unsigned int *)(SRAM_SADDR + 0x28))
