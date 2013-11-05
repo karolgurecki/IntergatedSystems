@@ -60,6 +60,7 @@ static void printStatus(FRESULT fc, const char *action) {
 }
 
 static tBool initHScore(void) {
+	initSD();
 	FRESULT fc;
 	tU16 bytesRead = 0;
 	tBool result = TRUE;
