@@ -30,6 +30,7 @@
 #include "joystick/joystick.h"
 #include "timer/timer.h"
 #include "motor/motor.h"
+#include "hscore/hscore.c"
 
 #include "graphics/fire_0_100x40c.h"
 #include "graphics/fire_1_100x40c.h"
@@ -225,13 +226,13 @@ static void initializeGameProcess(void* arg) {
 static void initializeTKSnake(void* arg) {
 	tU8 error;
 
-	eaInit(); // initialze printf
-	srand(666);				// randomizer
-	i2cInit(); // initialize i2c
-	initKeyProc(); // key procedures
-	lcdInit(); // lcd initializtions
-	lcdContrast(contrast); // contrast settings
+	eaInit();
+	i2cInit();
+	initKeyProc();
+	lcdInit();
+	lcdContrast(contrast);
 	initSD();
+	initHScore();
 	lcdClrscr();
 
 	osCreateProcess(initializeGameProcess, gameProcessStack, PROC1_STACK_SIZE,
