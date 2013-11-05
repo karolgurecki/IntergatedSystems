@@ -22,6 +22,7 @@
 #include "lcd/lcd.h"
 #include "joystick/joystick.h"
 #include "select.h"
+#include "motor/motor.h"
 
 /******************************************************************************
  * Typedefs and defines
@@ -93,8 +94,7 @@ void playSnake(void) {
 			//check if key press
 			keypress = getPressedKey();
 			if (keypress != KEY_NOTHING) {
-				if ((keypress == KEY_UP) || (keypress == KEY_RIGHT)
-						|| (keypress == KEY_DOWN) || (keypress == KEY_LEFT))
+				if (keypress != KEY_CENTER)
 					direction = keypress;
 			}
 
@@ -169,7 +169,8 @@ void playSnake(void) {
 			high_score = score;
 		}
 		showScore();
-
+		doMotor();
+		osSleep(400);
 		tMenu menu;
 		menu.xPos = 10;
 		menu.yPos = 40;
