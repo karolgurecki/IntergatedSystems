@@ -21,7 +21,8 @@ void procMotor(void) {
 			0x00001000 }; //P0.21 and P0.12 are used to contol the stepper motor
 	static tU8 stepmotorIndex = 0;
 	tU8 i;
-
+	unsigned long IODIR0TEMP=IODIR0;
+	unsigned long IOCLR0TEMP=IOCLR0;
 	IODIR0 |= 0x00201000;
 	IOCLR0 = stepmotorSteps[0];
 
@@ -32,6 +33,8 @@ void procMotor(void) {
 		//output new step
 		IOCLR0 = stepmotorSteps[0];
 		IOSET0 = stepmotorSteps[stepmotorIndex];
-		osSleep(2);
+		osSleep(5);
 	}
+	IODIR0=IODIR0TEMP;
+	IOCLR0=IOCLR0TEMP;
 }
