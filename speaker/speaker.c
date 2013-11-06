@@ -1,4 +1,4 @@
-#include "spiker.h"
+#include "speaker.h"
 
 static tU8 wave_stream_buf[512 * 1];//1 sectors
 
@@ -11,7 +11,7 @@ DataChunk ws2;
 FATFS fatfs; /* File system object */
 DIR dir; /* Directory object */
 FILINFO fno; /* File information object */
-DWORD rcv;
+FRESULT rcv;
 
 tBool initSpiker(void) {
 	bytesReaded = 0;
@@ -104,7 +104,7 @@ tU8 buffer[BUFFCOUNT][BUFFSIZE]; //bufor na próbki
 tU8 bufferPlayed = 0; //numer bufora z którego są aktualnie odczytywane dane
 tU8 bufferToDownload = 0; //numer bufora który należy uzupełnić
 tU16 sample = 0; //dana próbka z bufora
-unsigned  long long  totalPlayed = 0; //ilość oftworzonych próbek
+unsigned long long totalPlayed = 0; //ilość oftworzonych próbek
 tBool refil = FALSE; //czy bufor pusty
 
 tBool play() {
@@ -166,9 +166,11 @@ tBool play() {
 void playBuu() {
 	rcv = pf_mount(&fatfs);
 	rcv = pf_open("buu.wav");
-	if (initSpiker()) { //inicjacja nagłówków wave{
-		if (play()) {
-			//odtwarzamy
+	if (rcv == FR_OK) {
+		if (initSpiker()) { //inicjacja nagłówków wave{
+			if (play()) {
+				//odtwarzamy
+			}
 		}
 	}
 	rcv = pf_mount(0);
@@ -176,9 +178,11 @@ void playBuu() {
 void playAplause() {
 	rcv = pf_mount(&fatfs);
 	rcv = pf_open("aplause.wav");
-	if (initSpiker()) { //inicjacja nagłówków wave{
-		if (play()) {
-			//odtwarzamy
+	if (rcv == FR_OK) {
+		if (initSpiker()) { //inicjacja nagłówków wave{
+			if (play()) {
+				//odtwarzamy
+			}
 		}
 	}
 	rcv = pf_mount(0);

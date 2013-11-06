@@ -45,18 +45,14 @@
 
 #define PROC1_STACK_SIZE 750
 #define PROC2_STACK_SIZE 750
-#define PROC3_STACK_SIZE 750
 #define INIT_STACK_SIZE  400
 
 static tU8 gameProcessStack[PROC1_STACK_SIZE];
-static tU8 timeStack[PROC3_STACK_SIZE];
 static tU8 tkSnakeStack[INIT_STACK_SIZE];
 static tU8 pid1;
-static tU8 pid3;
 static tU8 cursor;
 static tU8 contrast = 46;
 
-static void timeProc(void* arg);
 static void initializeGameProcess(void* arg);
 static void initializeTKSnake(void* arg);
 
@@ -193,14 +189,7 @@ static void initializeGameProcess(void* arg) {
 			i = 0;
 			break;
 		}
-		sleep(20);
-	}
-}
-
-static void timeProc(void * arg) {
-	while (TRUE) {
-		addTime();
-		sleep(1000);
+		osSleep(20);
 	}
 }
 

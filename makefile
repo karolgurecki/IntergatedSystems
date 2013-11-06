@@ -69,7 +69,7 @@ CSRCS   = main.c          				\
           hscore/hscore.c				\
           secondLCD/secondLCD.c         \
           dac.c                         \
-          spiker/spiker.c               \
+          speaker/speaker.c               \
           select.c
 
 # List assembler source files here

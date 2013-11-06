@@ -24,12 +24,12 @@
 #include "select.h"
 #include "motor/motor.h"
 #include "secondLCD/secondLCD.h"
-#include "spiker/spiker.h"
+#include "speaker/speaker.h"
 
 /******************************************************************************
  * Typedefs and defines
  *****************************************************************************/
-#define MAXROW 20
+#define MAXROW 27
 #define MAXCOL 31
 
 #define SNAKE_START_COL 15
@@ -168,10 +168,10 @@ void playSnake(void) {
 		if (score > high_score) {
 			high_score = score;
 			playAplause();
+			procMotor();
 		} else
 			playBuu();
-		procMotor();
-		osSleep(400);
+		//osSleep(400);
 		tMenu menu;
 		menu.xPos = 10;
 		menu.yPos = 40;

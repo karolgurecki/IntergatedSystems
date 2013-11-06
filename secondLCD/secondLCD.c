@@ -182,18 +182,19 @@ void displayScoreAndTime(tU32 score) {
 		}
 	}
 
-	//move curstor to second row
-	writeLCD(0, 0x80 | 0x40);
-	delay37us();
+	/*	//move curstor to second row
+	 writeLCD(0, 0x80 | 0x40);
+	 delay37us();
 
-	printf("%s\n",timeString);
+	 printf("%s\n",timeString);
 
-	for (i = 0; i < 14; i++) {
-		if (timeString[i] != ' ') {
-			writeLCD(1, timeString[i]);
-			delay37us();
-		}
-	}
+	 for (i = 0; i < 14; i++) {
+	 if (timeString[i] != ' ') {
+	 writeLCD(1, timeString[i]);
+	 delay37us();
+	 }
+	 }
+	 */
 }
 
 void addTime() {
