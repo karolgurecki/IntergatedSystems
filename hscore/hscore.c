@@ -6,8 +6,9 @@
  */
 
 #include "hscore.h"
+#include <string.h>
 
-static tU8 buffer[512 * 1]; // sector
+static tS8 buffer[512 * 1]; // sector
 static FATFS fatFileSystem;
 static DWORD sdStatus;
 static DIR directory;
@@ -76,7 +77,7 @@ static tBool mountRepo(void) {
 
 		fc = pf_read(buffer, sizeof(buffer), &bytesRead);
 		printStatus(fc, "readFile");
-		printf("bytesRead %x\n",bytesRead);
+		printf("bytesRead %x\n", bytesRead);
 		if (fc == FR_OK && bytesRead > 0)
 			result = TRUE;
 		else
@@ -114,10 +115,16 @@ static HSCORE getLastHScore(void) {
 		printf("Reading LAST-SCORE\n");
 		{
 			tS16 i = 0;
-			while (buffer[i] != '\0') {
-				printf("FROM BUFF[%d]=%s\n", i, buffer[i]);
-				i = i + 1;
+			tS16 counter = 0;
+
+			while (buffer[counter] != '\0') {
+				counter = counter + 1;
 			}
+
+			char scoreEntry[counter];
+			strncpy(scoreEntry, &buffer[i * counter], counter);
+
+			printf("FROM BUFF[%d]=%s\n", i, scoreEntry);
 		}
 		printf("Read LAST-SCORE=%d", hs.score);
 	}
