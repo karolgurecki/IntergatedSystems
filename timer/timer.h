@@ -1,16 +1,22 @@
+#ifndef TIMER_H
+#define TIMER_H
 /*
- * timer.h
- *
- *  Created on: 26-10-2013
- *      Author: embedded
- */
+ This file declares used to pause program for desire amount of miliseconds.
+*/
 
-#ifndef TIMER_H_
-#define TIMER_H_
+#include "../startup/lpc2xxx.h"
+#include "inttypes.h"
+#include "../startup/config.h"
+#include "../startup/general.h"
 
-#include "../led/led_utils.h"
 
-void waitFor(tU16 time);
-void delay(tU16 dalay);
+//some timer parameters
+#define CRYSTAL_FREQUENCY FOSC
+#define PLL_FACTOR        PLL_MUL
+#define VPBDIV_FACTOR     PBSD
 
-#endif /* TIMER_H_ */
+
+//zatrzymaj program na okre�lon� ilo�� mikrosekund
+void sleep(tU32 delayInUs);
+
+#endif

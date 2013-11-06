@@ -23,6 +23,8 @@
 #include "joystick/joystick.h"
 #include "select.h"
 #include "motor/motor.h"
+#include "secondLCD/secondLCD.h"
+#include "spiker/spiker.h"
 
 /******************************************************************************
  * Typedefs and defines
@@ -45,7 +47,7 @@ static void gotoxy(tU8 x, tU8 y, tU8 color);
 /*****************************************************************************
  * Local variables
  ****************************************************************************/
-static tS32 score;
+static volatile tS32 score;
 static tS32 snakeLength;
 static tS32 speed;
 static tS32 obstacles;
@@ -81,13 +83,13 @@ void playSnake(void) {
 		level = 1;
 		score = 0;
 		speed = 14;
-		srand(ms);        //Ensure random seed initiated
+		srand(ms); //Ensure random seed initiated
 		setupLevel();
-
+		resetTime();
 		//main loop
 		do {
 			tS32 i;
-
+			displayScoreAndTime(score);
 			//delay between snake moves
 			osSleep(speed * PAUSE_LENGTH);
 
@@ -120,22 +122,20 @@ void playSnake(void) {
 			}
 
 			/* collision detection - walls (bad!) */
-			if ((snake[snakeLength - 1].row >= MAXROW)
-					|| (snake[snakeLength - 1].row < 0)
-					|| (snake[snakeLength - 1].col >= MAXCOL)
-					|| (snake[snakeLength - 1].col < 0)
-					||
+			if ((snake[snakeLength - 1].row >= MAXROW) || (snake[snakeLength
+					- 1].row < 0) || (snake[snakeLength - 1].col >= MAXCOL)
+					|| (snake[snakeLength - 1].col < 0) ||
 
-					/* collision detection - obstacles (bad!) */
-					(screenGrid[snake[snakeLength - 1].row][snake[snakeLength
-							- 1].col] == 'x'))
+			/* collision detection - obstacles (bad!) */
+			(screenGrid[snake[snakeLength - 1].row][snake[snakeLength - 1].col]
+					== 'x'))
 				keypress = KEY_CENTER;
 
 			//collision detection - snake (bad!)
 			for (i = 0; i < snakeLength - 1; i++)
 				if ((snake[snakeLength - 1].row) == (snake[i].row)
 						&& (snake[snakeLength - 1].col) == (snake[i].col)) {
-					keypress = KEY_CENTER;   //exit loop - game over
+					keypress = KEY_CENTER; //exit loop - game over
 					break;
 				}
 
@@ -144,14 +144,13 @@ void playSnake(void) {
 					== '.') {
 				//increase score and length of snake
 				score += snakeLength * obstacles;
-				showScore();
 				snakeLength++;
 				addSegment();
 
 				//if length of snake reaches certain size, onto next level
 				if (snakeLength == (level + 3) * 2) {
 					score += level * 1000;
-					obstacles += 2;          //add obstacles
+					obstacles += 2; //add obstacles
 					level++;
 
 					//check if time to inclrease speed (every 5 levels)
@@ -162,13 +161,15 @@ void playSnake(void) {
 					setupLevel();
 				}
 			}
+
 		} while (keypress != KEY_CENTER);
 
 		//game over message
 		if (score > high_score) {
 			high_score = score;
-		}
-		showScore();
+			playAplause();
+		} else
+			playBuu();
 		procMotor();
 		osSleep(400);
 		tMenu menu;
@@ -191,10 +192,10 @@ void playSnake(void) {
 		switch (drawMenu(menu)) {
 		case 0:
 			done = FALSE;
-			break;  //Restart game
+			break; //Restart game
 		case 1:
 			done = TRUE;
-			break;   //End game
+			break; //End game
 		default:
 			break;
 		}
@@ -238,9 +239,9 @@ void setupLevel() {
 		row = rand() % MAXROW;
 		col = rand() % MAXCOL;
 		if (i < obstacles)
-			screenGrid[row][col] = 'x';  //= obstacle
+			screenGrid[row][col] = 'x'; //= obstacle
 		else
-			screenGrid[row][col] = '.';  //= food
+			screenGrid[row][col] = '.'; //= food
 	}
 
 	//create snake array of length snakeLength
@@ -267,51 +268,6 @@ void setupLevel() {
 			}
 		}
 	}
-
-	showScore();
-}
-
-/*****************************************************************************
- *
- * Description:
- *    Draw current score
- *
- ****************************************************************************/
-void showScore() {
-	tU8 str[13];
-
-	str[0] = 'L';
-	str[1] = ':';
-	str[2] = level + '0';
-	str[3] = ' ';
-	str[4] = 'S';
-	str[5] = ':';
-	str[6] = score / 100000 + '0';
-	str[7] = (score / 10000) % 10 + '0';
-	str[8] = (score / 1000) % 10 + '0';
-	str[9] = (score / 100) % 10 + '0';
-	str[10] = (score / 10) % 10 + '0';
-	str[11] = score % 10 + '0';
-	str[12] = 0;
-
-	//remove leading zeroes
-	if (str[6] == '0') {
-		str[6] = ' ';
-		if (str[7] == '0') {
-			str[7] = ' ';
-			if (str[8] == '0') {
-				str[8] = ' ';
-				if (str[9] == '0') {
-					str[9] = ' ';
-					if (str[10] == '0') {
-						str[10] = ' ';
-					}
-				}
-			}
-		}
-	}
-	lcdGotoxy(0, 114);
-	lcdPuts(str);
 }
 
 /*****************************************************************************

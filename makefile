@@ -67,6 +67,9 @@ CSRCS   = main.c          				\
           timer/timer.c					\
           motor/motor.c                 \
           hscore/hscore.c				\
+          secondLCD/secondLCD.c         \
+          dac.c                         \
+          spiker/spiker.c               \
           select.c
 
 # List assembler source files here

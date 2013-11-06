@@ -227,7 +227,6 @@ static void procKey(void* arg) {
 	//sample keys each 50 ms, i.e., 20 times per second
 	while (1) {
 		readKeyInLoop();
-		if (activeKey!= KEY_NOTHING) printf(activeKey+ "\n");
 		osSleep(5);
 	}
 }

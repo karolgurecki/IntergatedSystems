@@ -30,6 +30,8 @@
 #include "joystick/joystick.h"
 #include "timer/timer.h"
 #include "hscore/hscore.c"
+#include "secondLCD/secondLCD.h"
+#include "dac.h"
 
 #include "graphics/fire_0_100x40c.h"
 #include "graphics/fire_1_100x40c.h"
@@ -43,20 +45,23 @@
 
 #define PROC1_STACK_SIZE 750
 #define PROC2_STACK_SIZE 750
+#define PROC3_STACK_SIZE 750
 #define INIT_STACK_SIZE  400
 
 static tU8 gameProcessStack[PROC1_STACK_SIZE];
+static tU8 timeStack[PROC3_STACK_SIZE];
 static tU8 tkSnakeStack[INIT_STACK_SIZE];
 static tU8 pid1;
+static tU8 pid3;
 static tU8 cursor;
 static tU8 contrast = 46;
 
+static void timeProc(void* arg);
 static void initializeGameProcess(void* arg);
 static void initializeTKSnake(void* arg);
 
 volatile tU32 ms;
 // SD status variables
-
 
 
 /**
@@ -70,12 +75,14 @@ volatile tU32 ms;
 int main(void) {
 	tU8 error;
 	tU8 pid;
+	tU8 timeError;
 
 	osInit();
 	{
 		osCreateProcess(initializeTKSnake, tkSnakeStack, INIT_STACK_SIZE, &pid,
 				1, NULL, &error);
 		osStartProcess(pid, &error);
+
 	}
 	osStart();
 
@@ -186,7 +193,14 @@ static void initializeGameProcess(void* arg) {
 			i = 0;
 			break;
 		}
-		osSleep(20);
+		sleep(20);
+	}
+}
+
+static void timeProc(void * arg) {
+	while (TRUE) {
+		addTime();
+		sleep(1000);
 	}
 }
 
@@ -206,7 +220,9 @@ static void initializeTKSnake(void* arg) {
 	lcdInit();
 	lcdContrast(contrast);
 	getLastHScore();
+	initSecondLCD();
 	lcdClrscr();
+	initDac();
 
 	osCreateProcess(initializeGameProcess, gameProcessStack, PROC1_STACK_SIZE,
 			&pid1, 3, NULL, &error);
@@ -214,8 +230,9 @@ static void initializeTKSnake(void* arg) {
 
 	osDeleteProcess();
 
-}
 
+
+}
 
 void appTick(tU32 elapsedTime) {
 	ms += elapsedTime;
