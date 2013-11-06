@@ -109,10 +109,9 @@ static tBool umountRepo(void) {
 
 static HSCORE getLastHScore(void) {
 	HSCORE hs;
-	hs.player = NULL;
-	hs.score = 0;
+
 	if (mountRepo() == TRUE) {
-		printf("Reading LAST-SCORE\n");
+		printf("HSCORE => Reading LAST-SCORE\n");
 		{
 			tS16 i = 0;
 			tS16 counter = 0;
@@ -124,12 +123,28 @@ static HSCORE getLastHScore(void) {
 			char scoreEntry[counter];
 			strncpy(scoreEntry, &buffer[i * counter], counter);
 
-			printf("FROM BUFF[%d]=%s\n", i, scoreEntry);
+			printf("HSCORE => FROM BUFF[%d]=%s\n", i, scoreEntry);
+
+			char * pch = strtok(scoreEntry, "=");
+			i = 0;
+			while (pch != NULL ) {
+				if (i == 0) {
+					char tmp[4];
+					strncpy(tmp, &pch[0], 10);
+					hs.player = &tmp[0];
+				} else if (i == 1) {
+					hs.score = atoi(pch);
+				}
+				pch = strtok(NULL, "=");
+				i++;
+			}
 		}
-		printf("Read LAST-SCORE=%d", hs.score);
+		printf("HSCORE => LAST-SCORE > Player=%s > Score=%d\n", hs.player,
+				hs.score);
 	}
+
 	if (umountRepo() == TRUE) {
-		printf("Device released...duhhhhh\n");
+		printf("HSCORE => Device released...duhhhhh\n");
 	}
 	return hs;
 }
