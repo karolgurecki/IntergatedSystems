@@ -57,7 +57,10 @@ static tBool initSD(void) {
 			printf("SD ready... :)\n");
 		}
 	}
-	return sdStatus == FR_OK;
+	if (sdStatus == FR_OK)
+		return TRUE;
+	else
+		return FALSE;
 }
 
 static tBool mountRepo(void) {
@@ -73,10 +76,13 @@ static tBool mountRepo(void) {
 
 		fc = pf_read(buffer, sizeof(buffer), &bytesRead);
 		printStatus(fc, "readFile");
+		printf("bytesRead %x\n",bytesRead);
+		if (fc == FR_OK && bytesRead > 0)
+			result = TRUE;
+		else
+			result = FALSE;
 
-		result = fc == FR_OK && bytesRead > 0;
-
-		if (result != 1) {
+		if (result != TRUE) {
 			printf("File not found  - creating\n");
 		}
 
@@ -87,33 +93,36 @@ static tBool mountRepo(void) {
 		}
 		return result;
 	}
-	return FR_NOT_READY;
+	return FALSE;
 }
 
 static tBool umountRepo(void) {
 	FRESULT fc = pf_mount(0);
 	printStatus(fc, "umount");
 	memset(&buffer[0], 0, sizeof(buffer));
-	return fc == FR_OK;
+	if (fc == FR_OK)
+		return TRUE;
+	else
+		return FALSE;
 }
 
 static HSCORE getLastHScore(void) {
 	HSCORE hs;
 	hs.player = NULL;
 	hs.score = 0;
-	if (mountRepo() == FR_OK) {
-		printf("Reading LAST-SCORE");
+	if (mountRepo() == TRUE) {
+		printf("Reading LAST-SCORE\n");
 		{
 			tS16 i = 0;
 			while (buffer[i] != '\0') {
-				printf("FROM BUFF[%d]=%s", i, buffer[i]);
+				printf("FROM BUFF[%d]=%s\n", i, buffer[i]);
 				i = i + 1;
 			}
 		}
 		printf("Read LAST-SCORE=%d", hs.score);
 	}
-	if (umountRepo() == FR_OK) {
-		printf("Device released...duhhhhh");
+	if (umountRepo() == TRUE) {
+		printf("Device released...duhhhhh\n");
 	}
 	return hs;
 }
@@ -122,21 +131,21 @@ static HSCORE getTop(void) {
 	HSCORE hs;
 	hs.player = NULL;
 	hs.score = 0;
-	if (mountRepo() == FR_OK) {
+	if (mountRepo() == TRUE) {
 		printf("Reading TOP-SCORE");
 		printf("Read TOP-SCORE=%d", hs.score);
 	}
-	if (umountRepo() == FR_OK) {
+	if (umountRepo() == TRUE) {
 		printf("Device released...duhhhhh");
 	}
 	return hs;
 }
 
 static tBool saveHScore(tU16 score, char * player) {
-	if (mountRepo() == FR_OK) {
+	if (mountRepo() == TRUE) {
 
 	}
-	if (umountRepo() == FR_OK) {
+	if (umountRepo() == TRUE) {
 		printf("Device released...duhhhhh");
 	}
 	return TRUE;
