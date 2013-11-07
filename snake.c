@@ -167,6 +167,7 @@ void playSnake(void) {
 		//game over message
 		if (score > high_score) {
 			high_score = score;
+			highScore=high_score;
 			playAplause();
 			procMotor();
 		} else
@@ -307,3 +308,6 @@ void gotoxy(tU8 x, tU8 y, tU8 color) {
 	lcdRect(2 + (x * 4), 16 + (y * 4), 4, 4, color);
 }
 
+void setHihgScore(tU16 score){
+	high_score=score;
+}

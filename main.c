@@ -32,6 +32,7 @@
 #include "hscore/hscore.c"
 #include "secondLCD/secondLCD.h"
 #include "dac.h"
+#include "led/led_utils.h"
 
 #include "graphics/fire_0_100x40c.h"
 #include "graphics/fire_1_100x40c.h"
@@ -48,11 +49,14 @@
 #define INIT_STACK_SIZE  400
 
 static tU8 gameProcessStack[PROC1_STACK_SIZE];
+static tU8 ledsStack[PROC2_STACK_SIZE];
 static tU8 tkSnakeStack[INIT_STACK_SIZE];
 static tU8 pid1;
+static tU8 pid2;
 static tU8 cursor;
 static tU8 contrast = 46;
 
+static void leds(void* arg);
 static void initializeGameProcess(void* arg);
 static void initializeTKSnake(void* arg);
 
@@ -83,6 +87,10 @@ int main(void) {
 	osStart();
 
 	return 0;
+}
+static void leds(void* arg) {
+	while(TRUE)
+		lightLedPatternOne();
 }
 
 static void drawCursor(void) {
@@ -159,36 +167,6 @@ static void initializeGameProcess(void* arg) {
 				}
 			}
 		}
-		switch (i) {
-		case 0:
-			lcdIcon(15, 88, 100, 40, _fire_0_100x40c[2], _fire_0_100x40c[3],
-					&_fire_0_100x40c[4]);
-			i++;
-			break;
-		case 1:
-			lcdIcon(15, 88, 100, 40, _fire_1_100x40c[2], _fire_1_100x40c[3],
-					&_fire_1_100x40c[4]);
-			i++;
-			break;
-		case 2:
-			lcdIcon(15, 88, 100, 40, _fire_2_100x40c[2], _fire_2_100x40c[3],
-					&_fire_2_100x40c[4]);
-			i++;
-			break;
-		case 3:
-			lcdIcon(15, 88, 100, 40, _fire_3_100x40c[2], _fire_3_100x40c[3],
-					&_fire_3_100x40c[4]);
-			i++;
-			break;
-		case 4:
-			lcdIcon(15, 88, 100, 40, _fire_4_100x40c[2], _fire_4_100x40c[3],
-					&_fire_4_100x40c[4]);
-			break;
-			i++;
-		default:
-			i = 0;
-			break;
-		}
 		osSleep(20);
 	}
 }
@@ -208,7 +186,9 @@ static void initializeTKSnake(void* arg) {
 	initKeyProc();
 	lcdInit();
 	lcdContrast(contrast);
-	getLastHScore();
+	tS32 score =getLastHScore().score;
+	highScore=score;
+
 	initSecondLCD();
 	lcdClrscr();
 	initDac();
@@ -217,9 +197,10 @@ static void initializeTKSnake(void* arg) {
 			&pid1, 3, NULL, &error);
 	osStartProcess(pid1, &error);
 
+	osCreateProcess(leds, ledsStack, PROC2_STACK_SIZE, &pid2, 4, NULL, &error);
+	osStartProcess(pid2, &error);
+
 	osDeleteProcess();
-
-
 
 }
 

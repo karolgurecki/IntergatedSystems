@@ -58,6 +58,7 @@ CSRCS   = main.c          				\
           pca9532.c       				\
           lcd/lcd.c       				\
           lcd/lcd_hw.c    				\
+          led/led_utils.c               \
           sd/diskio.c     				\
           sd/pff.c        				\
           sd/spi.c        				\
@@ -69,7 +70,7 @@ CSRCS   = main.c          				\
           hscore/hscore.c				\
           secondLCD/secondLCD.c         \
           dac.c                         \
-          speaker/speaker.c               \
+          speaker/speaker.c             \
           select.c
 
 # List assembler source files here

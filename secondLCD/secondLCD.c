@@ -6,7 +6,7 @@
  */
 #include "secondLCD.h"
 tU8 scoreString[16];
-tU8 timeString[16];
+tU8 hsString[16];
 volatile tU32 time;
 
 void initSecondLCD(void) {
@@ -97,49 +97,51 @@ static void getScoreAsString(tU32 score) {
 	}
 }
 
-static void getTimeAsString() {
+static void getHSAsString() {
 	int i;
 	for (i = 0; i < 16; i++) {
-		timeString[i] = ' ';
-	}
-	timeString[0] = 'T';
-	timeString[1] = 'i';
-	timeString[2] = 'm';
-	timeString[3] = 'e';
-	timeString[4] = '[';
-	timeString[5] = 's';
-	timeString[6] = ']';
-	timeString[7] = ':';
-	timeString[8] = time / 100000 + '0';
-	timeString[9] = (time / 10000) % 10 + '0';
-	timeString[10] = (time / 1000) % 10 + '0';
-	timeString[11] = (time / 100) % 10 + '0';
-	timeString[12] = (time / 10) % 10 + '0';
-	timeString[13] = time % 10 + '0';
-	timeString[14] = 0;
+			hsString[i] = ' ';
+		}
+		hsString[0] = 'H';
+		hsString[1] = 'i';
+		hsString[2] = 'g';
+		hsString[3] = 'h';
+		hsString[4] = 'S';
+		hsString[5] = 'c';
+		hsString[6] = 'o';
+		hsString[7] = 'r';
+		hsString[8] = 'e';
+		hsString[9] = ':';
+		hsString[10] = highScore / 100000 + '0';
+		hsString[11] = (highScore / 10000) % 10 + '0';
+		hsString[12] = (highScore / 1000) % 10 + '0';
+		hsString[13] = (highScore / 100) % 10 + '0';
+		hsString[14] = (highScore / 10) % 10 + '0';
+		hsString[15] = highScore % 10 + '0';
+		hsString[16] = 0;
 
-	//remove leading zeroes
-	if (timeString[8] == '0') {
-		timeString[8] = ' ';
-		if (timeString[9] == '0') {
-			timeString[9] = ' ';
-			if (timeString[10] == '0') {
-				timeString[10] = ' ';
-				if (timeString[11] == '0') {
-					timeString[11] = ' ';
-					if (timeString[12] == '0') {
-						timeString[12] = ' ';
+		//remove leading zeroes
+		if (hsString[10] == '0') {
+			hsString[10] = ' ';
+			if (hsString[11] == '0') {
+				hsString[11] = ' ';
+				if (hsString[12] == '0') {
+					hsString[12] = ' ';
+					if (hsString[13] == '0') {
+						hsString[13] = ' ';
+						if (hsString[14] == '0') {
+							hsString[14] = ' ';
+						}
 					}
 				}
 			}
-		}
 	}
 }
 void displayScoreAndTime(tU32 score) {
 	lcdBacklight(TRUE);
 	printf("Display score %d\n", score);
 	getScoreAsString(score);
-	getTimeAsString();
+	getHSAsString();
 	//function set
 	writeLCD(0, 0x30);
 	osSleep(1);
@@ -182,19 +184,19 @@ void displayScoreAndTime(tU32 score) {
 		}
 	}
 
-	/*	//move curstor to second row
-	 writeLCD(0, 0x80 | 0x40);
-	 delay37us();
+	//move curstor to second row
+	writeLCD(0, 0x80 | 0x40);
+	delay37us();
 
-	 printf("%s\n",timeString);
+	printf("%s\n",hsString);
 
-	 for (i = 0; i < 14; i++) {
-	 if (timeString[i] != ' ') {
-	 writeLCD(1, timeString[i]);
-	 delay37us();
-	 }
-	 }
-	 */
+	for (i = 0; i < 14; i++) {
+		if (hsString[i] != ' ') {
+			writeLCD(1, hsString[i]);
+			delay37us();
+		}
+	}
+
 }
 
 void addTime() {
