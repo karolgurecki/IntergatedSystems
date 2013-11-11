@@ -116,12 +116,8 @@ static HSCORE getLastHScore(void) {
 			tS16 i = 0;
 			tS16 counter = 0;
 
-			while (buffer[counter] != '\0') {
-				counter = counter + 1;
-			}
-
-			char scoreEntry[counter];
-			strncpy(scoreEntry, &buffer[i * counter], counter);
+			char scoreEntry[100];
+			strncpy(scoreEntry, &buffer[0], sizeof(buffer));
 
 			printf("HSCORE => FROM BUFF[%d]=%s\n", i, scoreEntry);
 
@@ -129,9 +125,14 @@ static HSCORE getLastHScore(void) {
 			i = 0;
 			while (pch != NULL ) {
 				if (i == 0) {
-					char tmp[4];
-					strncpy(tmp, &pch[0], 10);
-					hs.player = &tmp[0];
+					/////////////////////////////////
+					counter = 0;
+					while (pch[counter] != '\0') {
+						counter = counter + 1;
+					}
+					strncpy(hs.player, &pch[0], sizeof(pch));
+					hs.player[strlen(hs.player)] = '\0';
+					/////////////////////////////////
 				} else if (i == 1) {
 					hs.score = atoi(pch);
 				}
@@ -149,23 +150,31 @@ static HSCORE getLastHScore(void) {
 	return hs;
 }
 
-static HSCORE getTop(void) {
-	HSCORE hs;
-	hs.player = NULL;
-	hs.score = 0;
+static tBool saveHScore(tS32 score, char * player) {
 	if (mountRepo() == TRUE) {
-		printf("Reading TOP-SCORE");
-		printf("Read TOP-SCORE=%d", hs.score);
-	}
-	if (umountRepo() == TRUE) {
-		printf("Device released...duhhhhh");
-	}
-	return hs;
-}
+		FRESULT fc;
+		tU16 bitesWritten = 0;
+		union {
+			int x;
+			char ch[sizeof(int)];
+		} u;
 
-static tBool saveHScore(tU16 score, char * player) {
-	if (mountRepo() == TRUE) {
+		printf("Accessing SD card and locating repository\n");
 
+		fc = pf_open("hs.txt");
+		printStatus(fc, "openFile");
+
+		memset(&buffer[0], 0, sizeof(buffer));
+		char str[100];
+		strncat(str, player, sizeof(player));
+
+		u.x = score;
+		strcat(str, "=");
+		strncat(str, u.ch, sizeof(u.ch));
+
+		fc = pf_write(str, sizeof(str), &bitesWritten);
+		printStatus(fc, "writeFile");
+		printf("bytesWritten %x\n", bitesWritten);
 	}
 	if (umountRepo() == TRUE) {
 		printf("Device released...duhhhhh");
