@@ -1,19 +1,3 @@
-/******************************************************************************
- *
- * Copyright:
- *    (C) 2006 Embedded Artists AB
- *
- * File:
- *    select.c
- *
- * Description:
- *    Implements a general menu handling.
- *
- *****************************************************************************/
-
-/******************************************************************************
- * Includes
- *****************************************************************************/
 #include "../pre_emptive_os/api/osapi.h"
 #include "../pre_emptive_os/api/general.h"
 #include <printf_P.h>
@@ -23,21 +7,9 @@
 #include "joystick/joystick.h"
 #include "select.h"
 
-/*****************************************************************************
- * Local variables
- ****************************************************************************/
 static tMenu menu;
 static tU8 cursor;
 
-/*****************************************************************************
- *
- * Description:
- *    Draw cursor in main menu
- *
- * Params:
- *    [in] cursor - Cursor positions
- *
- ****************************************************************************/
 static void drawMenuCursor(void) {
 	tU32 row;
 
@@ -52,12 +24,6 @@ static void drawMenuCursor(void) {
 	}
 }
 
-/*****************************************************************************
- *
- * Description:
- *    Implements a menu
- *    
- ****************************************************************************/
 tU8 drawMenu(tMenu newMenu) {
 	tU8 anyKey;
 

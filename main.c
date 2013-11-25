@@ -86,31 +86,31 @@ static void initializeGameProcess(void* arg) {
  * 3. Bootstraps two process [main app, led pattern]
  */
 static void initializeTKSnake(void* arg) {
-tU8 error;
+	tU8 error;
 
-eaInit();
-i2cInit();
-initKeyProc();
-lcdInit();
-lcdContrast(contrast);
-tS32 score = getLastHScore().score;
-highScore = score;
+	eaInit();
+	i2cInit();
+	initKeyProc();
+	lcdInit();
+	lcdContrast(contrast);
+	tS32 score = getLastHScore().score;
+	highScore = score;
 
-initSecondLCD();
-lcdClrscr();
-initDac();
+	initSecondLCD();
+	lcdClrscr();
+	initDac();
 
-osCreateProcess(initializeGameProcess, gameProcessStack, PROC1_STACK_SIZE,
-		&pid1, 3, NULL, &error);
-osStartProcess(pid1, &error);
+	osCreateProcess(initializeGameProcess, gameProcessStack, PROC1_STACK_SIZE,
+			&pid1, 3, NULL, &error);
+	osStartProcess(pid1, &error);
 
-osCreateProcess(leds, ledsStack, PROC2_STACK_SIZE, &pid2, 4, NULL, &error);
-osStartProcess(pid2, &error);
+	osCreateProcess(leds, ledsStack, PROC2_STACK_SIZE, &pid2, 4, NULL, &error);
+	osStartProcess(pid2, &error);
 
-osDeleteProcess();
+	osDeleteProcess();
 
 }
 
 void appTick(tU32 elapsedTime) {
-ms += elapsedTime;
+	ms += elapsedTime;
 }

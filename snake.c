@@ -1,19 +1,4 @@
-/******************************************************************************
- *
- * Copyright:
- *    (C) 2006 Embedded Artists AB
- *
- * File:
- *    snake.c
- *
- * Description:
- *    Implements the snake game.
- *
- *****************************************************************************/
 
-/******************************************************************************
- * Includes
- *****************************************************************************/
 #include "../pre_emptive_os/api/osapi.h"
 #include "../pre_emptive_os/api/general.h"
 #include <printf_P.h>
@@ -27,9 +12,6 @@
 #include "speaker/speaker.h"
 #include "hscore/hscore.h"
 
-/******************************************************************************
- * Typedefs and defines
- *****************************************************************************/
 #define MAXROW 27
 #define MAXCOL 31
 
@@ -37,17 +19,11 @@
 #define SNAKE_START_ROW  7
 #define PAUSE_LENGTH     2
 
-/*****************************************************************************
- * Local prototypes
- ****************************************************************************/
 static void showScore();
 static void addSegment();
 static void setupLevel();
 static void gotoxy(tU8 x, tU8 y, tU8 color);
 
-/*****************************************************************************
- * Local variables
- ****************************************************************************/
 static volatile tS32 score;
 static tS32 snakeLength;
 static tS32 speed;
@@ -63,17 +39,11 @@ struct snakeSegment {
 	tS32 col;
 } snake[100];
 
-/*****************************************************************************
- * External variables
- ****************************************************************************/
 extern volatile tU32 ms;
 
-/*****************************************************************************
- *
- * Description:
- *    Implement Snake game
- *
- ****************************************************************************/
+/**
+  Implement Snake game
+*/
 void playSnake(void) {
 	tU8 keypress;
 	tU8 done = FALSE;
@@ -206,12 +176,9 @@ void playSnake(void) {
 	} while (done == FALSE);
 }
 
-/*****************************************************************************
- *
- * Description:
- *    Initialize one level of the game. Draw game board.
- *
- ****************************************************************************/
+/**
+     Initialize one level of the game. Draw game board.
+ */
 void setupLevel() {
 	tS32 row, col, i;
 
@@ -273,12 +240,9 @@ void setupLevel() {
 	}
 }
 
-/*****************************************************************************
- *
- * Description:
- *    Add one snake segment
- *
- ****************************************************************************/
+/**
+   Add one snake segment
+*/
 void addSegment() {
 	switch (direction) {
 	case (KEY_RIGHT):
@@ -299,17 +263,11 @@ void addSegment() {
 	}
 }
 
-/*****************************************************************************
- *
- * Description:
- *    Goto a specifc xy position and draw a 4x4 pixel rectangle in
- *    specified color
- *
- ****************************************************************************/
+/**
+    Goto a specifc xy position and draw a 4x4 pixel rectangle in
+    specified color
+*/
 void gotoxy(tU8 x, tU8 y, tU8 color) {
 	lcdRect(2 + (x * 4), 16 + (y * 4), 4, 4, color);
 }
 
-void setHihgScore(tU16 score) {
-	high_score = score;
-}
