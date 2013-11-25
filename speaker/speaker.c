@@ -9,8 +9,6 @@ WAVEHEADER wh;
 FmtChunk ws1;
 DataChunk ws2;
 FATFS fatfs; /* File system object */
-DIR dir; /* Directory object */
-FILINFO fno; /* File information object */
 FRESULT rcv;
 
 tBool initSpiker(void) {
@@ -40,8 +38,6 @@ tBool initSpiker(void) {
 	wh.format += wave_stream_buf[i++] << 16;
 	wh.format += wave_stream_buf[i++] << 8;
 	wh.format += wave_stream_buf[i++];
-
-	//	printf("id=%x size=%x format=%x\n",wh.chunkId,wh.chunkSize,wh.format);
 
 	ws1.subChunkId = wave_stream_buf[i++] << 24;
 	ws1.subChunkId += wave_stream_buf[i++] << 16;
@@ -75,9 +71,6 @@ tBool initSpiker(void) {
 	ws1.bitsPerSample = wave_stream_buf[i++];
 	ws1.bitsPerSample += wave_stream_buf[i++] << 8;
 
-	//printf("sid=%x ssize=%x audioformat=%x\n",ws1.subChunkId,ws1.subChunkSize,ws1.audioFormat);
-	//printf("ch=%x sr=%x br=%x\n",ws1.numChannels,ws1.sampleRate,ws1.byteRate);
-	//printf("block=%x bps=%x\n",ws1.blockAlign,ws1.bitsPerSample);
 
 	ws2.subChunkId = wave_stream_buf[i++] << 24;
 	ws2.subChunkId += wave_stream_buf[i++] << 16;
@@ -90,9 +83,6 @@ tBool initSpiker(void) {
 	ws2.subChunkSize += wave_stream_buf[i++] << 24;
 
 	ws2.byteToOmmit = i;
-
-	//	printf("end init\n");
-	//	printf("sid=%x ssize=%x i=%x\n",ws2.subChunkId,ws2.subChunkSize,ws2.byteToOmmit);
 
 	return TRUE;
 }
@@ -169,7 +159,7 @@ void playBuu() {
 	if (rcv == FR_OK) {
 		if (initSpiker()) { //inicjacja nagłówków wave{
 			if (play()) {
-				//odtwarzamy
+
 			}
 		}
 	}
