@@ -34,12 +34,6 @@
 #include "dac.h"
 #include "led/led_utils.h"
 
-#include "graphics/fire_0_100x40c.h"
-#include "graphics/fire_1_100x40c.h"
-#include "graphics/fire_2_100x40c.h"
-#include "graphics/fire_3_100x40c.h"
-#include "graphics/fire_4_100x40c.h"
-
 #define SPI_SLAVE_CS 0x00002000  //pin P0.13
 #define ENC_RESET    0x00001000  //pin P0.12
 #define FAILSAFE_VALUE 5000
@@ -53,7 +47,6 @@ static tU8 ledsStack[PROC2_STACK_SIZE];
 static tU8 tkSnakeStack[INIT_STACK_SIZE];
 static tU8 pid1;
 static tU8 pid2;
-static tU8 cursor;
 static tU8 contrast = 46;
 
 static void leds(void* arg);
@@ -75,7 +68,6 @@ volatile tU32 ms;
 int main(void) {
 	tU8 error;
 	tU8 pid;
-	tU8 timeError;
 
 	osInit();
 	{
@@ -89,86 +81,12 @@ int main(void) {
 	return 0;
 }
 static void leds(void* arg) {
-	while(TRUE)
+	while (TRUE)
 		lightLedPatternOne();
 }
-
-static void drawCursor(void) {
-	tU32 row;
-
-	for (row = 0; row < 2; row++) {
-		lcdGotoxy(22, 20 + (14 * row));
-		if (row == cursor)
-			lcdColor(1, 0xe0);
-		else
-			lcdColor(0, 0xfd);
-
-		if (row == 0)
-			lcdPuts("Play");
-		else
-			lcdPuts("High Score");
-	}
-}
-
-static void drawMenu() {
-	lcdColor(0, 0);
-	lcdClrscr();
-
-	lcdRect(14, 0, 102, 128, 0x6d);
-	lcdRect(15, 17, 100, 110, 0);
-
-	lcdGotoxy(48, 1);
-	lcdColor(0x6d, 0);
-	lcdPuts("MENU");
-	drawCursor();
-}
-
 static void initializeGameProcess(void* arg) {
-	static tU8 i = 0;
-
-	drawMenu();
-
-	while (TRUE) {
-		tU8 anyKey;
-		anyKey = getPressedKey();
-		if (anyKey != KEY_NOTHING) {
-			//select specific function
-			if (anyKey == KEY_CENTER) {
-				if (cursor == 0)
-					playSnake();
-				//else drawHihgScore();
-				drawMenu();
-			} else if (anyKey != KEY_NOTHING) {
-				if (anyKey == KEY_UP) {
-					if (cursor > 0)
-						cursor--;
-					else
-						cursor = 0;
-					drawCursor();
-				}
-
-				else if (anyKey == KEY_DOWN) {
-					if (cursor < 1)
-						cursor++;
-					else
-						cursor = 1;
-					drawCursor();
-				}
-				//adjust contrast
-				else if (anyKey == KEY_RIGHT) {
-					contrast++;
-					if (contrast > 127)
-						contrast = 127;
-					lcdContrast(contrast);
-				} else if (anyKey == KEY_LEFT) {
-					if (contrast > 0)
-						contrast--;
-					lcdContrast(contrast);
-				}
-			}
-		}
-		osSleep(20);
-	}
+	playSnake();
+	osSleep(20);
 }
 
 /**
@@ -179,31 +97,31 @@ static void initializeGameProcess(void* arg) {
  * 3. Bootstraps two process [main app, led pattern]
  */
 static void initializeTKSnake(void* arg) {
-	tU8 error;
+tU8 error;
 
-	eaInit();
-	i2cInit();
-	initKeyProc();
-	lcdInit();
-	lcdContrast(contrast);
-	tS32 score =getLastHScore().score;
-	highScore=score;
+eaInit();
+i2cInit();
+initKeyProc();
+lcdInit();
+lcdContrast(contrast);
+tS32 score = getLastHScore().score;
+highScore = score;
 
-	initSecondLCD();
-	lcdClrscr();
-	initDac();
+initSecondLCD();
+lcdClrscr();
+initDac();
 
-	osCreateProcess(initializeGameProcess, gameProcessStack, PROC1_STACK_SIZE,
-			&pid1, 3, NULL, &error);
-	osStartProcess(pid1, &error);
+osCreateProcess(initializeGameProcess, gameProcessStack, PROC1_STACK_SIZE,
+		&pid1, 3, NULL, &error);
+osStartProcess(pid1, &error);
 
-	osCreateProcess(leds, ledsStack, PROC2_STACK_SIZE, &pid2, 4, NULL, &error);
-	osStartProcess(pid2, &error);
+osCreateProcess(leds, ledsStack, PROC2_STACK_SIZE, &pid2, 4, NULL, &error);
+osStartProcess(pid2, &error);
 
-	osDeleteProcess();
+osDeleteProcess();
 
 }
 
 void appTick(tU32 elapsedTime) {
-	ms += elapsedTime;
+ms += elapsedTime;
 }
