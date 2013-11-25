@@ -181,12 +181,11 @@ void playSnake(void) {
 		menu.yPos = 40;
 		menu.xLen = 6 + (12 * 8);
 		menu.yLen = 4 * 14;
-		menu.noOfChoices = 2;
+		menu.noOfChoices = 1;
 		menu.initialChoice = 0;
 		menu.pHeaderText = "Game over!";
 		menu.headerTextXpos = 20;
 		menu.pChoice[0] = "Restart game";
-		menu.pChoice[1] = "End game";
 		menu.bgColor = 0;
 		menu.borderColor = 0x6d;
 		menu.headerColor = 0;
