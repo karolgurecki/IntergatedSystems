@@ -13,6 +13,8 @@
 #ifndef _LCD_H_
 #define _LCD_H_
 
+#include "../startup/general.h"
+
 void lcdInit(void);
 void lcdOff(void);
 void lcdContrast(tU8 contr);

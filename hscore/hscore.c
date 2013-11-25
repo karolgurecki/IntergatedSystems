@@ -5,14 +5,14 @@
  *      Author: embedded
  */
 
-#include "hscore.h"
+#include "../startup/consol.h"
+#include "../startup/printf_P.h"
 #include <string.h>
+#include "hscore.h"
 
 static tS8 buffer[512 * 1]; // sector
 static FATFS fatFileSystem;
 static DWORD sdStatus;
-static DIR directory;
-static FILINFO fileInfo;
 
 static void printStatus(FRESULT fc, const char *action) {
 	switch (fc) {
@@ -107,7 +107,7 @@ static tBool umountRepo(void) {
 		return FALSE;
 }
 
-static HSCORE getLastHScore(void) {
+HSCORE getLastHScore(void) {
 	HSCORE hs;
 
 	if (mountRepo() == TRUE) {
@@ -150,7 +150,7 @@ static HSCORE getLastHScore(void) {
 	return hs;
 }
 
-static tBool saveHScore(tS32 score, char * player) {
+tBool saveHScore(tS32 score, char * player) {
 	if (mountRepo() == TRUE) {
 		FRESULT fc;
 		tU16 bitesWritten = 0;

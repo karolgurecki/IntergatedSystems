@@ -1,6 +1,8 @@
 #ifndef _I2C_H
 #define _I2C_H
 
+#include "../startup/general.h"
+
 /* modes */
 #define I2C_MODE_ACK0 0
 #define I2C_MODE_ACK1 1

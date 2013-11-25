@@ -8,27 +8,17 @@
  *
  *****************************************************************************/
 
-#include <printf_P.h>
-#include <ea_init.h>
-#include <lpc2xxx.h>
-#include <consol.h>
-
-#include "startup/general.h"
-#include "startup/printf_P.h"
 #include "startup/ea_init.h"
 #include "startup/lpc2xxx.h" //definicje
-#include "startup/consol.h"
 #include "startup/config.h"
 
 #include "i2c/i2c.h"
 #include "lcd/lcd.h"
 #include "pca9532.h"
-#include "sd/sd.h"
-#include "sd/pff.h"
 #include "snake.h"
 #include "joystick/joystick.h"
 #include "timer/timer.h"
-#include "hscore/hscore.c"
+#include "hscore/hscore.h"
 #include "secondLCD/secondLCD.h"
 #include "dac.h"
 #include "led/led_utils.h"
