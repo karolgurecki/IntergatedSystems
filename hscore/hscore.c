@@ -14,6 +14,10 @@ static tS8 buffer[512 * 1]; // sector
 static FATFS fatFileSystem;
 static DWORD sdStatus;
 
+/**
+ * Small utility method that prints on the console
+ * message appropriate to received status.
+ */
 static void printStatus(FRESULT fc, const char *action) {
 	switch (fc) {
 	case FR_OK:
@@ -43,6 +47,9 @@ static void printStatus(FRESULT fc, const char *action) {
 	}
 }
 
+/**
+ * Executes actual mounting of the SD card thanks to pf_mount
+ */
 static tBool initSD(void) {
 	printf("=>SD mounting...\n");
 	sdStatus = pf_mount(&fatFileSystem);
@@ -64,6 +71,13 @@ static tBool initSD(void) {
 		return FALSE;
 }
 
+/**
+ * initSD do:
+ * 1. mounts the file system, hence SD card
+ * 2. file opens the
+ * 3. saves file content to the buffer
+ * @returns true if mounting was successful
+ */
 static tBool mountRepo(void) {
 	if (initSD() == TRUE) {
 		FRESULT fc;
@@ -97,6 +111,9 @@ static tBool mountRepo(void) {
 	return FALSE;
 }
 
+/**
+ * Unmounts the repository (hence the file and the filesystem-SD)
+ */
 static tBool umountRepo(void) {
 	FRESULT fc = pf_mount(0);
 	printStatus(fc, "umount");
