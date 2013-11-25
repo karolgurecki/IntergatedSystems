@@ -2,9 +2,10 @@
 #include "startup/lpc2xxx.h"
 
 
+/**
+ * Method activates the DAC (digital-analog converter) which in our case is used to ease
+ * with speaker dev
+ */
 void initDac(void){
-	// Aktywuje P0.25. Bit 19-ty jest odpowiedzialny za Aout(DAC)
-	// czyli wyjœcie analogowe przetwornik cyrfowo analogowego.
-	// w³¹czenie zatem polega tylko na w³¹czeniu pinu
 	PINSEL1 = 1<<19;
 }
