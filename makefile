@@ -54,7 +54,6 @@ CODE    = THUMB
 CSRCS   = main.c          				\
           eeprom.c        				\
           i2c/i2c.c       				\
-          adc/adc.c       				\
           pca9532.c       				\
           lcd/lcd.c       				\
           lcd/lcd_hw.c    				\

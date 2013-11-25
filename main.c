@@ -21,7 +21,6 @@
 #include "startup/config.h"
 
 #include "i2c/i2c.h"
-#include "adc/adc.h"
 #include "lcd/lcd.h"
 #include "pca9532.h"
 #include "sd/sd.h"
