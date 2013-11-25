@@ -1,15 +1,3 @@
-/******************************************************************************
- *
- * Copyright:
- *    (C) 2006 Embedded Artists AB
- *
- * File:
- *    key.h
- *
- * Description:
- *    Expose public functions and defines related to joystick key.
- *
- *****************************************************************************/
 #ifndef _KEY_H_
 #define _KEY_H_
 
