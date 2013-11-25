@@ -171,9 +171,8 @@ void playSnake(void) {
 		if (score > high_score) {
 			high_score = score;
 			highScore = high_score;
-			playAplause();
 			procMotor();
-			saveHScore(score, "KK");
+
 		} else
 			playBuu();
 		//osSleep(400);

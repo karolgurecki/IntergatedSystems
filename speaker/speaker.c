@@ -175,16 +175,3 @@ void playBuu() {
 	}
 	rcv = pf_mount(0);
 }
-void playAplause() {
-	rcv = pf_mount(&fatfs);
-	rcv = pf_open("aplause.wav");
-	if (rcv == FR_OK) {
-		if (initSpiker()) { //inicjacja nagłówków wave{
-			if (play()) {
-				//odtwarzamy
-			}
-		}
-	}
-	rcv = pf_mount(0);
-
-}

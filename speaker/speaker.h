@@ -41,6 +41,5 @@ typedef struct {
 tBool initSpiker();
 tBool play();
 void playBuu();
-void playAplause();
 
 #endif /* SPIKER_H_ */
