@@ -7,7 +7,6 @@
 #include "secondLCD.h"
 tU8 scoreString[16];
 tU8 hsString[16];
-volatile tU32 time;
 
 void initSecondLCD(void) {
 	IODIR1 |= (LCD_DATA | LCD_E | LCD_RS);
@@ -197,12 +196,4 @@ void displayScoreAndTime(tU32 score) {
 		}
 	}
 
-}
-
-void addTime() {
-	time = time + 1;
-}
-
-void resetTime() {
-	time = 0;
 }

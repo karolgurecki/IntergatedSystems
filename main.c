@@ -69,13 +69,41 @@ int main(void) {
 
 	return 0;
 }
+static void drawMenu(void) {
+	lcdColor(0, 0);
+	lcdClrscr();
+
+	lcdRect(14, 0, 102, 128, 0x6d);
+	lcdRect(15, 17, 100, 110, 0);
+
+	lcdGotoxy(48, 1);
+	lcdColor(0x6d, 0);
+	lcdPuts("MENU");
+
+	lcdGotoxy(22, 20 + (14 * 1));
+	lcdColor(0x00, 0xe0);
+	//  lcdColor(0x00,0xfd);
+	lcdPuts("Play Snake");
+}
+
 static void leds(void* arg) {
 	while (TRUE)
 		lightLedPatternOne();
 }
 static void initializeGameProcess(void* arg) {
+	IODIR |= 0x00006000; //P0.13/14
+	IOSET = 0x00006000;
+
+	lcdInit();
+	initKeyProc();
+	drawMenu();
+	lcdContrast(contrast);
+	initSecondLCD();
+	initDac();
+	//tS32 score = getLastHScore().score;
+
 	playSnake();
-	osSleep(20);
+	//osSleep(20);
 }
 
 /**
@@ -90,15 +118,6 @@ static void initializeTKSnake(void* arg) {
 
 	eaInit();
 	i2cInit();
-	initKeyProc();
-	lcdInit();
-	lcdContrast(contrast);
-	tS32 score = getLastHScore().score;
-	highScore = score;
-
-	initSecondLCD();
-	lcdClrscr();
-	initDac();
 
 	osCreateProcess(initializeGameProcess, gameProcessStack, PROC1_STACK_SIZE,
 			&pid1, 3, NULL, &error);

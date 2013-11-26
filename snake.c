@@ -56,7 +56,6 @@ void playSnake(void) {
 		speed = 14;
 		srand(ms); //Ensure random seed initiated
 		setupLevel();
-		resetTime();
 		//main loop
 		do {
 			tS32 i;
