@@ -69,22 +69,6 @@ int main(void) {
 
 	return 0;
 }
-static void drawMenu(void) {
-	lcdColor(0, 0);
-	lcdClrscr();
-
-	lcdRect(14, 0, 102, 128, 0x6d);
-	lcdRect(15, 17, 100, 110, 0);
-
-	lcdGotoxy(48, 1);
-	lcdColor(0x6d, 0);
-	lcdPuts("MENU");
-
-	lcdGotoxy(22, 20 + (14 * 1));
-	lcdColor(0x00, 0xe0);
-	//  lcdColor(0x00,0xfd);
-	lcdPuts("Play Snake");
-}
 
 static void leds(void* arg) {
 	while (TRUE)
@@ -96,14 +80,12 @@ static void initializeGameProcess(void* arg) {
 
 	lcdInit();
 	initKeyProc();
-	drawMenu();
 	lcdContrast(contrast);
 	initSecondLCD();
 	initDac();
-	//tS32 score = getLastHScore().score;
+	highScore = getLastHScore().score;
 
 	playSnake();
-	//osSleep(20);
 }
 
 /**

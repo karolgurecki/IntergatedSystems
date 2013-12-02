@@ -124,7 +124,7 @@ static tBool umountRepo(void) {
 		return FALSE;
 }
 
-static HSCORE getLastHScore(void) {
+HSCORE getLastHScore(void) {
 	HSCORE hs;
 
 	if (mountRepo() == TRUE) {

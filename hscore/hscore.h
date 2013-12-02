@@ -38,7 +38,7 @@ static tBool umountRepo(void);
  * 5. umounting the Repository
  * 6. returing HSCore instance
  */
-static HSCORE getLastHScore(void);
+HSCORE getLastHScore(void);
 
 /**
  * DOES NOT WORK:
