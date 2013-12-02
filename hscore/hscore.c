@@ -124,7 +124,7 @@ static tBool umountRepo(void) {
 		return FALSE;
 }
 
-HSCORE getLastHScore(void) {
+static HSCORE getLastHScore(void) {
 	HSCORE hs;
 
 	if (mountRepo() == TRUE) {
@@ -167,7 +167,7 @@ HSCORE getLastHScore(void) {
 	return hs;
 }
 
-tBool saveHScore(tS32 score, char * player) {
+static tBool saveHScore(tS32 score, char * player) {
 	if (mountRepo() == TRUE) {
 		FRESULT fc;
 		tU16 bitesWritten = 0;

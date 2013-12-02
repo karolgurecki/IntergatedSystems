@@ -25,6 +25,10 @@ typedef struct {
 	char player[10];
 } HSCORE;
 
+static void printStatus(FRESULT, const char *);
+static tBool initSD(void);
+static tBool mountRepo(void);
+static tBool umountRepo(void);
 /**
  * Retrieves the HSCore struct by executing following operations:
  * 1. mounting the repository (the file)
@@ -34,7 +38,7 @@ typedef struct {
  * 5. umounting the Repository
  * 6. returing HSCore instance
  */
-HSCORE getLastHScore(void);
+static HSCORE getLastHScore(void);
 
 /**
  * DOES NOT WORK:
@@ -43,6 +47,6 @@ HSCORE getLastHScore(void);
  * However due to inability to implement this functionality
  * with *PETIT-FS* it is not working
  */
-tBool saveHScore(tS32 score, char * player);
+static tBool saveHScore(tS32 score, char * player);
 
 #endif /* HSCORE_H_ */
