@@ -1,0 +1,991 @@
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/cc0JY3vb.s 			page 1
+
+
+   1              		.code	16
+   2              		.file	"spi.c"
+   3              		.section	.debug_abbrev,"",%progbits
+   4              	.Ldebug_abbrev0:
+   5              		.section	.debug_info,"",%progbits
+   6              	.Ldebug_info0:
+   7              		.section	.debug_line,"",%progbits
+   8              	.Ldebug_line0:
+   9 0000 6B000000 		.text
+   9      02002F00 
+   9      00000201 
+   9      FB0E0D00 
+   9      01010101 
+  10              	.Ltext0:
+  11              		.align	2
+  12              		.global	setSpiSpeed
+  13              		.code 16
+  14              		.thumb_func
+  15              		.type	setSpiSpeed, %function
+  16              	setSpiSpeed:
+  17              	.LFB3:
+  18              		.file 1 "sd/spi.c"
+   1:sd/spi.c      **** #include "spi.h"
+   2:sd/spi.c      **** #include "integer.h"
+   3:sd/spi.c      **** 
+   4:sd/spi.c      **** BYTE my_spiSend(BYTE outgoing);
+   5:sd/spi.c      **** //------------------------------------------------------------------------------
+   6:sd/spi.c      **** void initSpi(void){
+   7:sd/spi.c      **** 	// setup GPIO
+   8:sd/spi.c      **** 	SPI_IODIR |= (1<<SPI_SCK_PIN)|(1<<SPI_MOSI_PIN)|(1<<SPI_SS_PIN);
+   9:sd/spi.c      **** 	SPI_IODIR &= ~(1<<SPI_MISO_PIN);
+  10:sd/spi.c      **** 	
+  11:sd/spi.c      **** 	// set Chip-Select high - unselect card
+  12:sd/spi.c      **** 	UNSELECT_CARD();
+  13:sd/spi.c      **** 
+  14:sd/spi.c      **** 	// reset Pin-Functions	
+  15:sd/spi.c      **** 	SPI_PINSEL &= ~( (3<<SPI_SCK_FUNCBIT) | (3<<SPI_MISO_FUNCBIT) |
+  16:sd/spi.c      **** 		(3<<SPI_MOSI_FUNCBIT) | (3<<SPI_SS_FUNCBIT) );
+  17:sd/spi.c      **** 
+  18:sd/spi.c      **** 	SPI_PINSEL |= ( (1<<SPI_SCK_FUNCBIT) | (1<<SPI_MISO_FUNCBIT) |
+  19:sd/spi.c      **** 		(1<<SPI_MOSI_FUNCBIT) );
+  20:sd/spi.c      **** 	
+  21:sd/spi.c      **** 	// enable SPI-Master
+  22:sd/spi.c      **** 	S0SPCR = (1<<MSTR)|(0<<CPOL);
+  23:sd/spi.c      **** 
+  24:sd/spi.c      **** 		// low speed during init
+  25:sd/spi.c      **** 	setSpiSpeed(254); 
+  26:sd/spi.c      **** 
+  27:sd/spi.c      **** 	CHAR i = 0;
+  28:sd/spi.c      **** 	/* Send 20 spi commands with card not selected */
+  29:sd/spi.c      **** 	for(i=0;i<21;i++)
+  30:sd/spi.c      **** 		my_spiSend(0xff);
+  31:sd/spi.c      **** 
+  32:sd/spi.c      **** }
+  33:sd/spi.c      **** 
+  34:sd/spi.c      **** void setSpiSpeed(BYTE speed){
+  19              		.loc 1 34 0
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/cc0JY3vb.s 			page 2
+
+
+  20              	.LVL0:
+  35:sd/spi.c      **** 	speed &= 0xFE;
+  21              		.loc 1 35 0
+  22 0000 FE23     		mov	r3, #254
+  23 0002 1840     		and	r0, r0, r3
+  24              	.LVL1:
+  25              		.loc 1 34 0
+  26              		@ lr needed for prologue
+  36:sd/spi.c      **** 	if ( speed < SPI_PRESCALE_MIN  ) 
+  27              		.loc 1 36 0
+  28 0004 3F28     		cmp	r0, #63
+  29 0006 00D8     		bhi	.L2
+  30 0008 4020     		mov	r0, #64
+  31              	.L2:
+  37:sd/spi.c      **** 		speed = SPI_PRESCALE_MIN;
+  38:sd/spi.c      **** 		
+  39:sd/spi.c      **** 	SPI_PRESCALE_REG = speed;
+  32              		.loc 1 39 0
+  33 000a 014B     		ldr	r3, .L5
+  40:sd/spi.c      **** 
+  41:sd/spi.c      **** }
+  34              		.loc 1 41 0
+  35              		@ sp needed for prologue
+  36              		.loc 1 39 0
+  37 000c 1860     		str	r0, [r3]
+  38              		.loc 1 41 0
+  39 000e 7047     		bx	lr
+  40              	.L6:
+  41              		.align	2
+  42              	.L5:
+  43 0010 0C0002E0 		.word	-536739828
+  44              	.LFE3:
+  45              		.size	setSpiSpeed, .-setSpiSpeed
+  46              		.align	2
+  47              		.global	my_spiSend
+  48              		.code 16
+  49              		.thumb_func
+  50              		.type	my_spiSend, %function
+  51              	my_spiSend:
+  52              	.LFB4:
+  42:sd/spi.c      **** 
+  43:sd/spi.c      **** BYTE my_spiSend(BYTE outgoing){
+  53              		.loc 1 43 0
+  54              	.LVL2:
+  55 0014 0006     		lsl	r0, r0, #24
+  56              	.LVL3:
+  44:sd/spi.c      **** 	BYTE incoming;
+  45:sd/spi.c      **** 
+  46:sd/spi.c      **** 	S0SPDR = outgoing;
+  57              		.loc 1 46 0
+  58 0016 064B     		ldr	r3, .L13
+  59              		.loc 1 43 0
+  60 0018 000E     		lsr	r0, r0, #24
+  61              	.LVL4:
+  62              		.loc 1 46 0
+  63 001a 1860     		str	r0, [r3]
+  64              		.loc 1 43 0
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/cc0JY3vb.s 			page 3
+
+
+  65              		@ lr needed for prologue
+  66              	.L8:
+  47:sd/spi.c      **** 	while( !(S0SPSR & (1<<SPIF)) ) ;
+  67              		.loc 1 47 0
+  68 001c 054B     		ldr	r3, .L13+4
+  69 001e 1B68     		ldr	r3, [r3]
+  70 0020 1A06     		lsl	r2, r3, #24
+  71 0022 FBD5     		bpl	.L8
+  48:sd/spi.c      **** 	incoming = S0SPDR;
+  72              		.loc 1 48 0
+  73 0024 024B     		ldr	r3, .L13
+  74 0026 1868     		ldr	r0, [r3]
+  75              	.LVL5:
+  76 0028 0006     		lsl	r0, r0, #24
+  77 002a 000E     		lsr	r0, r0, #24
+  49:sd/spi.c      **** 
+  50:sd/spi.c      **** 	return(incoming);
+  51:sd/spi.c      **** }
+  78              		.loc 1 51 0
+  79              		@ sp needed for prologue
+  80 002c 7047     		bx	lr
+  81              	.L14:
+  82 002e 0000     		.align	2
+  83              	.L13:
+  84 0030 080002E0 		.word	-536739832
+  85 0034 040002E0 		.word	-536739836
+  86              	.LFE4:
+  87              		.size	my_spiSend, .-my_spiSend
+  88              		.align	2
+  89              		.global	spiSend
+  90              		.code 16
+  91              		.thumb_func
+  92              		.type	spiSend, %function
+  93              	spiSend:
+  94              	.LFB5:
+  52:sd/spi.c      **** 
+  53:sd/spi.c      **** BYTE incoming;
+  54:sd/spi.c      **** 
+  55:sd/spi.c      **** BYTE spiSend(BYTE toSend){
+  95              		.loc 1 55 0
+  96              	.LVL6:
+  97 0038 0006     		lsl	r0, r0, #24
+  98              	.LVL7:
+  56:sd/spi.c      **** 
+  57:sd/spi.c      **** 	
+  58:sd/spi.c      **** 	//moved, because that is faster ;)
+  59:sd/spi.c      **** 	//SELECT_CARD();
+  60:sd/spi.c      **** 	
+  61:sd/spi.c      **** 	S0SPDR = toSend;
+  99              		.loc 1 61 0
+ 100 003a 074B     		ldr	r3, .L21
+ 101              		.loc 1 55 0
+ 102 003c 000E     		lsr	r0, r0, #24
+ 103              	.LVL8:
+ 104              		.loc 1 61 0
+ 105 003e 1860     		str	r0, [r3]
+ 106              		.loc 1 55 0
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/cc0JY3vb.s 			page 4
+
+
+ 107              		@ lr needed for prologue
+ 108              	.L16:
+  62:sd/spi.c      **** 	while( !(S0SPSR & (1<<SPIF)) ) ;
+ 109              		.loc 1 62 0
+ 110 0040 064B     		ldr	r3, .L21+4
+ 111 0042 1B68     		ldr	r3, [r3]
+ 112 0044 1A06     		lsl	r2, r3, #24
+ 113 0046 FBD5     		bpl	.L16
+  63:sd/spi.c      **** 	
+  64:sd/spi.c      **** 	incoming = S0SPDR;
+ 114              		.loc 1 64 0
+ 115 0048 034B     		ldr	r3, .L21
+ 116 004a 1868     		ldr	r0, [r3]
+ 117              	.LVL9:
+ 118 004c 044B     		ldr	r3, .L21+8
+ 119 004e 0006     		lsl	r0, r0, #24
+ 120 0050 000E     		lsr	r0, r0, #24
+ 121 0052 1870     		strb	r0, [r3]
+  65:sd/spi.c      **** 	
+  66:sd/spi.c      **** 	//UNSELECT_CARD();
+  67:sd/spi.c      **** 	
+  68:sd/spi.c      **** 	return incoming;
+  69:sd/spi.c      **** }
+ 122              		.loc 1 69 0
+ 123              		@ sp needed for prologue
+ 124 0054 7047     		bx	lr
+ 125              	.L22:
+ 126 0056 0000     		.align	2
+ 127              	.L21:
+ 128 0058 080002E0 		.word	-536739832
+ 129 005c 040002E0 		.word	-536739836
+ 130 0060 00000000 		.word	incoming
+ 131              	.LFE5:
+ 132              		.size	spiSend, .-spiSend
+ 133              		.align	2
+ 134              		.global	initSpi
+ 135              		.code 16
+ 136              		.thumb_func
+ 137              		.type	initSpi, %function
+ 138              	initSpi:
+ 139              	.LFB2:
+ 140              		.loc 1 6 0
+ 141 0064 10B5     		push	{r4, lr}
+ 142              	.LCFI0:
+ 143              		.loc 1 8 0
+ 144 0066 1449     		ldr	r1, .L29
+ 145 0068 144A     		ldr	r2, .L29+4
+ 146 006a 0B68     		ldr	r3, [r1]
+ 147 006c 1343     		orr	r3, r3, r2
+ 148 006e 0B60     		str	r3, [r1]
+ 149              		.loc 1 9 0
+ 150 0070 0B68     		ldr	r3, [r1]
+ 151 0072 2020     		mov	r0, #32
+ 152 0074 8343     		bic	r3, r3, r0
+ 153 0076 0B60     		str	r3, [r1]
+ 154              		.loc 1 12 0
+ 155 0078 114A     		ldr	r2, .L29+8
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/cc0JY3vb.s 			page 5
+
+
+ 156 007a 8023     		mov	r3, #128
+ 157 007c 9B01     		lsl	r3, r3, #6
+ 158 007e 1360     		str	r3, [r2]
+ 159              		.loc 1 15 0
+ 160 0080 1049     		ldr	r1, .L29+12
+ 161 0082 114A     		ldr	r2, .L29+16
+ 162 0084 0B68     		ldr	r3, [r1]
+ 163 0086 1340     		and	r3, r3, r2
+ 164 0088 0B60     		str	r3, [r1]
+ 165              		.loc 1 18 0
+ 166 008a A823     		mov	r3, #168
+ 167 008c 0A68     		ldr	r2, [r1]
+ 168 008e 5B01     		lsl	r3, r3, #5
+ 169 0090 1A43     		orr	r2, r2, r3
+ 170              		.loc 1 22 0
+ 171 0092 0E4B     		ldr	r3, .L29+20
+ 172              		.loc 1 18 0
+ 173 0094 0A60     		str	r2, [r1]
+ 174              		.loc 1 22 0
+ 175 0096 1860     		str	r0, [r3]
+ 176              	.LBB4:
+ 177              	.LBB5:
+ 178              		.loc 1 39 0
+ 179 0098 FE22     		mov	r2, #254
+ 180 009a 0C33     		add	r3, r3, #12
+ 181 009c 1A60     		str	r2, [r3]
+ 182 009e 0024     		mov	r4, #0
+ 183              	.LVL10:
+ 184              	.L24:
+ 185              	.LBE5:
+ 186              	.LBE4:
+ 187              		.loc 1 30 0
+ 188 00a0 FF20     		mov	r0, #255
+ 189 00a2 FFF7FEFF 		bl	my_spiSend
+ 190              		.loc 1 29 0
+ 191 00a6 631C     		add	r3, r4, #1
+ 192 00a8 1B06     		lsl	r3, r3, #24
+ 193 00aa 1C0E     		lsr	r4, r3, #24
+ 194 00ac 1B16     		asr	r3, r3, #24
+ 195 00ae 152B     		cmp	r3, #21
+ 196 00b0 F6D1     		bne	.L24
+ 197              		.loc 1 32 0
+ 198              		@ sp needed for prologue
+ 199              	.LVL11:
+ 200 00b2 10BC     		pop	{r4}
+ 201 00b4 01BC     		pop	{r0}
+ 202 00b6 0047     		bx	r0
+ 203              	.L30:
+ 204              		.align	2
+ 205              	.L29:
+ 206 00b8 088002E0 		.word	-536707064
+ 207 00bc 50200000 		.word	8272
+ 208 00c0 048002E0 		.word	-536707068
+ 209 00c4 00C002E0 		.word	-536690688
+ 210 00c8 FF00FFFF 		.word	-65281
+ 211 00cc 000002E0 		.word	-536739840
+ 212              	.LFE2:
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/cc0JY3vb.s 			page 6
+
+
+ 213              		.size	initSpi, .-initSpi
+ 214              		.comm	incoming,1,1
+ 215              		.section	.debug_frame,"",%progbits
+ 216              	.Lframe0:
+ 217 0000 0C000000 		.4byte	.LECIE0-.LSCIE0
+ 218              	.LSCIE0:
+ 219 0004 FFFFFFFF 		.4byte	0xffffffff
+ 220 0008 01       		.byte	0x1
+ 221 0009 00       		.ascii	"\000"
+ 222 000a 01       		.uleb128 0x1
+ 223 000b 7C       		.sleb128 -4
+ 224 000c 0E       		.byte	0xe
+ 225 000d 0C       		.byte	0xc
+ 226 000e 0D       		.uleb128 0xd
+ 227 000f 00       		.uleb128 0x0
+ 228              		.align	2
+ 229              	.LECIE0:
+ 230              	.LSFDE0:
+ 231 0010 0C000000 		.4byte	.LEFDE0-.LASFDE0
+ 232              	.LASFDE0:
+ 233 0014 00000000 		.4byte	.Lframe0
+ 234 0018 00000000 		.4byte	.LFB3
+ 235 001c 14000000 		.4byte	.LFE3-.LFB3
+ 236              		.align	2
+ 237              	.LEFDE0:
+ 238              	.LSFDE2:
+ 239 0020 0C000000 		.4byte	.LEFDE2-.LASFDE2
+ 240              	.LASFDE2:
+ 241 0024 00000000 		.4byte	.Lframe0
+ 242 0028 14000000 		.4byte	.LFB4
+ 243 002c 24000000 		.4byte	.LFE4-.LFB4
+ 244              		.align	2
+ 245              	.LEFDE2:
+ 246              	.LSFDE4:
+ 247 0030 0C000000 		.4byte	.LEFDE4-.LASFDE4
+ 248              	.LASFDE4:
+ 249 0034 00000000 		.4byte	.Lframe0
+ 250 0038 38000000 		.4byte	.LFB5
+ 251 003c 2C000000 		.4byte	.LFE5-.LFB5
+ 252              		.align	2
+ 253              	.LEFDE4:
+ 254              	.LSFDE6:
+ 255 0040 14000000 		.4byte	.LEFDE6-.LASFDE6
+ 256              	.LASFDE6:
+ 257 0044 00000000 		.4byte	.Lframe0
+ 258 0048 64000000 		.4byte	.LFB2
+ 259 004c 6C000000 		.4byte	.LFE2-.LFB2
+ 260 0050 42       		.byte	0x4
+ 261              		.4byte	.LCFI0-.LFB2
+ 262 0051 0E       		.byte	0xe
+ 263 0052 08       		.uleb128 0x8
+ 264 0053 84       		.byte	0x84
+ 265 0054 02       		.uleb128 0x2
+ 266 0055 8E       		.byte	0x8e
+ 267 0056 01       		.uleb128 0x1
+ 268 0057 00       		.align	2
+ 269              	.LEFDE6:
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/cc0JY3vb.s 			page 7
+
+
+ 270              		.file 2 "sd/integer.h"
+ 271              		.text
+ 272              	.Letext0:
+ 273              		.section	.debug_loc,"",%progbits
+ 274              	.Ldebug_loc0:
+ 275              	.LLST1:
+ 276 0000 00000000 		.4byte	.LVL0-.Ltext0
+ 277 0004 04000000 		.4byte	.LVL1-.Ltext0
+ 278 0008 0100     		.2byte	0x1
+ 279 000a 50       		.byte	0x50
+ 280 000b 04000000 		.4byte	.LVL1-.Ltext0
+ 281 000f 14000000 		.4byte	.LFE3-.Ltext0
+ 282 0013 0100     		.2byte	0x1
+ 283 0015 50       		.byte	0x50
+ 284 0016 00000000 		.4byte	0x0
+ 285 001a 00000000 		.4byte	0x0
+ 286              	.LLST3:
+ 287 001e 14000000 		.4byte	.LVL2-.Ltext0
+ 288 0022 16000000 		.4byte	.LVL3-.Ltext0
+ 289 0026 0100     		.2byte	0x1
+ 290 0028 50       		.byte	0x50
+ 291 0029 1A000000 		.4byte	.LVL4-.Ltext0
+ 292 002d 28000000 		.4byte	.LVL5-.Ltext0
+ 293 0031 0100     		.2byte	0x1
+ 294 0033 50       		.byte	0x50
+ 295 0034 00000000 		.4byte	0x0
+ 296 0038 00000000 		.4byte	0x0
+ 297              	.LLST5:
+ 298 003c 38000000 		.4byte	.LVL6-.Ltext0
+ 299 0040 3A000000 		.4byte	.LVL7-.Ltext0
+ 300 0044 0100     		.2byte	0x1
+ 301 0046 50       		.byte	0x50
+ 302 0047 3E000000 		.4byte	.LVL8-.Ltext0
+ 303 004b 4C000000 		.4byte	.LVL9-.Ltext0
+ 304 004f 0100     		.2byte	0x1
+ 305 0051 50       		.byte	0x50
+ 306 0052 00000000 		.4byte	0x0
+ 307 0056 00000000 		.4byte	0x0
+ 308              	.LLST6:
+ 309 005a 64000000 		.4byte	.LFB2-.Ltext0
+ 310 005e 66000000 		.4byte	.LCFI0-.Ltext0
+ 311 0062 0100     		.2byte	0x1
+ 312 0064 5D       		.byte	0x5d
+ 313 0065 66000000 		.4byte	.LCFI0-.Ltext0
+ 314 0069 D0000000 		.4byte	.LFE2-.Ltext0
+ 315 006d 0200     		.2byte	0x2
+ 316 006f 7D       		.byte	0x7d
+ 317 0070 08       		.sleb128 8
+ 318 0071 00000000 		.4byte	0x0
+ 319 0075 00000000 		.4byte	0x0
+ 320              	.LLST7:
+ 321 0079 A0000000 		.4byte	.LVL10-.Ltext0
+ 322 007d B2000000 		.4byte	.LVL11-.Ltext0
+ 323 0081 0100     		.2byte	0x1
+ 324 0083 54       		.byte	0x54
+ 325 0084 00000000 		.4byte	0x0
+ 326 0088 00000000 		.4byte	0x0
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/cc0JY3vb.s 			page 8
+
+
+ 327              		.section	.debug_info
+ 328 0000 56010000 		.4byte	0x156
+ 329 0004 0200     		.2byte	0x2
+ 330 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 331 000a 04       		.byte	0x4
+ 332 000b 01       		.uleb128 0x1
+ 333 000c 00000000 		.4byte	.Ldebug_line0
+ 334 0010 D0000000 		.4byte	.Letext0
+ 335 0014 00000000 		.4byte	.Ltext0
+ 336 0018 81000000 		.4byte	.LASF17
+ 337 001c 01       		.byte	0x1
+ 338 001d BB000000 		.4byte	.LASF18
+ 339 0021 C4000000 		.4byte	.LASF19
+ 340 0025 02       		.uleb128 0x2
+ 341 0026 696E7400 		.ascii	"int\000"
+ 342 002a 04       		.byte	0x4
+ 343 002b 05       		.byte	0x5
+ 344 002c 03       		.uleb128 0x3
+ 345 002d 0B000000 		.4byte	.LASF0
+ 346 0031 04       		.byte	0x4
+ 347 0032 07       		.byte	0x7
+ 348 0033 04       		.uleb128 0x4
+ 349 0034 7C000000 		.4byte	.LASF3
+ 350 0038 02       		.byte	0x2
+ 351 0039 13       		.byte	0x13
+ 352 003a 3E000000 		.4byte	0x3e
+ 353 003e 03       		.uleb128 0x3
+ 354 003f A0000000 		.4byte	.LASF1
+ 355 0043 01       		.byte	0x1
+ 356 0044 06       		.byte	0x6
+ 357 0045 03       		.uleb128 0x3
+ 358 0046 5F000000 		.4byte	.LASF2
+ 359 004a 01       		.byte	0x1
+ 360 004b 08       		.byte	0x8
+ 361 004c 04       		.uleb128 0x4
+ 362 004d AC000000 		.4byte	.LASF4
+ 363 0051 02       		.byte	0x2
+ 364 0052 15       		.byte	0x15
+ 365 0053 45000000 		.4byte	0x45
+ 366 0057 03       		.uleb128 0x3
+ 367 0058 B1000000 		.4byte	.LASF5
+ 368 005c 02       		.byte	0x2
+ 369 005d 05       		.byte	0x5
+ 370 005e 03       		.uleb128 0x3
+ 371 005f 8D000000 		.4byte	.LASF6
+ 372 0063 02       		.byte	0x2
+ 373 0064 07       		.byte	0x7
+ 374 0065 03       		.uleb128 0x3
+ 375 0066 73000000 		.4byte	.LASF7
+ 376 006a 04       		.byte	0x4
+ 377 006b 05       		.byte	0x5
+ 378 006c 03       		.uleb128 0x3
+ 379 006d 27000000 		.4byte	.LASF8
+ 380 0071 04       		.byte	0x4
+ 381 0072 07       		.byte	0x7
+ 382 0073 05       		.uleb128 0x5
+ 383 0074 8D000000 		.4byte	0x8d
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/cc0JY3vb.s 			page 9
+
+
+ 384 0078 01       		.byte	0x1
+ 385 0079 53000000 		.4byte	.LASF9
+ 386 007d 01       		.byte	0x1
+ 387 007e 22       		.byte	0x22
+ 388 007f 01       		.byte	0x1
+ 389 0080 01       		.byte	0x1
+ 390 0081 06       		.uleb128 0x6
+ 391 0082 6D000000 		.4byte	.LASF11
+ 392 0086 01       		.byte	0x1
+ 393 0087 22       		.byte	0x22
+ 394 0088 4C000000 		.4byte	0x4c
+ 395 008c 00       		.byte	0x0
+ 396 008d 07       		.uleb128 0x7
+ 397 008e AA000000 		.4byte	0xaa
+ 398 0092 73000000 		.4byte	0x73
+ 399 0096 00000000 		.4byte	.LFB3
+ 400 009a 14000000 		.4byte	.LFE3
+ 401 009e 01       		.byte	0x1
+ 402 009f 5D       		.byte	0x5d
+ 403 00a0 08       		.uleb128 0x8
+ 404 00a1 81000000 		.4byte	0x81
+ 405 00a5 00000000 		.4byte	.LLST1
+ 406 00a9 00       		.byte	0x0
+ 407 00aa 09       		.uleb128 0x9
+ 408 00ab E0000000 		.4byte	0xe0
+ 409 00af 01       		.byte	0x1
+ 410 00b0 00000000 		.4byte	.LASF10
+ 411 00b4 01       		.byte	0x1
+ 412 00b5 2B       		.byte	0x2b
+ 413 00b6 01       		.byte	0x1
+ 414 00b7 4C000000 		.4byte	0x4c
+ 415 00bb 14000000 		.4byte	.LFB4
+ 416 00bf 38000000 		.4byte	.LFE4
+ 417 00c3 01       		.byte	0x1
+ 418 00c4 5D       		.byte	0x5d
+ 419 00c5 0A       		.uleb128 0xa
+ 420 00c6 4A000000 		.4byte	.LASF12
+ 421 00ca 01       		.byte	0x1
+ 422 00cb 2B       		.byte	0x2b
+ 423 00cc 4C000000 		.4byte	0x4c
+ 424 00d0 1E000000 		.4byte	.LLST3
+ 425 00d4 0B       		.uleb128 0xb
+ 426 00d5 39000000 		.4byte	.LASF16
+ 427 00d9 01       		.byte	0x1
+ 428 00da 2C       		.byte	0x2c
+ 429 00db 4C000000 		.4byte	0x4c
+ 430 00df 00       		.byte	0x0
+ 431 00e0 09       		.uleb128 0x9
+ 432 00e1 0B010000 		.4byte	0x10b
+ 433 00e5 01       		.byte	0x1
+ 434 00e6 1F000000 		.4byte	.LASF13
+ 435 00ea 01       		.byte	0x1
+ 436 00eb 37       		.byte	0x37
+ 437 00ec 01       		.byte	0x1
+ 438 00ed 4C000000 		.4byte	0x4c
+ 439 00f1 38000000 		.4byte	.LFB5
+ 440 00f5 64000000 		.4byte	.LFE5
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/cc0JY3vb.s 			page 10
+
+
+ 441 00f9 01       		.byte	0x1
+ 442 00fa 5D       		.byte	0x5d
+ 443 00fb 0A       		.uleb128 0xa
+ 444 00fc 18000000 		.4byte	.LASF14
+ 445 0100 01       		.byte	0x1
+ 446 0101 37       		.byte	0x37
+ 447 0102 4C000000 		.4byte	0x4c
+ 448 0106 3C000000 		.4byte	.LLST5
+ 449 010a 00       		.byte	0x0
+ 450 010b 0C       		.uleb128 0xc
+ 451 010c 47010000 		.4byte	0x147
+ 452 0110 01       		.byte	0x1
+ 453 0111 42000000 		.4byte	.LASF15
+ 454 0115 01       		.byte	0x1
+ 455 0116 06       		.byte	0x6
+ 456 0117 01       		.byte	0x1
+ 457 0118 64000000 		.4byte	.LFB2
+ 458 011c D0000000 		.4byte	.LFE2
+ 459 0120 5A000000 		.4byte	.LLST6
+ 460 0124 0D       		.uleb128 0xd
+ 461 0125 6900     		.ascii	"i\000"
+ 462 0127 01       		.byte	0x1
+ 463 0128 1B       		.byte	0x1b
+ 464 0129 33000000 		.4byte	0x33
+ 465 012d 79000000 		.4byte	.LLST7
+ 466 0131 0E       		.uleb128 0xe
+ 467 0132 73000000 		.4byte	0x73
+ 468 0136 98000000 		.4byte	.LBB4
+ 469 013a A0000000 		.4byte	.LBE4
+ 470 013e 01       		.byte	0x1
+ 471 013f 19       		.byte	0x19
+ 472 0140 0F       		.uleb128 0xf
+ 473 0141 A0000000 		.4byte	0xa0
+ 474 0145 00       		.byte	0x0
+ 475 0146 00       		.byte	0x0
+ 476 0147 10       		.uleb128 0x10
+ 477 0148 39000000 		.4byte	.LASF16
+ 478 014c 01       		.byte	0x1
+ 479 014d 35       		.byte	0x35
+ 480 014e 4C000000 		.4byte	0x4c
+ 481 0152 01       		.byte	0x1
+ 482 0153 05       		.byte	0x5
+ 483 0154 03       		.byte	0x3
+ 484 0155 00000000 		.4byte	incoming
+ 485 0159 00       		.byte	0x0
+ 486              		.section	.debug_abbrev
+ 487 0000 01       		.uleb128 0x1
+ 488 0001 11       		.uleb128 0x11
+ 489 0002 01       		.byte	0x1
+ 490 0003 10       		.uleb128 0x10
+ 491 0004 06       		.uleb128 0x6
+ 492 0005 12       		.uleb128 0x12
+ 493 0006 01       		.uleb128 0x1
+ 494 0007 11       		.uleb128 0x11
+ 495 0008 01       		.uleb128 0x1
+ 496 0009 25       		.uleb128 0x25
+ 497 000a 0E       		.uleb128 0xe
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/cc0JY3vb.s 			page 11
+
+
+ 498 000b 13       		.uleb128 0x13
+ 499 000c 0B       		.uleb128 0xb
+ 500 000d 03       		.uleb128 0x3
+ 501 000e 0E       		.uleb128 0xe
+ 502 000f 1B       		.uleb128 0x1b
+ 503 0010 0E       		.uleb128 0xe
+ 504 0011 00       		.byte	0x0
+ 505 0012 00       		.byte	0x0
+ 506 0013 02       		.uleb128 0x2
+ 507 0014 24       		.uleb128 0x24
+ 508 0015 00       		.byte	0x0
+ 509 0016 03       		.uleb128 0x3
+ 510 0017 08       		.uleb128 0x8
+ 511 0018 0B       		.uleb128 0xb
+ 512 0019 0B       		.uleb128 0xb
+ 513 001a 3E       		.uleb128 0x3e
+ 514 001b 0B       		.uleb128 0xb
+ 515 001c 00       		.byte	0x0
+ 516 001d 00       		.byte	0x0
+ 517 001e 03       		.uleb128 0x3
+ 518 001f 24       		.uleb128 0x24
+ 519 0020 00       		.byte	0x0
+ 520 0021 03       		.uleb128 0x3
+ 521 0022 0E       		.uleb128 0xe
+ 522 0023 0B       		.uleb128 0xb
+ 523 0024 0B       		.uleb128 0xb
+ 524 0025 3E       		.uleb128 0x3e
+ 525 0026 0B       		.uleb128 0xb
+ 526 0027 00       		.byte	0x0
+ 527 0028 00       		.byte	0x0
+ 528 0029 04       		.uleb128 0x4
+ 529 002a 16       		.uleb128 0x16
+ 530 002b 00       		.byte	0x0
+ 531 002c 03       		.uleb128 0x3
+ 532 002d 0E       		.uleb128 0xe
+ 533 002e 3A       		.uleb128 0x3a
+ 534 002f 0B       		.uleb128 0xb
+ 535 0030 3B       		.uleb128 0x3b
+ 536 0031 0B       		.uleb128 0xb
+ 537 0032 49       		.uleb128 0x49
+ 538 0033 13       		.uleb128 0x13
+ 539 0034 00       		.byte	0x0
+ 540 0035 00       		.byte	0x0
+ 541 0036 05       		.uleb128 0x5
+ 542 0037 2E       		.uleb128 0x2e
+ 543 0038 01       		.byte	0x1
+ 544 0039 01       		.uleb128 0x1
+ 545 003a 13       		.uleb128 0x13
+ 546 003b 3F       		.uleb128 0x3f
+ 547 003c 0C       		.uleb128 0xc
+ 548 003d 03       		.uleb128 0x3
+ 549 003e 0E       		.uleb128 0xe
+ 550 003f 3A       		.uleb128 0x3a
+ 551 0040 0B       		.uleb128 0xb
+ 552 0041 3B       		.uleb128 0x3b
+ 553 0042 0B       		.uleb128 0xb
+ 554 0043 27       		.uleb128 0x27
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/cc0JY3vb.s 			page 12
+
+
+ 555 0044 0C       		.uleb128 0xc
+ 556 0045 20       		.uleb128 0x20
+ 557 0046 0B       		.uleb128 0xb
+ 558 0047 00       		.byte	0x0
+ 559 0048 00       		.byte	0x0
+ 560 0049 06       		.uleb128 0x6
+ 561 004a 05       		.uleb128 0x5
+ 562 004b 00       		.byte	0x0
+ 563 004c 03       		.uleb128 0x3
+ 564 004d 0E       		.uleb128 0xe
+ 565 004e 3A       		.uleb128 0x3a
+ 566 004f 0B       		.uleb128 0xb
+ 567 0050 3B       		.uleb128 0x3b
+ 568 0051 0B       		.uleb128 0xb
+ 569 0052 49       		.uleb128 0x49
+ 570 0053 13       		.uleb128 0x13
+ 571 0054 00       		.byte	0x0
+ 572 0055 00       		.byte	0x0
+ 573 0056 07       		.uleb128 0x7
+ 574 0057 2E       		.uleb128 0x2e
+ 575 0058 01       		.byte	0x1
+ 576 0059 01       		.uleb128 0x1
+ 577 005a 13       		.uleb128 0x13
+ 578 005b 31       		.uleb128 0x31
+ 579 005c 13       		.uleb128 0x13
+ 580 005d 11       		.uleb128 0x11
+ 581 005e 01       		.uleb128 0x1
+ 582 005f 12       		.uleb128 0x12
+ 583 0060 01       		.uleb128 0x1
+ 584 0061 40       		.uleb128 0x40
+ 585 0062 0A       		.uleb128 0xa
+ 586 0063 00       		.byte	0x0
+ 587 0064 00       		.byte	0x0
+ 588 0065 08       		.uleb128 0x8
+ 589 0066 05       		.uleb128 0x5
+ 590 0067 00       		.byte	0x0
+ 591 0068 31       		.uleb128 0x31
+ 592 0069 13       		.uleb128 0x13
+ 593 006a 02       		.uleb128 0x2
+ 594 006b 06       		.uleb128 0x6
+ 595 006c 00       		.byte	0x0
+ 596 006d 00       		.byte	0x0
+ 597 006e 09       		.uleb128 0x9
+ 598 006f 2E       		.uleb128 0x2e
+ 599 0070 01       		.byte	0x1
+ 600 0071 01       		.uleb128 0x1
+ 601 0072 13       		.uleb128 0x13
+ 602 0073 3F       		.uleb128 0x3f
+ 603 0074 0C       		.uleb128 0xc
+ 604 0075 03       		.uleb128 0x3
+ 605 0076 0E       		.uleb128 0xe
+ 606 0077 3A       		.uleb128 0x3a
+ 607 0078 0B       		.uleb128 0xb
+ 608 0079 3B       		.uleb128 0x3b
+ 609 007a 0B       		.uleb128 0xb
+ 610 007b 27       		.uleb128 0x27
+ 611 007c 0C       		.uleb128 0xc
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/cc0JY3vb.s 			page 13
+
+
+ 612 007d 49       		.uleb128 0x49
+ 613 007e 13       		.uleb128 0x13
+ 614 007f 11       		.uleb128 0x11
+ 615 0080 01       		.uleb128 0x1
+ 616 0081 12       		.uleb128 0x12
+ 617 0082 01       		.uleb128 0x1
+ 618 0083 40       		.uleb128 0x40
+ 619 0084 0A       		.uleb128 0xa
+ 620 0085 00       		.byte	0x0
+ 621 0086 00       		.byte	0x0
+ 622 0087 0A       		.uleb128 0xa
+ 623 0088 05       		.uleb128 0x5
+ 624 0089 00       		.byte	0x0
+ 625 008a 03       		.uleb128 0x3
+ 626 008b 0E       		.uleb128 0xe
+ 627 008c 3A       		.uleb128 0x3a
+ 628 008d 0B       		.uleb128 0xb
+ 629 008e 3B       		.uleb128 0x3b
+ 630 008f 0B       		.uleb128 0xb
+ 631 0090 49       		.uleb128 0x49
+ 632 0091 13       		.uleb128 0x13
+ 633 0092 02       		.uleb128 0x2
+ 634 0093 06       		.uleb128 0x6
+ 635 0094 00       		.byte	0x0
+ 636 0095 00       		.byte	0x0
+ 637 0096 0B       		.uleb128 0xb
+ 638 0097 34       		.uleb128 0x34
+ 639 0098 00       		.byte	0x0
+ 640 0099 03       		.uleb128 0x3
+ 641 009a 0E       		.uleb128 0xe
+ 642 009b 3A       		.uleb128 0x3a
+ 643 009c 0B       		.uleb128 0xb
+ 644 009d 3B       		.uleb128 0x3b
+ 645 009e 0B       		.uleb128 0xb
+ 646 009f 49       		.uleb128 0x49
+ 647 00a0 13       		.uleb128 0x13
+ 648 00a1 00       		.byte	0x0
+ 649 00a2 00       		.byte	0x0
+ 650 00a3 0C       		.uleb128 0xc
+ 651 00a4 2E       		.uleb128 0x2e
+ 652 00a5 01       		.byte	0x1
+ 653 00a6 01       		.uleb128 0x1
+ 654 00a7 13       		.uleb128 0x13
+ 655 00a8 3F       		.uleb128 0x3f
+ 656 00a9 0C       		.uleb128 0xc
+ 657 00aa 03       		.uleb128 0x3
+ 658 00ab 0E       		.uleb128 0xe
+ 659 00ac 3A       		.uleb128 0x3a
+ 660 00ad 0B       		.uleb128 0xb
+ 661 00ae 3B       		.uleb128 0x3b
+ 662 00af 0B       		.uleb128 0xb
+ 663 00b0 27       		.uleb128 0x27
+ 664 00b1 0C       		.uleb128 0xc
+ 665 00b2 11       		.uleb128 0x11
+ 666 00b3 01       		.uleb128 0x1
+ 667 00b4 12       		.uleb128 0x12
+ 668 00b5 01       		.uleb128 0x1
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/cc0JY3vb.s 			page 14
+
+
+ 669 00b6 40       		.uleb128 0x40
+ 670 00b7 06       		.uleb128 0x6
+ 671 00b8 00       		.byte	0x0
+ 672 00b9 00       		.byte	0x0
+ 673 00ba 0D       		.uleb128 0xd
+ 674 00bb 34       		.uleb128 0x34
+ 675 00bc 00       		.byte	0x0
+ 676 00bd 03       		.uleb128 0x3
+ 677 00be 08       		.uleb128 0x8
+ 678 00bf 3A       		.uleb128 0x3a
+ 679 00c0 0B       		.uleb128 0xb
+ 680 00c1 3B       		.uleb128 0x3b
+ 681 00c2 0B       		.uleb128 0xb
+ 682 00c3 49       		.uleb128 0x49
+ 683 00c4 13       		.uleb128 0x13
+ 684 00c5 02       		.uleb128 0x2
+ 685 00c6 06       		.uleb128 0x6
+ 686 00c7 00       		.byte	0x0
+ 687 00c8 00       		.byte	0x0
+ 688 00c9 0E       		.uleb128 0xe
+ 689 00ca 1D       		.uleb128 0x1d
+ 690 00cb 01       		.byte	0x1
+ 691 00cc 31       		.uleb128 0x31
+ 692 00cd 13       		.uleb128 0x13
+ 693 00ce 11       		.uleb128 0x11
+ 694 00cf 01       		.uleb128 0x1
+ 695 00d0 12       		.uleb128 0x12
+ 696 00d1 01       		.uleb128 0x1
+ 697 00d2 58       		.uleb128 0x58
+ 698 00d3 0B       		.uleb128 0xb
+ 699 00d4 59       		.uleb128 0x59
+ 700 00d5 0B       		.uleb128 0xb
+ 701 00d6 00       		.byte	0x0
+ 702 00d7 00       		.byte	0x0
+ 703 00d8 0F       		.uleb128 0xf
+ 704 00d9 05       		.uleb128 0x5
+ 705 00da 00       		.byte	0x0
+ 706 00db 31       		.uleb128 0x31
+ 707 00dc 13       		.uleb128 0x13
+ 708 00dd 00       		.byte	0x0
+ 709 00de 00       		.byte	0x0
+ 710 00df 10       		.uleb128 0x10
+ 711 00e0 34       		.uleb128 0x34
+ 712 00e1 00       		.byte	0x0
+ 713 00e2 03       		.uleb128 0x3
+ 714 00e3 0E       		.uleb128 0xe
+ 715 00e4 3A       		.uleb128 0x3a
+ 716 00e5 0B       		.uleb128 0xb
+ 717 00e6 3B       		.uleb128 0x3b
+ 718 00e7 0B       		.uleb128 0xb
+ 719 00e8 49       		.uleb128 0x49
+ 720 00e9 13       		.uleb128 0x13
+ 721 00ea 3F       		.uleb128 0x3f
+ 722 00eb 0C       		.uleb128 0xc
+ 723 00ec 02       		.uleb128 0x2
+ 724 00ed 0A       		.uleb128 0xa
+ 725 00ee 00       		.byte	0x0
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/cc0JY3vb.s 			page 15
+
+
+ 726 00ef 00       		.byte	0x0
+ 727 00f0 00       		.byte	0x0
+ 728              		.section	.debug_pubnames,"",%progbits
+ 729 0000 52000000 		.4byte	0x52
+ 730 0004 0200     		.2byte	0x2
+ 731 0006 00000000 		.4byte	.Ldebug_info0
+ 732 000a 5A010000 		.4byte	0x15a
+ 733 000e 8D000000 		.4byte	0x8d
+ 734 0012 73657453 		.ascii	"setSpiSpeed\000"
+ 734      70695370 
+ 734      65656400 
+ 735 001e AA000000 		.4byte	0xaa
+ 736 0022 6D795F73 		.ascii	"my_spiSend\000"
+ 736      70695365 
+ 736      6E6400
+ 737 002d E0000000 		.4byte	0xe0
+ 738 0031 73706953 		.ascii	"spiSend\000"
+ 738      656E6400 
+ 739 0039 0B010000 		.4byte	0x10b
+ 740 003d 696E6974 		.ascii	"initSpi\000"
+ 740      53706900 
+ 741 0045 47010000 		.4byte	0x147
+ 742 0049 696E636F 		.ascii	"incoming\000"
+ 742      6D696E67 
+ 742      00
+ 743 0052 00000000 		.4byte	0x0
+ 744              		.section	.debug_aranges,"",%progbits
+ 745 0000 1C000000 		.4byte	0x1c
+ 746 0004 0200     		.2byte	0x2
+ 747 0006 00000000 		.4byte	.Ldebug_info0
+ 748 000a 04       		.byte	0x4
+ 749 000b 00       		.byte	0x0
+ 750 000c 0000     		.2byte	0x0
+ 751 000e 0000     		.2byte	0x0
+ 752 0010 00000000 		.4byte	.Ltext0
+ 753 0014 D0000000 		.4byte	.Letext0-.Ltext0
+ 754 0018 00000000 		.4byte	0x0
+ 755 001c 00000000 		.4byte	0x0
+ 756              		.section	.debug_str,"MS",%progbits,1
+ 757              	.LASF10:
+ 758 0000 6D795F73 		.ascii	"my_spiSend\000"
+ 758      70695365 
+ 758      6E6400
+ 759              	.LASF0:
+ 760 000b 756E7369 		.ascii	"unsigned int\000"
+ 760      676E6564 
+ 760      20696E74 
+ 760      00
+ 761              	.LASF14:
+ 762 0018 746F5365 		.ascii	"toSend\000"
+ 762      6E6400
+ 763              	.LASF13:
+ 764 001f 73706953 		.ascii	"spiSend\000"
+ 764      656E6400 
+ 765              	.LASF8:
+ 766 0027 6C6F6E67 		.ascii	"long unsigned int\000"
+ 766      20756E73 
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/cc0JY3vb.s 			page 16
+
+
+ 766      69676E65 
+ 766      6420696E 
+ 766      7400
+ 767              	.LASF16:
+ 768 0039 696E636F 		.ascii	"incoming\000"
+ 768      6D696E67 
+ 768      00
+ 769              	.LASF15:
+ 770 0042 696E6974 		.ascii	"initSpi\000"
+ 770      53706900 
+ 771              	.LASF12:
+ 772 004a 6F757467 		.ascii	"outgoing\000"
+ 772      6F696E67 
+ 772      00
+ 773              	.LASF9:
+ 774 0053 73657453 		.ascii	"setSpiSpeed\000"
+ 774      70695370 
+ 774      65656400 
+ 775              	.LASF2:
+ 776 005f 756E7369 		.ascii	"unsigned char\000"
+ 776      676E6564 
+ 776      20636861 
+ 776      7200
+ 777              	.LASF11:
+ 778 006d 73706565 		.ascii	"speed\000"
+ 778      6400
+ 779              	.LASF7:
+ 780 0073 6C6F6E67 		.ascii	"long int\000"
+ 780      20696E74 
+ 780      00
+ 781              	.LASF3:
+ 782 007c 43484152 		.ascii	"CHAR\000"
+ 782      00
+ 783              	.LASF17:
+ 784 0081 474E5520 		.ascii	"GNU C 4.1.1\000"
+ 784      4320342E 
+ 784      312E3100 
+ 785              	.LASF6:
+ 786 008d 73686F72 		.ascii	"short unsigned int\000"
+ 786      7420756E 
+ 786      7369676E 
+ 786      65642069 
+ 786      6E7400
+ 787              	.LASF1:
+ 788 00a0 7369676E 		.ascii	"signed char\000"
+ 788      65642063 
+ 788      68617200 
+ 789              	.LASF4:
+ 790 00ac 42595445 		.ascii	"BYTE\000"
+ 790      00
+ 791              	.LASF5:
+ 792 00b1 73686F72 		.ascii	"short int\000"
+ 792      7420696E 
+ 792      7400
+ 793              	.LASF18:
+ 794 00bb 73642F73 		.ascii	"sd/spi.c\000"
+ 794      70692E63 
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/cc0JY3vb.s 			page 17
+
+
+ 794      00
+ 795              	.LASF19:
+ 796 00c4 2F637967 		.ascii	"/cygdrive/z/IntergatedSystems\000"
+ 796      64726976 
+ 796      652F7A2F 
+ 796      496E7465 
+ 796      72676174 
+ 797              		.ident	"GCC: (GNU) 4.1.1"
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/cc0JY3vb.s 			page 18
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 spi.c
+/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/cc0JY3vb.s:1      .text:00000000 $t
+/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/cc0JY3vb.s:16     .text:00000000 setSpiSpeed
+/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/cc0JY3vb.s:43     .text:00000010 $d
+/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/cc0JY3vb.s:51     .text:00000014 my_spiSend
+/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/cc0JY3vb.s:48     .text:00000014 $t
+/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/cc0JY3vb.s:84     .text:00000030 $d
+/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/cc0JY3vb.s:93     .text:00000038 spiSend
+/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/cc0JY3vb.s:90     .text:00000038 $t
+/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/cc0JY3vb.s:128    .text:00000058 $d
+                            *COM*:00000001 incoming
+/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/cc0JY3vb.s:138    .text:00000064 initSpi
+/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/cc0JY3vb.s:135    .text:00000064 $t
+/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/cc0JY3vb.s:206    .text:000000b8 $d
+
+NO UNDEFINED SYMBOLS

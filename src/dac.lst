@@ -1,0 +1,203 @@
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccZDelek.s 			page 1
+
+
+   1              		.code	16
+   2              		.file	"dac.c"
+   3              		.section	.debug_abbrev,"",%progbits
+   4              	.Ldebug_abbrev0:
+   5              		.section	.debug_info,"",%progbits
+   6              	.Ldebug_info0:
+   7              		.section	.debug_line,"",%progbits
+   8              	.Ldebug_line0:
+   9 0000 33000000 		.text
+   9      02001C00 
+   9      00000201 
+   9      FB0E0D00 
+   9      01010101 
+  10              	.Ltext0:
+  11              		.align	2
+  12              		.global	initDac
+  13              		.code 16
+  14              		.thumb_func
+  15              		.type	initDac, %function
+  16              	initDac:
+  17              	.LFB2:
+  18              		.file 1 "dac.c"
+   1:dac.c         **** #include "dac.h"
+   2:dac.c         **** #include "startup/lpc2xxx.h"
+   3:dac.c         **** 
+   4:dac.c         **** 
+   5:dac.c         **** /**
+   6:dac.c         ****  * Method activates the DAC (digital-analog converter) which in our case is used to ease
+   7:dac.c         ****  * with speaker dev
+   8:dac.c         ****  */
+   9:dac.c         **** void initDac(void){
+  19              		.loc 1 9 0
+  10:dac.c         **** 	PINSEL1 = 1<<19;
+  20              		.loc 1 10 0
+  21 0000 024A     		ldr	r2, .L3
+  22 0002 8023     		mov	r3, #128
+  23 0004 1B03     		lsl	r3, r3, #12
+  24              		.loc 1 9 0
+  25              		@ lr needed for prologue
+  26              		.loc 1 10 0
+  27 0006 1360     		str	r3, [r2]
+  11:dac.c         **** }
+  28              		.loc 1 11 0
+  29              		@ sp needed for prologue
+  30 0008 7047     		bx	lr
+  31              	.L4:
+  32 000a 0000     		.align	2
+  33              	.L3:
+  34 000c 04C002E0 		.word	-536690684
+  35              	.LFE2:
+  36              		.size	initDac, .-initDac
+  37              		.section	.debug_frame,"",%progbits
+  38              	.Lframe0:
+  39 0000 0C000000 		.4byte	.LECIE0-.LSCIE0
+  40              	.LSCIE0:
+  41 0004 FFFFFFFF 		.4byte	0xffffffff
+  42 0008 01       		.byte	0x1
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccZDelek.s 			page 2
+
+
+  43 0009 00       		.ascii	"\000"
+  44 000a 01       		.uleb128 0x1
+  45 000b 7C       		.sleb128 -4
+  46 000c 0E       		.byte	0xe
+  47 000d 0C       		.byte	0xc
+  48 000e 0D       		.uleb128 0xd
+  49 000f 00       		.uleb128 0x0
+  50              		.align	2
+  51              	.LECIE0:
+  52              	.LSFDE0:
+  53 0010 0C000000 		.4byte	.LEFDE0-.LASFDE0
+  54              	.LASFDE0:
+  55 0014 00000000 		.4byte	.Lframe0
+  56 0018 00000000 		.4byte	.LFB2
+  57 001c 10000000 		.4byte	.LFE2-.LFB2
+  58              		.align	2
+  59              	.LEFDE0:
+  60              		.text
+  61              	.Letext0:
+  62              		.section	.debug_info
+  63 0000 35000000 		.4byte	0x35
+  64 0004 0200     		.2byte	0x2
+  65 0006 00000000 		.4byte	.Ldebug_abbrev0
+  66 000a 04       		.byte	0x4
+  67 000b 01       		.uleb128 0x1
+  68 000c 00000000 		.4byte	.Ldebug_line0
+  69 0010 10000000 		.4byte	.Letext0
+  70 0014 00000000 		.4byte	.Ltext0
+  71 0018 24000000 		.4byte	.LASF0
+  72 001c 01       		.byte	0x1
+  73 001d 1E000000 		.4byte	.LASF1
+  74 0021 00000000 		.4byte	.LASF2
+  75 0025 02       		.uleb128 0x2
+  76 0026 01       		.byte	0x1
+  77 0027 30000000 		.4byte	.LASF3
+  78 002b 01       		.byte	0x1
+  79 002c 09       		.byte	0x9
+  80 002d 01       		.byte	0x1
+  81 002e 00000000 		.4byte	.LFB2
+  82 0032 10000000 		.4byte	.LFE2
+  83 0036 01       		.byte	0x1
+  84 0037 5D       		.byte	0x5d
+  85 0038 00       		.byte	0x0
+  86              		.section	.debug_abbrev
+  87 0000 01       		.uleb128 0x1
+  88 0001 11       		.uleb128 0x11
+  89 0002 01       		.byte	0x1
+  90 0003 10       		.uleb128 0x10
+  91 0004 06       		.uleb128 0x6
+  92 0005 12       		.uleb128 0x12
+  93 0006 01       		.uleb128 0x1
+  94 0007 11       		.uleb128 0x11
+  95 0008 01       		.uleb128 0x1
+  96 0009 25       		.uleb128 0x25
+  97 000a 0E       		.uleb128 0xe
+  98 000b 13       		.uleb128 0x13
+  99 000c 0B       		.uleb128 0xb
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccZDelek.s 			page 3
+
+
+ 100 000d 03       		.uleb128 0x3
+ 101 000e 0E       		.uleb128 0xe
+ 102 000f 1B       		.uleb128 0x1b
+ 103 0010 0E       		.uleb128 0xe
+ 104 0011 00       		.byte	0x0
+ 105 0012 00       		.byte	0x0
+ 106 0013 02       		.uleb128 0x2
+ 107 0014 2E       		.uleb128 0x2e
+ 108 0015 00       		.byte	0x0
+ 109 0016 3F       		.uleb128 0x3f
+ 110 0017 0C       		.uleb128 0xc
+ 111 0018 03       		.uleb128 0x3
+ 112 0019 0E       		.uleb128 0xe
+ 113 001a 3A       		.uleb128 0x3a
+ 114 001b 0B       		.uleb128 0xb
+ 115 001c 3B       		.uleb128 0x3b
+ 116 001d 0B       		.uleb128 0xb
+ 117 001e 27       		.uleb128 0x27
+ 118 001f 0C       		.uleb128 0xc
+ 119 0020 11       		.uleb128 0x11
+ 120 0021 01       		.uleb128 0x1
+ 121 0022 12       		.uleb128 0x12
+ 122 0023 01       		.uleb128 0x1
+ 123 0024 40       		.uleb128 0x40
+ 124 0025 0A       		.uleb128 0xa
+ 125 0026 00       		.byte	0x0
+ 126 0027 00       		.byte	0x0
+ 127 0028 00       		.byte	0x0
+ 128              		.section	.debug_pubnames,"",%progbits
+ 129 0000 1A000000 		.4byte	0x1a
+ 130 0004 0200     		.2byte	0x2
+ 131 0006 00000000 		.4byte	.Ldebug_info0
+ 132 000a 39000000 		.4byte	0x39
+ 133 000e 25000000 		.4byte	0x25
+ 134 0012 696E6974 		.ascii	"initDac\000"
+ 134      44616300 
+ 135 001a 00000000 		.4byte	0x0
+ 136              		.section	.debug_aranges,"",%progbits
+ 137 0000 1C000000 		.4byte	0x1c
+ 138 0004 0200     		.2byte	0x2
+ 139 0006 00000000 		.4byte	.Ldebug_info0
+ 140 000a 04       		.byte	0x4
+ 141 000b 00       		.byte	0x0
+ 142 000c 0000     		.2byte	0x0
+ 143 000e 0000     		.2byte	0x0
+ 144 0010 00000000 		.4byte	.Ltext0
+ 145 0014 10000000 		.4byte	.Letext0-.Ltext0
+ 146 0018 00000000 		.4byte	0x0
+ 147 001c 00000000 		.4byte	0x0
+ 148              		.section	.debug_str,"MS",%progbits,1
+ 149              	.LASF2:
+ 150 0000 2F637967 		.ascii	"/cygdrive/z/IntergatedSystems\000"
+ 150      64726976 
+ 150      652F7A2F 
+ 150      496E7465 
+ 150      72676174 
+ 151              	.LASF1:
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccZDelek.s 			page 4
+
+
+ 152 001e 6461632E 		.ascii	"dac.c\000"
+ 152      6300
+ 153              	.LASF0:
+ 154 0024 474E5520 		.ascii	"GNU C 4.1.1\000"
+ 154      4320342E 
+ 154      312E3100 
+ 155              	.LASF3:
+ 156 0030 696E6974 		.ascii	"initDac\000"
+ 156      44616300 
+ 157              		.ident	"GCC: (GNU) 4.1.1"
+ARM GAS  /cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccZDelek.s 			page 5
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 dac.c
+/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccZDelek.s:1      .text:00000000 $t
+/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccZDelek.s:16     .text:00000000 initDac
+/cygdrive/c/DOCUME~1/mkwapisz/LOCALS~1/Temp/ccZDelek.s:34     .text:0000000c $d
+
+NO UNDEFINED SYMBOLS

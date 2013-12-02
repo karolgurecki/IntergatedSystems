@@ -1,0 +1,88 @@
+main.o: main.c startup/ea_init.h startup/lpc2xxx.h startup/config.h \
+  i2c/i2c.h i2c/../startup/general.h lcd/lcd.h lcd/../startup/general.h \
+  pca9532.h startup/general.h startup/lpc2xxx.h snake.h \
+  joystick/joystick.h joystick/../pre_emptive_os/api/general.h \
+  timer/timer.h timer/../startup/lpc2xxx.h timer/../startup/config.h \
+  timer/../startup/general.h hscore/hscore.h hscore/../sd/pff.h \
+  hscore/../sd/integer.h hscore/../startup/general.h \
+  secondLCD/secondLCD.h secondLCD/../pre_emptive_os/api/osapi.h \
+  secondLCD/../pre_emptive_os/api/../api/general.h \
+  secondLCD/../pre_emptive_os/api/general.h startup/printf_P.h \
+  startup/config.h startup/consol.h startup/consol.h secondLCD/../snake.h \
+  dac.h led/led_utils.h led/../startup/general.h
+eeprom.o: eeprom.c startup/general.h i2c/i2c.h i2c/../startup/general.h
+i2c.o: i2c/i2c.c startup/general.h i2c/i2c.h i2c/../startup/general.h \
+  startup/lpc2xxx.h
+pca9532.o: pca9532.c startup/../pre_emptive_os/api/osapi.h \
+  startup/../pre_emptive_os/api/../api/general.h \
+  startup/../pre_emptive_os/api/general.h startup/lpc2xxx.h \
+  startup/printf_P.h startup/config.h startup/consol.h i2c/i2c.h \
+  i2c/../startup/general.h eeprom.h pca9532.h startup/general.h
+lcd.o: lcd/lcd.c lcd/../pre_emptive_os/api/general.h \
+  lcd/../pre_emptive_os/api/osapi.h \
+  lcd/../pre_emptive_os/api/../api/general.h lcd/lcd.h \
+  lcd/../startup/general.h lcd/../ascii.h lcd/lcd_hw.h startup/general.h \
+  startup/lpc2xxx.h
+lcd_hw.o: lcd/lcd_hw.c lcd/../pre_emptive_os/api/osapi.h \
+  lcd/../pre_emptive_os/api/../api/general.h \
+  lcd/../pre_emptive_os/api/general.h startup/lpc2xxx.h lcd/lcd_hw.h \
+  startup/general.h
+led_utils.o: led/led_utils.c led/led_utils.h led/../startup/general.h
+diskio.o: sd/diskio.c sd/diskio.h sd/integer.h sd/spi.h \
+  sd/../startup/lpc2xxx.h sd/sd.h sd/../startup/printf_P.h \
+  sd/../startup/config.h sd/../startup/consol.h
+pff.o: sd/pff.c sd/pff.h sd/integer.h sd/diskio.h
+spi.o: sd/spi.c sd/spi.h sd/integer.h sd/../startup/lpc2xxx.h
+sd.o: sd/sd.c sd/sd.h sd/integer.h sd/spi.h sd/../startup/lpc2xxx.h \
+  sd/../startup/printf_P.h sd/../startup/config.h sd/../startup/consol.h
+snake.o: snake.c startup/../pre_emptive_os/api/osapi.h \
+  startup/../pre_emptive_os/api/../api/general.h \
+  startup/../pre_emptive_os/api/general.h startup/printf_P.h \
+  startup/config.h startup/consol.h startup/ea_init.h lcd/lcd.h \
+  lcd/../startup/general.h joystick/joystick.h \
+  joystick/../pre_emptive_os/api/general.h select.h motor/motor.h \
+  secondLCD/secondLCD.h secondLCD/../pre_emptive_os/api/osapi.h \
+  secondLCD/../pre_emptive_os/api/general.h startup/lpc2xxx.h \
+  startup/consol.h secondLCD/../snake.h speaker/speaker.h \
+  speaker/../sd/pff.h speaker/../sd/integer.h \
+  speaker/../startup/printf_P.h speaker/../startup/lpc2xxx.h \
+  speaker/../timer/timer.h speaker/../timer/../startup/lpc2xxx.h \
+  speaker/../timer/../startup/config.h \
+  speaker/../timer/../startup/general.h speaker/../startup/general.h \
+  hscore/hscore.h hscore/../sd/pff.h hscore/../sd/integer.h \
+  hscore/../startup/general.h
+joystick.o: joystick/joystick.c joystick/../pre_emptive_os/api/osapi.h \
+  joystick/../pre_emptive_os/api/../api/general.h \
+  joystick/../pre_emptive_os/api/general.h startup/printf_P.h \
+  startup/config.h startup/consol.h joystick/joystick.h startup/lpc2xxx.h
+timer.o: timer/timer.c timer/timer.h timer/../startup/lpc2xxx.h \
+  timer/../startup/config.h timer/../startup/general.h
+motor.o: motor/motor.c motor/../pre_emptive_os/api/osapi.h \
+  motor/../pre_emptive_os/api/../api/general.h \
+  motor/../pre_emptive_os/api/general.h motor/../startup/printf_P.h \
+  motor/../startup/config.h motor/../startup/consol.h \
+  motor/../startup/lpc2xxx.h motor/motor.h
+hscore.o: hscore/hscore.c hscore/../startup/consol.h \
+  hscore/../startup/printf_P.h hscore/../startup/config.h \
+  hscore/../startup/consol.h hscore/hscore.h hscore/../sd/pff.h \
+  hscore/../sd/integer.h hscore/../startup/general.h
+secondLCD.o: secondLCD/secondLCD.c secondLCD/secondLCD.h \
+  secondLCD/../pre_emptive_os/api/osapi.h \
+  secondLCD/../pre_emptive_os/api/../api/general.h \
+  secondLCD/../pre_emptive_os/api/general.h startup/printf_P.h \
+  startup/config.h startup/consol.h startup/lpc2xxx.h startup/consol.h \
+  secondLCD/../snake.h
+dac.o: dac.c dac.h startup/lpc2xxx.h
+speaker.o: speaker/speaker.c speaker/speaker.h speaker/../sd/pff.h \
+  speaker/../sd/integer.h speaker/../startup/printf_P.h \
+  speaker/../startup/config.h speaker/../startup/consol.h \
+  speaker/../startup/lpc2xxx.h speaker/../timer/timer.h \
+  speaker/../timer/../startup/lpc2xxx.h \
+  speaker/../timer/../startup/config.h \
+  speaker/../timer/../startup/general.h speaker/../startup/general.h
+select.o: select.c startup/../pre_emptive_os/api/osapi.h \
+  startup/../pre_emptive_os/api/../api/general.h \
+  startup/../pre_emptive_os/api/general.h startup/printf_P.h \
+  startup/config.h startup/consol.h startup/ea_init.h lcd/lcd.h \
+  lcd/../startup/general.h joystick/joystick.h \
+  joystick/../pre_emptive_os/api/general.h select.h
